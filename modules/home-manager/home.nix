@@ -4,6 +4,8 @@
   imports = [
     ./dev/zsh.nix
     ./dev/git.nix
+    ./dev/kitty.nix
+    ./desktop/sway.nix
   ];
 
   home.username = "amirh";
@@ -21,7 +23,6 @@
 
     # Terminals & Shells
     alacritty
-    kitty
     zellij
     tmux
 
