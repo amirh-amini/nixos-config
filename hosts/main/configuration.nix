@@ -5,7 +5,7 @@
     [
       ./hardware-configuration.nix
       ../../modules/home-manager/home.nix
-      ../../modules/nixos/graphics.nix
+      ../../modules/core/gpu.nix
     ];
 
   # Bootloader
