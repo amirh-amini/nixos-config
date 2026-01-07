@@ -57,6 +57,8 @@
   # Services
   services.printing.enable = true;
   services.libinput.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # User Account
   users.users.amirh = {

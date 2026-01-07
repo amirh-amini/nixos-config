@@ -6,6 +6,9 @@
     ./dev/git.nix
     ./dev/kitty.nix
     ./desktop/sway.nix
+    ./desktop/fuzzel.nix
+    ./desktop/waybar.nix
+    ./desktop/utils.nix
   ];
 
   home.username = "amirh";
