@@ -1,11 +1,11 @@
 { config, pkgs, inputs, ... }:
-
+  
 {
   imports =
     [
       ./hardware-configuration.nix
-      ../../modules/home-manager/home.nix
-      ../../modules/core/gpu.nix
+      ../../modules/core/gpu.nix 
+      inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader
@@ -14,6 +14,16 @@
   boot.loader.efi.efiSysMountPoint = "/efi";
   boot.loader.systemd-boot.xbootldrMountPoint = "/boot";
   boot.initrd.kernelModules = [ "xe" ];
+  
+  # Home Manager Configuration
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users = {
+      "amirh" = import ../../modules/home-manager/home.nix;
+    };
+  };
 
   networking.hostName = "nixos-btw";
   networking.networkmanager.enable = true;
