@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ../../modules/core/gpu.nix 
+      ../../modules/core/keyd.nix
       inputs.home-manager.nixosModules.default
     ];
 
