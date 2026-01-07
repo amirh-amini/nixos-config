@@ -8,6 +8,15 @@
       terminal = "kitty"; 
       menu = "${pkgs.fuzzel}/bin/fuzzel";
       
+      window = {
+        titlebar = false;
+        border = 1;
+      };
+      floating = {
+        titlebar = false;
+        border = 2;
+      };
+      
       output = {
         "*" = { bg = "#24283b solid_color"; };
       };

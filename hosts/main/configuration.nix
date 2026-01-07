@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ../../modules/core/gpu.nix 
       ../../modules/core/keyd.nix
+      ../../modules/core/power.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -31,11 +32,6 @@
 
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_US.UTF-8";
-
-  # Power Management
-  services.power-profiles-daemon.enable = false;
-  services.thermald.enable = true;
-  services.auto-cpufreq.enable = true;
 
   # Desktop Environment (Gnome)
   services.xserver.enable = true;
