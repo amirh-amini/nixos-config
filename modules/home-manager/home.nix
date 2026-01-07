@@ -24,8 +24,7 @@
       zsh
       
       # Dev Tools
-      vscode
-      neovim
+      vscode 
       ripgrep
       fd
       bat
@@ -41,6 +40,13 @@
       unzip
     ];
 
+    programs.neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = ture;
+      vimdiffAlias = true;
+    }
+
     # Program Configurations
     programs.git = {
       enable = true;
@@ -50,6 +56,8 @@
       	init.defaultBranch = "main";
       };
     };
+
+    programs.emacs.enable = true;
 
     # Shell Config
     programs.zsh = {
