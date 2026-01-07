@@ -43,9 +43,9 @@
     programs.neovim = {
       enable = true;
       viAlias = true;
-      vimAlias = ture;
+      vimAlias = true;
       vimdiffAlias = true;
-    }
+    };
 
     # Program Configurations
     programs.git = {
