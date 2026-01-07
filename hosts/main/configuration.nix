@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ../../modules/home-manager/home.nix
+      ../../modules/nixos/graphics.nix
     ];
 
   # Bootloader
@@ -19,31 +20,6 @@
 
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_US.UTF-8";
-
-  # Graphics / Nvidia
-  hardware.graphics = {
-    enable = true;
-    extraPackages = [ pkgs.intel-media-driver ];
-  };
-
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    powerManagement.finegrained = true;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
 
   # Power Management
   services.power-profiles-daemon.enable = false;
@@ -76,7 +52,7 @@
     extraGroups = [ "networkmanager" "wheel" "video" ];
     shell = pkgs.zsh;
   };
-  
+
   programs.zsh.enable = true;
 
   # System Packages
@@ -85,7 +61,7 @@
     git
     wget
     curl
-    pciutils # for lspci
+    pciutils
     lshw
     efibootmgr
     nvtopPackages.full
