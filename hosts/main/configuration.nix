@@ -7,6 +7,7 @@
       ../../modules/core/gpu.nix 
       ../../modules/core/keyd.nix
       ../../modules/core/power.nix
+      ../../modules/core/fonts.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -66,6 +67,13 @@
   };
 
   programs.zsh.enable = true;
+
+  programs.nh = {
+    enable = true;
+    clean.enable = false;
+    #clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/amirh/nixos-config";
+  };
 
   # System Packages
   environment.systemPackages = with pkgs; [
