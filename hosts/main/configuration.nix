@@ -8,6 +8,8 @@
       ../../modules/core/keyd.nix
       ../../modules/core/power.nix
       ../../modules/core/fonts.nix
+      ../../modules/core/storage.nix
+      ../../modules/core/security.nix
       inputs.home-manager.nixosModules.default
     ];
 

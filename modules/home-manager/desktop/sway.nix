@@ -3,7 +3,12 @@
 {
   wayland.windowManager.sway = {
     enable = true;
+    systemd.variables = ["--all"];
     config = {
+      #startup = [
+      #  {command = "bus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";}
+      #];
+
       modifier = "Mod4";
       terminal = "kitty"; 
       menu = "${pkgs.fuzzel}/bin/fuzzel";

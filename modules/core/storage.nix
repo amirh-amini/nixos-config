@@ -42,6 +42,7 @@
     btdu # Btrfs space analyzer (TUI)
     
     gptfdisk
+    gparted
     
     # Filesystem Support
     ntfs3g       # NTFS
