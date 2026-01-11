@@ -10,6 +10,13 @@
         { command = "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-wlr"; }
         { command = "systemctl --user start sway-session.target"; }
       ];
+      
+      input = {
+        "type:keyboard" = {
+          xkb_layout = "us,ir";
+          xkb_options = "grp:alt_shift_toggle";
+        };
+      };
 
       modifier = "Mod4";
       terminal = "kitty"; 
@@ -18,7 +25,14 @@
       window = {
         titlebar = false;
         border = 1;
+        commands = [
+          {
+            criteria = { app_id = "waybar_float"; };
+            command = "floating enable, resize set 1000 600, move position center";
+          }
+        ];
       };
+      
       floating = {
         titlebar = false;
         border = 2;

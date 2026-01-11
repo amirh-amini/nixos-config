@@ -32,9 +32,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        monospace = [ "Iosevka Nerd Font" ];
-        sansSerif = [ "IBM Plex Sans" ];
-        serif = [ "Merriweather" ];
+        monospace = [ "Iosevka Nerd Font" "Symbols Nerd Font" ];
+        sansSerif = [ "IBM Plex Sans" "Symbols Nerd Font" ];
+        serif = [ "Merriweather" "Symbols Nerd Font" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
