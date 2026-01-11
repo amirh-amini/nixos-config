@@ -3,11 +3,13 @@
 {
   wayland.windowManager.sway = {
     enable = true;
-    systemd.variables = ["--all"];
+
     config = {
-      #startup = [
-      #  {command = "bus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";}
-      #];
+      startup = [
+        { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK"; }
+        { command = "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-wlr"; }
+        { command = "systemctl --user start sway-session.target"; }
+      ];
 
       modifier = "Mod4";
       terminal = "kitty"; 

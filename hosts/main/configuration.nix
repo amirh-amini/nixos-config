@@ -38,8 +38,11 @@
 
   # Desktop Environment (Gnome)
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+  };
 
   #Sway Support
   programs.sway.enable = true;
