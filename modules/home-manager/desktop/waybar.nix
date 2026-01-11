@@ -1,19 +1,29 @@
 { pkgs, lib, config, ... }:
 
 let
-  # Sonokai Atlantis Colors
-  c_bg      = "#2b2d3a";
-  c_fg      = "#e2e2e3";
+  # Monochrome Colors (Sonokai-based Greys)
+  c_bg      = "#2b2d3a";  # Dark Grey Background
+  c_fg      = "#e2e2e3";  # White-ish Foreground
+  c_dim     = "#7f849c";  # Dim Grey (for disabled/disconnected states)
   c_black   = "#181819";
-  c_red     = "#ff6578";
-  c_green   = "#9dd274";
-  c_yellow  = "#eacb64";
-  c_blue    = "#72cce8";
-  c_purple  = "#b39df3";
-  c_cyan    = "#95e6cb";
-  
+
   # Helper to launch floating TUIs
   floating_term = "${pkgs.kitty}/bin/kitty --class waybar_float";
+  
+  clock_script = pkgs.writeShellScript "waybar-clock" ''
+    # 1. Get the main label (Local Time)
+    main_time=$(date +'%a %Y/%m/%d - %H:%M')
+    
+    # 2. Get other timezones
+    # You can add more here. Format: %H:%M is Time, %a is Day (e.g., Sat)
+    tehran=$(TZ='Asia/Tehran' date +'%H:%M %a')
+    nyc=$(TZ='America/New_York' date +'%H:%M %a')
+    utc=$(TZ='Etc/UTC' date +'%H:%M %a')
+    
+    # 3. Output JSON with tooltip
+    # \n creates a new line in the tooltip
+    echo "{\"text\": \"$main_time\", \"tooltip\": \"Tehran: $tehran\nNYC:    $nyc\nUTC:    $utc\"}"
+  '';
 in
 {
   programs.waybar = {
@@ -23,11 +33,11 @@ in
       mainBar = {
         layer = "top";
         position = "top";
-        height = 22; # Dense
-        spacing = 2;
+        height = 20; # Dense
+        spacing = 1;
         
         modules-left = [ "sway/workspaces" "tray" ];
-        modules-center = [ "clock" ];
+        modules-center = [ "custom/clock" ];
         modules-right = [ 
           "sway/language" 
           "network" 
@@ -45,25 +55,14 @@ in
         };
 
         "tray" = {
-          icon-size = 13;
+          icon-size = 10;
           spacing = 5;
         };
 
-        # --- MODULES CENTER ---
-        "clock" = {
-          format = "{:%a %Y/%m/%d - %H:%M}";
-          tooltip-format = "<tt><small>{calendar}</small></tt>";
-          # Hover for timezones
-          tooltip = true; 
-          actions = {
-            on-click-right = "mode";
-            on-click-forward = "tz_up";
-            on-click-backward = "tz_down";
-            on-scroll-up = "shift_up";
-            on-scroll-down = "shift_down";
-          };
-          # Waybar clock module doesn't natively support "hover to show other timezones"
-          # easily in the text, but we can set the calendar to open calcure.
+        "custom/clock" = {
+          exec = "${clock_script}";
+          return-type = "json";
+          interval = 60; # Update every minute
           on-click = "${floating_term} -e calcure";
         };
 
@@ -106,7 +105,7 @@ in
         "pulseaudio" = {
           format = "{icon} {volume}%";
           format-bluetooth = "{icon} {volume}%";
-          format-muted = " Muted";
+          format-muted = "";
           
           format-icons = {
             headphone = "";
@@ -181,12 +180,12 @@ in
     };
 
     # 3. CSS Styling (Sonokai Atlantis)
-    style = ''
+   style = ''
       * {
         border: none;
         border-radius: 0;
         font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 13px;
+        font-size: 11px; /* Dense size */
         min-height: 0;
       }
 
@@ -197,29 +196,29 @@ in
 
       /* Workspaces */
       #workspaces button {
-        padding: 0 5px;
+        padding: 0 2px;
         background-color: transparent;
-        color: ${c_fg};
+        color: ${c_dim}; /* Inactive workspaces are dim */
         border-top: 2px solid transparent;
       }
 
       #workspaces button.focused {
-        color: ${c_green};
-        border-top: 2px solid ${c_green};
+        color: ${c_fg};
+        border-top: 2px solid ${c_fg}; /* White line for focus */
       }
 
       #workspaces button.urgent {
-        color: ${c_red};
-        background-color: ${c_bg};
+        color: ${c_bg};
+        background-color: ${c_fg}; /* Inverted for urgency */
       }
 
       #workspaces button:hover {
-        background-color: ${c_black};
-        color: ${c_cyan};
+        color: ${c_fg};
       }
 
-      /* Base module style */
+      /* Module Styling */
       #clock,
+      #custom-clock,
       #battery,
       #cpu,
       #memory,
@@ -237,50 +236,30 @@ in
       #custom-wlogout,
       #language,
       #bluetooth {
-        padding: 0 10px;
+        padding: 0 6px;
         color: ${c_fg};
         background-color: transparent;
       }
 
-      #clock {
-        color: ${c_blue};
-        font-weight: bold;
-      }
-
-      /* Tooltip styling */
+      /* Tooltips */
       tooltip {
         background: ${c_bg};
-        border: 1px solid ${c_blue};
+        border: 1px solid ${c_fg};
       }
       tooltip label {
         color: ${c_fg};
       }
 
-      /* Network */
-      #network.disconnected {
-        color: ${c_red};
-      }
-      #network.ethernet {
-        color: ${c_green};
-      }
-      #network.wifi {
-        color: ${c_purple};
+      /* Dim states for Network & Bluetooth */
+      #network.disconnected,
+      #bluetooth.off,
+      #bluetooth.disabled {
+        color: ${c_dim};
       }
 
-      /* Bluetooth */
-      #bluetooth.on, #bluetooth.connected {
-        color: ${c_blue};
-      }
-      #bluetooth.off {
-        color: #5d5d5d;
-      }
-
-      /* Battery Colors - The Gradient Request */
-      /* Waybar assigns classes based on %: capacity-10, capacity-20... */
-      
-      /* < 10% */
-      #battery.critical:not(.charging) { 
-        color: ${c_red}; 
+      /* Battery */
+      /* All levels are white (monochrome), only Critical blinks */
+      #battery.critical {
         animation-name: blink;
         animation-duration: 0.5s;
         animation-timing-function: linear;
@@ -288,43 +267,10 @@ in
         animation-direction: alternate;
       }
 
-      /* 10% - 20% */
-      #battery.warning:not(.charging) { color: #ff8f40; } /* Orange-ish */
-
-      /* Mapping closest to your requests */
-      /* > 23 (approx 30 class) */
-      #battery.capacity-30 { color: #eacb64; } /* Yellow */
-      
-      /* > 35 (approx 40 class) */
-      #battery.capacity-40 { color: #d0d758; } /* Yellow-Green */
-      
-      /* > 48 (approx 50 class) */
-      #battery.capacity-50 { color: #b6e24c; } /* Light Green */
-      
-      /* > 60 (approx 60 class) */
-      #battery.capacity-60 { color: #9dd274; } /* Green */
-      
-      /* > 73 (approx 70/80 class) */
-      #battery.capacity-70 { color: #72cce8; } /* Blue-ish Green */
-      #battery.capacity-80 { color: #72cce8; }
-      
-      /* > 85 (90/100 class) */
-      #battery.capacity-90 { color: ${c_green}; }
-      #battery.capacity-100 { color: ${c_green}; } 
-
-      /* System Resources Group Drawer */
-      #cpu, #memory, #temperature, #disk {
-        color: ${c_purple};
-      }
-
-      #custom-wlogout {
-        color: ${c_red};
-        padding-right: 15px;
-      }
-      
+      /* Critical Blink Animation (White to Black) */
       @keyframes blink {
         to {
-          background-color: ${c_red};
+          background-color: ${c_fg};
           color: ${c_black};
         }
       }
