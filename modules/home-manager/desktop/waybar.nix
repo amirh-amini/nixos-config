@@ -39,11 +39,11 @@ in
         modules-left = [ "sway/workspaces" "tray" ];
         modules-center = [ "custom/clock" ];
         modules-right = [ 
-          "sway/language" 
-          "network" 
-          "bluetooth" 
-          "pulseaudio" 
-          "group/resources" # Battery is inside here
+          "sway/language"  "custom/sep"
+          "network"  "custom/sep"
+          "bluetooth" "custom/sep" 
+          "pulseaudio" "custom/sep" 
+          "group/resources" "custom/sep"
           "custom/wlogout" 
         ];
 
@@ -71,6 +71,11 @@ in
           format = "{short} {variant}";
           on-click = "swaymsg input type:keyboard xkb_switch_layout next";
           tooltip-format = "{long}";
+        };
+        
+        "custom/sep" = {
+          format = "|";
+          tooltip = false;
         };
 
         "network" = {
@@ -214,6 +219,12 @@ in
 
       #workspaces button:hover {
         color: ${c_fg};
+      }
+      
+      #custom-sep {
+        color: ${c_fg};
+        opacity: 0.3;
+        padding: 0 2px; /* Very tight padding to keep it dense */
       }
 
       /* Module Styling */

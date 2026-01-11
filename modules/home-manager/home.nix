@@ -23,6 +23,7 @@
     spotify
     vlc
     gedit
+    calcure
 
     # Terminals & Shells
     alacritty
