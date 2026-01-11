@@ -1,5 +1,11 @@
 { pkgs, lib, config, ... }:
 
+let
+  # Use the values defined in home.pointerCursor (from pointer.nix)
+  # If you haven't set that up yet, "Adwaita" is the hardcoded fallback.
+  cursorTheme = config.home.pointerCursor.name;
+  cursorSize = config.home.pointerCursor.size;
+in
 {
   wayland.windowManager.sway = {
     enable = true;
@@ -11,10 +17,23 @@
         { command = "systemctl --user start sway-session.target"; }
       ];
       
+      # Combined keyboard and touchpad inputs into one block (preventing override)
       input = {
         "type:keyboard" = {
           xkb_layout = "us,ir";
           xkb_options = "grp:alt_shift_toggle";
+        };
+        "type:touchpad" = {
+          dwt = "enabled";              # Disable While Typing
+          tap = "enabled";              # Tap to click
+          natural_scroll = "enabled";   # scroll direction
+        };
+      };
+
+      # Set cursor for Sway itself (borders, background)
+      seat = {
+        "*" = {
+          xcursor_theme = "${cursorTheme} ${toString cursorSize}";
         };
       };
 
@@ -40,14 +59,6 @@
       
       output = {
         "*" = { bg = "#24283b solid_color"; };
-      };
-      
-      input = {
-        "type:touchpad" = {
-          dwt = "enabled";              # Disable While Typing
-          tap = "enabled";              # Tap to click
-          natural_scroll = "enabled";   # scroll direction
-        };
       };
 
       bars = [ 
@@ -86,6 +97,9 @@
       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
       export _JAVA_AWT_WM_NONREPARENTING=1
       export MOZ_ENABLE_WAYLAND=1
+      # Cursor variables
+      export XCURSOR_THEME=${cursorTheme}
+      export XCURSOR_SIZE=${toString cursorSize}
     '';
   };
 }

@@ -9,6 +9,7 @@
     ./desktop/fuzzel.nix
     ./desktop/waybar.nix
     ./desktop/utils.nix
+    ./desktop/pointer.nix
   ];
 
   home.username = "amirh";
