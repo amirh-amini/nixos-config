@@ -1,23 +1,40 @@
 { pkgs, lib, config, ... }:
 
 let
-  # Use the values defined in home.pointerCursor (from pointer.nix)
-  # If you haven't set that up yet, "Adwaita" is the hardcoded fallback.
   cursorTheme = config.home.pointerCursor.name;
   cursorSize = config.home.pointerCursor.size;
 in
 {
+  home.packages = with pkgs; [
+    wl-gammactl
+  ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+  };
+
   wayland.windowManager.sway = {
     enable = true;
 
     config = {
-      startup = [
-        { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK"; }
-        { command = "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-wlr"; }
-        { command = "systemctl --user start sway-session.target"; }
-      ];
+      startup = [{
+      command = ''
+        systemctl --user import-environment \
+        WAYLAND_DISPLAY \
+        XDG_CURRENT_DESKTOP \
+        XDG_SESSION_DESKTOP \
+        XDG_SESSION_TYPE \
+        SWAYSOCK \
+        DISPLAY \
+        XCURSOR_THEME \
+        XCURSOR_SIZE
+        '';
+        always = true;
+      }
+    ];
+
       
-      # Combined keyboard and touchpad inputs into one block (preventing override)
       input = {
         "type:keyboard" = {
           xkb_layout = "us,ir";
@@ -57,9 +74,9 @@ in
         border = 2;
       };
       
-      output = {
-        "*" = { bg = "#24283b solid_color"; };
-      };
+      #output = {
+      #  "*" = { bg = "${../assets/b-413.jpg} fill"; };
+      #};
 
       bars = [ 
         { command = "${pkgs.waybar}/bin/waybar"; } 

@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  # 1. Notifications (Mako)
   services.mako = {
     enable = true;
     defaultTimeout = 5000;
@@ -12,21 +11,18 @@
     borderSize = 2;
   };
 
-  # 2. Clipboard Manager (Cliphist)
   services.cliphist = {
     enable = true;
     allowImages = true;
   };
 
-  # 3. SwayOSD (Volume/Brightness UI)
   services.swayosd.enable = true;
 
-  # 4. Packages requested
   home.packages = with pkgs; [
-    wl-clipboard    # Clipboard cli
-    cliphist        # Clipboard manager
+    wl-clipboard    
+    cliphist        
     
-    nwg-displays    # Monitor management (GUI)
+    nwg-displays    
     
     pulsemixer      # Audio mixer (TUI)
     pamixer         # Audio control (CLI for keys)

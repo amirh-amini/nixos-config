@@ -6,20 +6,33 @@
     settings = {
       main = {
         terminal = "${pkgs.kitty}/bin/kitty";
-        layer = "overlay";
-        width = 40;
+        layer = "top";
+        width = 50;
+        font = "monospace:size=11";
+        icon-theme = "hicolor";
+        icons-enabled = "no";
+        
+        horizontal-pad = 10;
+        vertical-pad = 8;
+        inner-pad = 5;
+        
+        line-height = 20;
       };
+      
       colors = {
-        background = "24283bff";
-        text = "c0caf5ff";
-        match = "f7768eff";
-        selection = "7aa2f7ff";
-        selection-text = "24283bff";
-        border = "7aa2f7ff";
+        # Sonokai Atlantis (100% Opaque/Flat)
+        background = "2b2d3aff";       # Deep Blue-Grey
+        text = "e2e2e3ff";             # Off-white
+        match = "9cd1bbff";            # Atlantis Teal
+        selection = "3d4455ff";
+        selection-text = "e2e2e3ff";   
+        selection-match = "9cd1bbff"; 
+        border = "3d4455ff";
       };
+      
       border = {
         width = 2;
-        radius = 10;
+        radius = 0;
       };
     };
   };

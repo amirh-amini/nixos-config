@@ -8,5 +8,7 @@
 
   security.sudo.execWheelOnly = true;
   security.apparmor.enable = true;
+  
+  security.pam.services.swaylock = {};
 }
 

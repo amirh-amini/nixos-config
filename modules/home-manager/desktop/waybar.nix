@@ -2,7 +2,8 @@
 
 let
   # Monochrome Colors (Sonokai-based Greys)
-  c_bg      = "#2b2d3a";  # Dark Grey Background
+  #c_bg      = "#2b2d3a";  # Dark Grey Background
+  c_bg      = "#181A1C";
   c_fg      = "#e2e2e3";  # White-ish Foreground
   c_dim     = "#7f849c";  # Dim Grey (for disabled/disconnected states)
   c_black   = "#181819";
@@ -26,6 +27,7 @@ let
   '';
 in
 {
+  
   programs.waybar = {
     enable = true;
     
@@ -42,7 +44,7 @@ in
           "sway/language"  "custom/sep"
           "network"  "custom/sep"
           "bluetooth" "custom/sep" 
-          "pulseaudio" "custom/sep" 
+          "pulseaudio" "custom/sep"
           "group/resources" "custom/sep"
           "custom/wlogout" 
         ];
@@ -268,9 +270,7 @@ in
         color: ${c_dim};
       }
 
-      /* Battery */
-      /* All levels are white (monochrome), only Critical blinks */
-      #battery.critical {
+      #battery.critical:not(.charging) {
         animation-name: blink;
         animation-duration: 0.5s;
         animation-timing-function: linear;

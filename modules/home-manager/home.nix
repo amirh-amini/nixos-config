@@ -10,10 +10,18 @@
     ./desktop/waybar.nix
     ./desktop/utils.nix
     ./desktop/pointer.nix
+    ./desktop/lock.nix
   ];
 
   home.username = "amirh";
   home.homeDirectory = "/home/amirh";
+  
+  services.wpaperd = {
+    enable = true;
+    settings = {
+      any = { path = "/home/amirh/wallpaper"; };
+    };
+  };
 
   # User Packages
   home.packages = with pkgs; [
