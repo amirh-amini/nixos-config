@@ -11,6 +11,8 @@
     ./desktop/utils.nix
     ./desktop/pointer.nix
     ./desktop/lock.nix
+    ./programs/consume/sioyek.nix
+    ./programs/communicate.nix
   ];
 
   home.username = "amirh";
