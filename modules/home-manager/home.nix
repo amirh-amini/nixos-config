@@ -13,6 +13,8 @@
     ./desktop/lock.nix
     ./programs/consume/sioyek.nix
     ./programs/communicate.nix
+    ./programs/consume/video.nix
+    ./programs/qutebrowser.nix
   ];
 
   home.username = "amirh";
