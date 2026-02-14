@@ -20,7 +20,7 @@
 
   home.packages = with pkgs; [
     wl-clipboard    
-    cliphist        
+    #cliphist        
     
     nwg-displays    
     

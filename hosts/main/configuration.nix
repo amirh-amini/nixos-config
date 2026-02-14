@@ -47,6 +47,23 @@
   services.displayManager.ly = {
     enable = true;
   };
+  security.pam.services.ly = {
+    text = ''
+      auth      include login
+      account   include login
+      password  include login
+      session   include login
+    '';
+  };
+  systemd.user.extraConfig = ''
+    # Override all user units that depend on WAYLAND_DISPLAY
+    # This removes ConditionEnvironment=WAYLAND_DISPLAY for all units
+    # and makes them start after sway-session.target
+    [Unit]
+    ConditionEnvironment= 
+    After=sway-session.target
+    WantedBy=sway-session.target
+  '';
 
   #Sway Support
   programs.sway.enable = true;
