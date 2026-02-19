@@ -16,6 +16,7 @@
     ./programs/communicate.nix
     ./programs/consume/video.nix
     ./programs/qutebrowser.nix
+    ./programs/emacs
   ];
 
   home.username = "amirh";
@@ -68,7 +69,7 @@
     vimdiffAlias = true;
   };
 
-  programs.emacs.enable = true;
+  # programs.emacs.enable = true;
 
   # Gnome Settings (dconf)
   dconf.settings = {

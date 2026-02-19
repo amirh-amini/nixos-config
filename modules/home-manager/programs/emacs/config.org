@@ -1,0 +1,167 @@
+#+title: Emacs Configuration
+#+author:
+#+property: header-args:emacs-lisp :tangle config.el
+#+auto_tangle: t
+
+* Phase 1 — Core Foundation
+
+** gcmh
+
+#+begin_src emacs-lisp
+  (use-package gcmh
+    :config
+    (gcmh-mode 1))
+#+end_src
+
+** no-littering
+
+Must load early so other packages write their data to tidy locations.
+
+#+begin_src emacs-lisp
+  (use-package no-littering
+    :demand t)
+#+end_src
+
+** evil
+
+=evil-want-keybinding= must be nil before evil loads so that
+evil-collection provides bindings for non-core modes instead.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :demand t
+    :init
+    (setq evil-want-integration t
+          evil-want-keybinding nil
+          evil-want-C-u-scroll t
+          evil-want-Y-yank-to-eol t
+          evil-undo-system 'undo-fu)
+    :config
+    (evil-mode 1))
+#+end_src
+
+** evil-collection
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+** undo-fu
+
+No config needed — evil references it via =evil-undo-system=.
+
+#+begin_src emacs-lisp
+  (use-package undo-fu)
+#+end_src
+
+** general
+
+Creates the leader key definer used throughout the rest of the config.
+
+#+begin_src emacs-lisp
+  (use-package general
+    :demand t
+    :config
+    (general-create-definer my/leader-def
+      :keymaps 'override
+      :states '(normal insert visual emacs)
+      :prefix "SPC"
+      :global-prefix "M-SPC"))
+#+end_src
+
+** which-key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (which-key-mode 1))
+#+end_src
+
+** doom-themes
+
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-one t))
+#+end_src
+
+** doom-modeline
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :config
+    (doom-modeline-mode 1))
+#+end_src
+
+* Phase 2 — Search, Help & Built-in QOL
+
+** saveplace
+
+#+begin_src emacs-lisp
+  (use-package saveplace
+    :config
+    (save-place-mode 1))
+#+end_src
+
+** autorevert
+
+#+begin_src emacs-lisp
+  (use-package autorevert
+    :config
+    (global-auto-revert-mode 1))
+#+end_src
+
+** TODO vertico
+** TODO orderless
+** TODO marginalia
+** TODO consult
+** TODO embark
+** TODO embark-consult
+** TODO savehist
+** TODO recentf
+** TODO helpful
+
+* Phase 3 — Writing & Version Control
+** TODO ...
+
+* Phase 4 — Editing Power & Contextual Actions
+** TODO ...
+
+* Phase 5 — Typing Flow & Org Polish
+** TODO ...
+
+* Phase 6 — Planning & Navigation
+** TODO ...
+
+* Phase 7 — Knowledge Network & Reading
+** TODO ...
+
+* Phase 8 — Snippets & Project Awareness
+** TODO ...
+
+* Phase 9 — Academic Publishing
+** TODO ...
+
+* Phase 10 — Grammar, Markup & File Browsing
+** TODO ...
+
+* Phase 11 — File Trees & Git Mastery
+** TODO ...
+
+* Phase 12 — Code Intelligence
+** TODO ...
+
+* Phase 13 — Development Ecosystem
+** TODO ...
+
+* Phase 14 — Evil Mastery & Text Surgery
+** TODO ...
+
+* Phase 15 — Workspaces & Terminal
+** TODO ...
+
+* Phase 16 — Utilities & AI
+** TODO ...
