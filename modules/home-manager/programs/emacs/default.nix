@@ -29,6 +29,7 @@ in
       which-key                      # 7
       doom-themes                    # 8
       doom-modeline                  # 9
+      evil-tutor
 
 
       # ── Phase 2 — Search, Help & Built-in QOL (8 | 5 ext) ────
@@ -51,6 +52,7 @@ in
       jinx                           # 23
       # autorevert                   # 24 [BUILT-IN]
       # pixel-scroll-precision-mode  # 25 [BUILT-IN]
+      toc-org 
 
 
       # ── Phase 4 — Editing Power & Contextual Actions (8) ─────
@@ -131,6 +133,8 @@ in
       dired-collapse                 #      └─ collapse single-child directories
       dired-ranger                   #      └─ multi-directory copy/move staging
       ligature                       # 78
+      peep-dired  
+      dired-open   
 
 
       # ── Phase 11 — File Trees & Git Mastery (8) ──────────────
@@ -187,6 +191,7 @@ in
       casual-suite                   # 117  NOTE: listed as casual, Nix attr is "casual-suite"
       prodigy                        # 118
       wgrep                          # 119
+      vterm-toggle 
 
 
       # ── Phase 16 — Utilities & AI (6) ────────────────────────

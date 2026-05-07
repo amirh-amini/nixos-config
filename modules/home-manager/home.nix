@@ -17,6 +17,7 @@
     ./programs/consume/video.nix
     ./programs/qutebrowser.nix
     ./programs/emacs
+    ./dev/4now.nix
   ];
 
   home.username = "amirh";
