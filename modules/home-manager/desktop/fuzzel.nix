@@ -37,5 +37,3 @@
     };
   };
 }
-
-# TODO should be inside the `file-manager.nix` file.
