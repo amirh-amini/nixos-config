@@ -8,3 +8,4 @@
   ];
 }
 
+# TODO I think file-manager should be under programs dir.

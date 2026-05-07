@@ -30,6 +30,8 @@
     };
   };
 
+  # TODO I don't like how some programs are here and some are not. They should all be moved to different dir and noting should be here.
+
   # User Packages
   home.packages = with pkgs; [
     # Productivity
