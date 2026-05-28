@@ -13,16 +13,21 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, emacs-overlay, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs: {
     nixosConfigurations = {
       nixos-btw = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/main/configuration.nix
           inputs.home-manager.nixosModules.default
-          { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
+          { nixpkgs.overlays = [ emacs-overlay.overlays.default llm-agents.overlays.default ]; }
         ];
       };
     };

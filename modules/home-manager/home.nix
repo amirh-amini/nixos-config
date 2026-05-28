@@ -18,6 +18,7 @@
     ./programs/qutebrowser.nix
     ./programs/emacs
     ./dev/4now.nix
+    ./dev/ai-tools.nix
   ];
 
   home.username = "amirh";
@@ -56,7 +57,7 @@
     fzf
     htop
     btop
-    neofetch
+    fastfetch
     gnome-tweaks
     tree
 
