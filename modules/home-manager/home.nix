@@ -19,6 +19,10 @@
     ./programs/emacs
     ./dev/4now.nix
     ./dev/ai-tools.nix
+    ./dev/direnv.nix
+    ./dev/python-tools.nix
+    ./dev/sandbox.nix
+    ./dev/secrets.nix
   ];
 
   home.username = "amirh";

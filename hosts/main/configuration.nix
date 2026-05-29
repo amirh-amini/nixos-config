@@ -10,6 +10,7 @@
       ../../modules/core/fonts.nix
       ../../modules/core/storage.nix
       ../../modules/core/security.nix
+      ../../modules/core/nix-ld.nix
       inputs.home-manager.nixosModules.default
     ];
 

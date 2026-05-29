@@ -21,6 +21,12 @@
   };
 
   outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs: {
+    # Per-project dev-shell starters:  nix flake init -t ~/nixos-config#py
+    templates.py = {
+      path = ./templates/py;
+      description = "Python (uv) dev shell with direnv auto-activation";
+    };
+
     nixosConfigurations = {
       nixos-btw = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };

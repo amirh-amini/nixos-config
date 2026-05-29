@@ -1,0 +1,10 @@
+# Local environment & secrets — never commit these
+.envrc.local
+.env
+.venv/
+.direnv/
+
+# Python
+__pycache__/
+*.py[cod]
+.uv/
