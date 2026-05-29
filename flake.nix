@@ -18,6 +18,13 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # VS Code Marketplace + Open VSX extensions as Nix packages (daily-updated).
+    # Pinned via flake.lock — bump deliberately with `nix flake update`.
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs:
@@ -54,6 +61,9 @@
                 emacs-overlay.overlays.default
                 llm-agents.overlays.default
                 guarddogOverlay
+                # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
+                # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.
+                inputs.nix-vscode-extensions.overlays.default
               ];
             }
           ];

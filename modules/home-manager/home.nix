@@ -23,6 +23,7 @@
     ./dev/python-tools.nix
     ./dev/sandbox.nix
     ./dev/secrets.nix
+    ./dev/vscode.nix
   ];
 
   home.username = "amirh";
@@ -54,7 +55,7 @@
     tmux
 
     # Dev Tools
-    vscode
+    # vscode — now managed declaratively in ./dev/vscode.nix (programs.vscode)
     ripgrep
     fd
     bat
