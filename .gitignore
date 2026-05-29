@@ -8,3 +8,9 @@ CLAUDE.local.md
 result
 result-*
 .direnv/
+
+# Emacs: generated tangle output + auto-save/backup files
+modules/home-manager/programs/emacs/config.el
+\#*\#
+.\#*
+*~
