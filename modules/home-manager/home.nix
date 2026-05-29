@@ -10,6 +10,7 @@
     ./desktop/waybar.nix
     ./desktop/utils.nix
     ./desktop/screenshot.nix
+    ./desktop/screen-recording.nix
     ./desktop/pointer.nix
     ./desktop/lock.nix
     ./desktop/file-manager.nix
