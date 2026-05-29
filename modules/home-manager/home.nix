@@ -9,6 +9,7 @@
     ./desktop/fuzzel.nix
     ./desktop/waybar.nix
     ./desktop/utils.nix
+    ./desktop/screenshot.nix
     ./desktop/pointer.nix
     ./desktop/lock.nix
     ./desktop/file-manager.nix

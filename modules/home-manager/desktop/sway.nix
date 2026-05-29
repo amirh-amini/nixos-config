@@ -54,6 +54,11 @@ in
             criteria = { app_id = "waybar_float"; };
             command = "floating enable, resize set 1000 600, move position center";
           }
+          {
+            # satty annotation window: float + center instead of tiling
+            criteria = { app_id = "com.gabm.satty"; };
+            command = "floating enable, move position center";
+          }
         ];
       };
       
@@ -86,6 +91,13 @@ in
 
         # Display Management (Mod+Shift+d)
         "Mod4+Shift+d" = "exec nwg-displays";
+
+        # Screenshots: grim → satty (annotate, Enter copies to clipboard,
+        # Ctrl+S saves per config.toml's output-filename).
+        # Print        : select a region/window
+        # Shift+Print  : whole focused output
+        "Print" = "exec grim -g \"$(slurp -d)\" - | satty --filename -";
+        "Shift+Print" = "exec grim - | satty --filename -";
       };
     };
 
