@@ -16,7 +16,7 @@
     ./programs/communicate.nix
     ./programs/consume/video.nix
     ./programs/qutebrowser.nix
-    ./programs/emacs
+    # ./programs/emacs   # disabled 2026-05-29 — files kept in repo; uncomment to restore
     ./dev/4now.nix
     ./dev/ai-tools.nix
     ./dev/direnv.nix
