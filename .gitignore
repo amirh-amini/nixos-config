@@ -1,0 +1,10 @@
+# Editor / AI-assistant state — keep local, never track
+.vscode/
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# Nix / dev build artifacts
+result
+result-*
+.direnv/
