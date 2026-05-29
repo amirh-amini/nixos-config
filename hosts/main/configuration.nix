@@ -11,6 +11,7 @@
       ../../modules/core/storage.nix
       ../../modules/core/security.nix
       ../../modules/core/nix-ld.nix
+      ../../modules/core/obs.nix
       inputs.home-manager.nixosModules.default
     ];
 
