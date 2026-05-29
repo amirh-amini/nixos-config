@@ -20,23 +20,45 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs: {
-    # Per-project dev-shell starters:  nix flake init -t ~/nixos-config#py
-    templates.py = {
-      path = ./templates/py;
-      description = "Python (uv) dev shell with direnv auto-activation";
-    };
+  outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      # GuardDog (malicious-package scanner) packaged in Nix against nixpkgs
+      # Semgrep — hermetic, no runtime PyPI pull. See ./pkgs/guarddog.nix.
+      guarddogOverlay = final: prev: {
+        guarddog = final.callPackage ./pkgs/guarddog.nix { };
+      };
+    in
+    {
+      # Per-project dev-shell starters:  nix flake init -t ~/nixos-config#py
+      templates.py = {
+        path = ./templates/py;
+        description = "Python (uv) dev shell with direnv auto-activation";
+      };
 
-    nixosConfigurations = {
-      nixos-btw = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/main/configuration.nix
-          inputs.home-manager.nixosModules.default
-          { nixpkgs.overlays = [ emacs-overlay.overlays.default llm-agents.overlays.default ]; }
-        ];
+      # Build/test the scanner directly:  nix build .#guarddog
+      packages.${system}.guarddog =
+        (import nixpkgs {
+          inherit system;
+          overlays = [ guarddogOverlay ];
+        }).guarddog;
+
+      nixosConfigurations = {
+        nixos-btw = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/main/configuration.nix
+            inputs.home-manager.nixosModules.default
+            {
+              nixpkgs.overlays = [
+                emacs-overlay.overlays.default
+                llm-agents.overlays.default
+                guarddogOverlay
+              ];
+            }
+          ];
+        };
       };
     };
-  };
 }
 

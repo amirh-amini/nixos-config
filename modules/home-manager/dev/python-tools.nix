@@ -13,5 +13,10 @@
   # (or `uv python install`).
   home.packages = with pkgs; [
     uv
+
+    # GuardDog: malicious-package scanner (Semgrep-based), packaged in Nix
+    # against the nixpkgs Semgrep (see ../../../pkgs/guarddog.nix). Vet a package
+    # BEFORE adding it:  guarddog pypi scan <name>   /   guarddog pypi verify <reqs>
+    guarddog
   ];
 }
