@@ -15,6 +15,7 @@
     ./desktop/pointer.nix
     ./desktop/lock.nix
     ./desktop/file-manager.nix
+    ./desktop/yazi.nix
     ./programs/consume/sioyek.nix
     ./programs/communicate.nix
     ./programs/consume/video.nix
