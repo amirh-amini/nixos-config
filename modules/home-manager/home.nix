@@ -28,6 +28,7 @@
     ./dev/sandbox.nix
     ./dev/secrets.nix
     ./dev/vscode.nix
+    ./dev/neovim.nix
   ];
 
   home.username = "amirh";
@@ -75,12 +76,7 @@
     unzip
   ];
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
+  # Neovim is configured in ./dev/neovim.nix (real Lua config + Nix provisioning).
 
   # programs.emacs.enable = true;
 
