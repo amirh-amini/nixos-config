@@ -39,30 +39,28 @@ let
     fd
   ];
 
-  # --- Treesitter with a scoped, pre-built grammar set -----------------------
-  # On NixOS parsers are never compiled at runtime. Add a language => add a name.
-  treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p; [
-    python
-    nix
-    lua
-    bash
-    json
-    yaml
-    toml
-    markdown
-    markdown_inline
-    vim
-    vimdoc
-    query
-    regex
-    gitcommit
-    gitignore
-    git_rebase
-    diff
-    dockerfile
-    c
-    comment
-  ]);
+  # --- Treesitter: parsers + queries provided by Nix -------------------------
+  # nixpkgs ships nvim-treesitter's `main` branch, where `.withPlugins` no longer
+  # lands parsers in parser/ and queries live under runtime/queries/. So we
+  # assemble the runtime ourselves: the base plugin (lua + queries) plus the
+  # compiled grammar .so's from passthru.grammarPlugins, laid out where Neovim
+  # actually scans them (top-level parser/ and queries/). Parsers are never
+  # compiled at runtime here. Add a language => add one name to tsGrammars.
+  tsGrammars = with pkgs.vimPlugins.nvim-treesitter.passthru.grammarPlugins; [
+    python nix lua bash json yaml toml markdown markdown_inline
+    vim vimdoc query regex gitcommit gitignore git_rebase diff dockerfile c comment
+  ];
+  treesitter = pkgs.runCommand "nvim-treesitter-bundle" { } ''
+    cp -rs ${pkgs.vimPlugins.nvim-treesitter}/. $out
+    chmod -R u+w $out
+    mkdir -p $out/parser $out/queries
+    for q in ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/*; do
+      ln -sfn "$q" "$out/queries/$(basename "$q")"
+    done
+    ${lib.concatMapStringsSep "\n" (g: ''
+      for so in ${g}/parser/*.so; do ln -sfn "$so" "$out/parser/$(basename "$so")"; done
+    '') tsGrammars}
+  '';
 
   # --- A few plugins not (yet) in nixpkgs, fetched from source ---------------
   buildPlug = { pname, owner, repo ? pname, rev, sha256 }:
@@ -135,7 +133,6 @@ let
     "ThePrimeagen/harpoon" = vp.harpoon2;
     "MagicDuck/grug-far.nvim" = vp.grug-far-nvim;
     "stevearc/aerial.nvim" = vp.aerial-nvim;
-    "SmiteshP/nvim-navic" = vp.nvim-navic;
     "Bekaboo/dropbar.nvim" = vp.dropbar-nvim;
     "mrjones2014/smart-splits.nvim" = vp.smart-splits-nvim;
     # git

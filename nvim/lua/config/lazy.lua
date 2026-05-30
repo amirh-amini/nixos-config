@@ -28,9 +28,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = { { import = "plugins" } },
   dev = {
-    -- Resolve each plugin to its Nix store path; bogus path => fallback to git.
+    -- Resolve each plugin to its Nix store path. lazy strips plugin[1] by the
+    -- time this runs, so derive "owner/repo" from plugin.url. Unknown plugins
+    -- get a bogus path => fallback to a normal git fetch.
     path = function(plugin)
-      return nix.path(plugin[1] or plugin.name) or ("/nonexistent/" .. (plugin.name or "x"))
+      local repo = plugin[1]
+      if (not repo or not nix.path(repo)) and plugin.url then
+        repo = plugin.url:gsub("%.git$", ""):match("([^/]+/[^/]+)$")
+      end
+      return nix.path(repo) or ("/nonexistent/" .. (plugin.name or "x"))
     end,
     -- On Nix, "" matches every plugin => all are local. Off Nix, none are.
     patterns = nix.is_nix and { "" } or {},

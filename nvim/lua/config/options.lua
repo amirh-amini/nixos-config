@@ -13,7 +13,7 @@ opt.sidescrolloff = 8
 opt.wrap = false
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-opt.fillchars = { eob = " ", fold = " ", foldopen = "", foldclose = "" }
+opt.fillchars = { eob = " " }
 opt.pumheight = 12
 opt.winminwidth = 5
 
