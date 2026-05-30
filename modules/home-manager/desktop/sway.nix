@@ -89,6 +89,11 @@ in
         # Clipboard history (Super+V)
         "Mod4+shift+v" = "exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
 
+        # Voice memos (m = microphone). Toggle recording; browse/play the library.
+        # Waybar shows a red mic while recording (modules/.../waybar.nix).
+        "Mod4+m" = "exec voice-record";
+        "Mod4+Shift+m" = "exec voice-library";
+
         # Display Management (Mod+Shift+d)
         "Mod4+Shift+d" = "exec nwg-displays";
 

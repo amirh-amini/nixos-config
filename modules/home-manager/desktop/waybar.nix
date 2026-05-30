@@ -38,7 +38,7 @@ in
         height = 20; # Dense
         spacing = 1;
         
-        modules-left = [ "sway/workspaces" "tray" ];
+        modules-left = [ "sway/workspaces" "custom/recorder" "tray" ];
         modules-center = [ "custom/clock" ];
         modules-right = [ 
           "sway/language"  "custom/sep"
@@ -59,6 +59,20 @@ in
         "tray" = {
           icon-size = 10;
           spacing = 5;
+        };
+
+        # Voice recorder indicator (scripts in desktop/voice-recorder.nix).
+        # Invisible when idle; red mic + timer while recording. `signal = 8`
+        # matches the RTMIN+8 nudge voice-record sends for instant updates;
+        # the 1s interval keeps the timer ticking and is a fallback.
+        "custom/recorder" = {
+          exec = "voice-record-status";
+          return-type = "json";
+          interval = 1;
+          signal = 8;
+          format = "{}";
+          on-click = "voice-record";        # left-click: stop
+          on-click-right = "voice-library"; # right-click: open library
         };
 
         "custom/clock" = {
@@ -248,10 +262,25 @@ in
       #scratchpad,
       #custom-wlogout,
       #language,
+      #custom-recorder,
       #bluetooth {
         padding: 0 6px;
         color: ${c_fg};
         background-color: transparent;
+      }
+
+      /* Voice recorder: red + pulse while recording (idle = empty/invisible) */
+      #custom-recorder.recording {
+        color: #f7768e;
+        animation-name: recpulse;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      @keyframes recpulse {
+        to { opacity: 0.35; }
       }
 
       /* Tooltips */
