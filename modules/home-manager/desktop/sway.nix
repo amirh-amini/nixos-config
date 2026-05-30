@@ -59,12 +59,6 @@ in
             criteria = { app_id = "com.gabm.satty"; };
             command = "floating enable, move position center";
           }
-          {
-            # voice-library mpv player: small floating window (its own class so
-            # it isn't sized by the big waybar_float TUI rule above)
-            criteria = { app_id = "mpv_float"; };
-            command = "floating enable, resize set 640 200, move position center";
-          }
         ];
       };
       
