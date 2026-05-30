@@ -62,15 +62,16 @@ let
     mkdir -p "${dir}"
     sel=$(cd "${dir}" && ls -1t *.opus 2>/dev/null | ${fuzzel} --dmenu --prompt "voice  " || true)
     [ -n "''${sel:-}" ] || exit 0
-    # Play inside a floating kitty (waybar_float rule -> float+center) so mpv's
-    # terminal UI is visible and its keys work. Playback controls:
+    # Play inside a floating kitty. Its own app_id (mpv_float) is matched by a
+    # window rule in sway.nix that floats + sizes it. mpv's terminal UI is
+    # visible and its keys work. Playback controls:
     #   Space    pause / resume
     #   <- / ->  seek -/+ 5s
     #   Up / Dn  seek -/+ 1min
     #   [ / ]    slow down / speed up
     #   9 / 0    volume down / up
     #   q        quit (closes the window)
-    exec ${kitty} --class waybar_float -e \
+    exec ${kitty} --class mpv_float -e \
       ${mpv} --no-video --force-window=no --term-osd-bar "${dir}/$sel"
   '';
 

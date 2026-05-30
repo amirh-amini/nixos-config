@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   cursorTheme = config.home.pointerCursor.name;
@@ -30,9 +35,9 @@ in
           xkb_options = "grp:alt_shift_toggle";
         };
         "type:touchpad" = {
-          dwt = "enabled";              # Disable While Typing
-          tap = "enabled";              # Tap to click
-          natural_scroll = "enabled";   # scroll direction
+          dwt = "enabled"; # Disable While Typing
+          tap = "enabled"; # Tap to click
+          natural_scroll = "enabled"; # scroll direction
         };
       };
 
@@ -43,36 +48,48 @@ in
       };
 
       modifier = "Mod4";
-      terminal = "kitty"; 
+      terminal = "kitty";
       menu = "${pkgs.fuzzel}/bin/fuzzel";
-      
+
       window = {
         titlebar = false;
         border = 1;
         commands = [
           {
-            criteria = { app_id = "waybar_float"; };
+            criteria = {
+              app_id = "waybar_float";
+            };
             command = "floating enable, resize set 1000 600, move position center";
           }
           {
             # satty annotation window: float + center instead of tiling
-            criteria = { app_id = "com.gabm.satty"; };
+            criteria = {
+              app_id = "com.gabm.satty";
+            };
             command = "floating enable, move position center";
+          }
+          {
+            # voice-library mpv player: small floating window (own app_id so it
+            # isn't sized by the big waybar_float rule). Tweak the numbers here.
+            criteria = {
+              app_id = "mpv_float";
+            };
+            command = "floating enable, resize set 720 220, move position center";
           }
         ];
       };
-      
+
       floating = {
         titlebar = false;
         border = 2;
       };
-      
+
       #output = {
       #  "*" = { bg = "${../assets/b-413.jpg} fill"; };
       #};
 
-      bars = [ 
-        { command = "${pkgs.waybar}/bin/waybar"; } 
+      bars = [
+        { command = "${pkgs.waybar}/bin/waybar"; }
       ];
 
       keybindings = lib.mkOptionDefault {
@@ -123,4 +140,3 @@ in
   };
   wayland.systemd.target = "sway-session.target";
 }
-
