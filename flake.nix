@@ -26,11 +26,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # NvChad (Neovim distro) as a home-manager module. Wraps nvim, provides a
-    # declarative config copy, and injects editor tooling via extraPackages —
-    # no mason. Per-project LSPs come from devenv's shell PATH instead.
-    nix4nvchad = {
-      url = "github:nix-community/nix4nvchad";
+    # LazyVim as a home-manager module, with plugins sourced from nixpkgs
+    # (hermetic — no runtime cloning) and mason/treesitter/LSP handled via
+    # declarative language extras. Per-project LSP *binaries* still come from
+    # devenv's shell PATH. Pin a LazyVim release by tagging the URL, e.g.
+    # `github:pfassina/lazyvim-nix/v15.13.0`.
+    lazyvim = {
+      url = "github:pfassina/lazyvim-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

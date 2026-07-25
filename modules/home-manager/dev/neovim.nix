@@ -1,42 +1,46 @@
 { inputs, pkgs, ... }:
 
-# Neovim = NvChad, provisioned via nix4nvchad (Emacs stays academic/org only).
+# Neovim = LazyVim, provisioned via lazyvim-nix (Emacs stays academic/org only).
 #
-# Why this shape (see the migration on branch nix4nvchad; snapshot of the old
-# hand-rolled config is at git tag `pre-nvchad-migration`):
-#   * nix4nvchad wraps `nvim` and copies an NvChad config into ~/.config/nvim on
-#     `home-manager switch` (hm-activation = true). Declarative + reproducible.
-#   * No mason. mason ships prebuilt, dynamically-linked binaries that don't run
-#     on NixOS — the reason the old config needed a whole Nix<->Lua bridge.
-#   * PER-PROJECT LSPs come from devenv, not from here. `languages.*.enable` in a
-#     project's devenv puts pyright/ruff/tsserver/… on the shell PATH, and nvim
-#     (launched from inside the direnv/devenv shell) attaches to whatever it finds.
-#   * So `extraPackages` below is only the EDITOR BASELINE: tools you want when
-#     editing outside any project — Lua/Nix LSP for hacking configs, formatters,
-#     and the fuzzy-finder's search tools. Add per-language servers to the
-#     relevant project's devenv instead of here.
+# Why this shape (snapshot of the old hand-rolled config is at git tag
+# `pre-nvchad-migration`):
+#   * lazyvim-nix (pfassina/lazyvim-nix) is a home-manager module that installs
+#     real upstream LazyVim, but sources every plugin from `pkgs.vimPlugins`
+#     (hermetic — nothing is cloned from GitHub at runtime, unlike a stock
+#     LazyVim). It also disables mason, since mason's prebuilt binaries don't run
+#     on NixOS. This matches the repo's supply-chain stance.
+#   * PER-PROJECT LSP BINARIES come from devenv, not from here. `languages.*.enable`
+#     in a project's devenv puts pyright/ruff/tsserver/… on the shell PATH, and
+#     nvim (launched from inside the direnv/devenv shell) attaches to whatever it
+#     finds. So the language `extras` below are enabled for their EDITOR features
+#     (LazyVim plugins + treesitter), while the actual tool binaries are left to
+#     devenv where possible.
+#   * `extraPackages` is only the editor baseline for editing OUTSIDE a project —
+#     e.g. Lua LS + stylua for hacking on the LazyVim config itself.
 
 {
-  imports = [ inputs.nix4nvchad.homeManagerModules.default ];
+  imports = [ inputs.lazyvim.homeManagerModules.default ];
 
-  programs.nvchad = {
+  programs.lazyvim = {
     enable = true;
 
-    # Editor-baseline tooling only (see header). Injected onto nvim's PATH by the
-    # wrapper — deliberately not on the global profile.
+    # git, ripgrep, fd — the tools LazyVim's core (telescope, etc.) shells out to.
+    installCoreDependencies = true;
+
+    extras = {
+      # Nix: enabled with its tooling since this repo is often edited outside any
+      # devenv shell (bootstrapping the config itself).
+      lang.nix.enable = true;
+    };
+
+    # Editor baseline: for hacking on the LazyVim Lua config outside a project.
     extraPackages = with pkgs; [
-      ripgrep
-      fd
-      # Lua — for hacking on the NvChad config itself
       lua-language-server
       stylua
-      # Nix — for editing this repo
-      nixd
-      nixfmt-rfc-style
     ];
   };
 
-  # Local model endpoint for AI features / inline completion (private, no cloud —
-  # matches the repo's supply-chain stance).
+  # Local model endpoint for AI features (private, no cloud — matches the repo's
+  # supply-chain stance).
   services.ollama.enable = true;
 }
