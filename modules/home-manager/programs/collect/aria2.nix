@@ -37,6 +37,7 @@
       console-log-level = "warn"; # quieter terminal
     };
   };
+  programs.mullvad-vpn.enable = true;
 
   # Varia — simple GTK/libadwaita download manager on top of aria2.
   home.packages = [ pkgs.varia ];

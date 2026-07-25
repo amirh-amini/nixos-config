@@ -15,29 +15,37 @@
       # Serif
       merriweather
       noto-fonts
-      vazir-fonts
-      
+      vazirmatn
+
       # Symbols & Emoji
       noto-fonts-color-emoji
       nerd-fonts.symbols-only
-      
+
       # Icons
       #font-awesome
       #material-design-icons
 
       # Asian/CJK
-      noto-fonts-cjk-sans 
+      noto-fonts-cjk-sans
     ];
 
     fontconfig = {
       enable = true;
       defaultFonts = {
-        monospace = [ "Iosevka Nerd Font" "Symbols Nerd Font" ];
-        sansSerif = [ "IBM Plex Sans" "Symbols Nerd Font" ];
-        serif = [ "Merriweather" "Symbols Nerd Font" ];
+        monospace = [
+          "Iosevka Nerd Font"
+          "Symbols Nerd Font"
+        ];
+        sansSerif = [
+          "IBM Plex Sans"
+          "Symbols Nerd Font"
+        ];
+        serif = [
+          "Merriweather"
+          "Symbols Nerd Font"
+        ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
   };
 }
-

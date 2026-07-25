@@ -19,17 +19,23 @@
   services.swayosd.enable = true;
 
   home.packages = with pkgs; [
-    wl-clipboard    
-    #cliphist        
-    
-    nwg-displays    
-    
-    pulsemixer      # Audio mixer (TUI)
-    pamixer         # Audio control (CLI for keys)
-    pwvucontrol     # Audio control (GUI - backup)
-    
-    bluetui         # Bluetooth (TUI)
-    blueman         # Bluetooth (GUI - backup)
+    wl-clipboard
+    #cliphist
+    jq
+    gh
+    curl
+    gnugrep
+    gnused
+    gawk
+
+    nwg-displays
+
+    pulsemixer # Audio mixer (TUI)
+    pamixer # Audio control (CLI for keys)
+    pwvucontrol # Audio control (GUI - backup)
+
+    bluetui # Bluetooth (TUI)
+    blueman # Bluetooth (GUI - backup)
   ];
 }
 

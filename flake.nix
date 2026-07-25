@@ -59,7 +59,7 @@
             {
               nixpkgs.overlays = [
                 emacs-overlay.overlays.default
-                llm-agents.overlays.default
+                llm-agents.overlays.shared-nixpkgs
                 guarddogOverlay
                 # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
                 # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.

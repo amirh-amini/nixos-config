@@ -34,36 +34,56 @@ in
         ms-python.python
         ms-python.vscode-pylance
         charliermarsh.ruff
+
         # Web / JS / TS / JSON / Markdown formatting
         esbenp.prettier-vscode
+
         # Nix
         jnoortheen.nix-ide
+        barsikus007.nix-injection
+
         # Editor quality-of-life
         editorconfig.editorconfig
-        usernamehw.errorlens
-        gruntfuggly.todo-tree
-        streetsidesoftware.code-spell-checker
-        humao.rest-client
+        aaron-bond.better-comments
+        # usernamehw.errorlens
+        #gruntfuggly.todo-tree
+        # streetsidesoftware.code-spell-checker
+        # humao.rest-client
+
+        # markdown
+        yzhang.markdown-all-in-one
+
         # Git
         mhutchie.git-graph
+        donjayamanne.githistory
+
         # Look & feel
         pkief.material-icon-theme
-        sainnhe.sonokai
+        azemoh.one-monokai
+        monokai.theme-monokai-pro-vscode
+        #sainnhe.sonokai
+
         # Per-project env (reads .envrc, like our direnv setup)
-        mkhl.direnv
+        # mkhl.direnv
+        datakurre.devenv
+
+        bowlerr.sqlite-intelliview-vscode
+        anthropic.claude-code
+        fedaykindev.openchamber
+
       ];
 
       userSettings = {
-        # ── Font (mirrors Emacs: JetBrainsMono Nerd Font + ligatures) ──
+        # ── Font (mirrors Emacs: JetBrainsMono GNerd Font + ligatures) ──
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Symbols Nerd Font', monospace";
         "editor.fontLigatures" = true;
-        "editor.fontSize" = 14;
+        "editor.fontSize" = 12;
 
         # ── Indentation (mirrors Emacs: 4 spaces) ──
-        "editor.tabSize" = 4;
-        "editor.insertSpaces" = true;
-        "files.trimTrailingWhitespace" = true;
-        "files.insertFinalNewline" = true;
+        #"editor.tabSize" = 4;
+        #"editor.insertSpaces" = true;
+        #"files.trimTrailingWhitespace" = true;
+        #"files.insertFinalNewline" = true;
 
         # ── Format on save (mirrors apheleia) ──
         "editor.formatOnSave" = true;
@@ -82,7 +102,7 @@ in
         "[jsonc]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
         "[html]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
         "[css]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "[markdown]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
+        #"[markdown]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
         "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
 
         # ── Nix IDE → nixd language server + nixfmt formatter ──
@@ -91,9 +111,11 @@ in
         "nix.formatterPath" = nixfmt;
         "nix.serverSettings"."nixd"."formatting"."command" = [ nixfmt ];
 
-        # ── Look & feel (Sonokai + material icons) ──
-        "workbench.colorTheme" = "Sonokai";
+        # ── Look & feel (Monokai Pro Octagon + material icons) ──
+        "workbench.colorTheme" = "Monokai Pro (Filter Octagon)";
         "workbench.iconTheme" = "material-icon-theme";
+        "editor.minimap.enabled" = false;
+        "editor.rulers" = [ 80 ];
 
         # ── Privacy / no auto-update (Nix owns versions) ──
         "telemetry.telemetryLevel" = "off";
@@ -104,10 +126,17 @@ in
         # ── Quality-of-life (mirrors rainbow-delimiters, hl-todo, etc.) ──
         "editor.bracketPairColorization.enabled" = true;
         "editor.guides.bracketPairs" = "active";
-        "editor.stickyScroll.enabled" = true;
-        "editor.renderWhitespace" = "boundary";
+        # "editor.stickyScroll.enabled" = true;
+        "editor.renderWhitespace" = "none";
         "files.autoSave" = "onFocusChange";
-        "todo-tree.general.tags" = [ "TODO" "FIXME" "HACK" "NOTE" "BUG" "XXX" ];
+        "todo-tree.general.tags" = [
+          "TODO"
+          "FIXME"
+          "HACK"
+          "NOTE"
+          "BUG"
+          "XXX"
+        ];
       };
     };
   };

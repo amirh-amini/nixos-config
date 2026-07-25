@@ -9,7 +9,10 @@ in
   home.packages = [
     ai.claude-code
     ai.opencode
-    ai.codex
+    # ai.codex
     ai.pi
+    ai.cursor-agent
+    ai.omp
+    pkgs.code-cursor-fhs
   ];
 }

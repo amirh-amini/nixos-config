@@ -1,19 +1,24 @@
-{ config, pkgs, inputs, ... }:
-  
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/core/gpu.nix 
-      ../../modules/core/keyd.nix
-      ../../modules/core/power.nix
-      ../../modules/core/fonts.nix
-      ../../modules/core/storage.nix
-      ../../modules/core/security.nix
-      ../../modules/core/nix-ld.nix
-      ../../modules/core/obs.nix
-      inputs.home-manager.nixosModules.default
-    ];
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/core/gpu.nix
+    ../../modules/core/keyd.nix
+    ../../modules/core/power.nix
+    ../../modules/core/fonts.nix
+    ../../modules/core/storage.nix
+    ../../modules/core/security.nix
+    ../../modules/core/nix-ld.nix
+    ../../modules/core/docker.nix
+    ../../modules/core/obs.nix
+    inputs.home-manager.nixosModules.default
+  ];
 
   # Bootloader
   boot.loader.systemd-boot = {
@@ -25,7 +30,7 @@
   boot.loader.efi.efiSysMountPoint = "/efi";
   boot.loader.systemd-boot.xbootldrMountPoint = "/boot";
   boot.initrd.kernelModules = [ "xe" ];
-  
+
   # Home Manager Configuration
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -57,15 +62,14 @@
       session   include login
     '';
   };
-  systemd.user.extraConfig = ''
+  systemd.user.settings.Manager = {
     # Override all user units that depend on WAYLAND_DISPLAY
     # This removes ConditionEnvironment=WAYLAND_DISPLAY for all units
     # and makes them start after sway-session.target
-    [Unit]
-    ConditionEnvironment= 
-    After=sway-session.target
-    WantedBy=sway-session.target
-  '';
+    ConditionEnvironment = "";
+    After = "sway-session.target";
+    WantedBy = "sway-session.target";
+  };
 
   #Sway Support
   programs.sway.enable = true;
@@ -90,7 +94,11 @@
   users.users.amirh = {
     isNormalUser = true;
     description = "amirh";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -115,7 +123,27 @@
     nvtopPackages.full
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  # Binary caches beyond cache.nixos.org.
+  # cache.numtide.com hosts prebuilt closures for numtide flakes
+  # (e.g. llm-agents.nix's omp/bun-cache) so we don't have to build
+  # them locally — building omp pulls a large npm tree via fetchurl
+  # inside the sandbox, which fails when the host has no IPv6.
+  nix.settings.substituters = [
+    "https://cache.nixos.org/"
+    "https://cache.numtide.com"
+  ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+  ];
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
