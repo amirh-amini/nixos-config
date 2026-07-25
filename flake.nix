@@ -25,6 +25,14 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # NvChad (Neovim distro) as a home-manager module. Wraps nvim, provides a
+    # declarative config copy, and injects editor tooling via extraPackages —
+    # no mason. Per-project LSPs come from devenv's shell PATH instead.
+    nix4nvchad = {
+      url = "github:nix-community/nix4nvchad";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs:
