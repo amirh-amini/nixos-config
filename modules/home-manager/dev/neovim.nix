@@ -33,11 +33,73 @@
       lang.nix.enable = true;
     };
 
-    # Editor baseline: for hacking on the LazyVim Lua config outside a project.
+    # Treesitter parsers for the filetypes actually read/written here. Highlighting
+    # only — LSP is deliberately NOT used (code is read, not hand-written). Nix/Lua
+    # parsers come from lang.nix + LazyVim's base set.
+    treesitterParsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+      markdown
+      markdown_inline
+      json
+      yaml
+      toml
+      xml
+      javascript
+      typescript
+      tsx
+      html
+      css
+      c
+      cpp
+      csv
+      bash
+      python
+    ];
+
+    # Editor baseline: formatters for editing OUTSIDE a devenv project (loose files
+    # in ~, this repo itself). Inside a project, each tool still picks up that
+    # project's own config (e.g. rumdl reads rumdl.toml) so editor == pre-commit.
+    # No LSP servers, no linters — formatting only (linting lives in project
+    # pre-commit hooks). lua-language-server is kept only for editing this config.
     extraPackages = with pkgs; [
       lua-language-server
-      stylua
+      stylua       # lua
+      rumdl        # markdown
+      prettier     # json/jsonc, yaml, html, css, ts/js
+      taplo        # toml
+      clang-tools  # c/cpp (clang-format)
+      shfmt        # sh/bash
+      libxml2      # xml (xmllint)
+      ruff         # python
     ];
+
+    # One formatter per filetype (conform.nvim). LazyVim autoformats on save by
+    # default; <leader>cf formats on demand. txt/.env/csv have no formatter.
+    plugins.conform = ''
+      return {
+        "stevearc/conform.nvim",
+        opts = {
+          formatters_by_ft = {
+            markdown = { "rumdl" },
+            json = { "prettier" },
+            jsonc = { "prettier" },
+            yaml = { "prettier" },
+            toml = { "taplo" },
+            xml = { "xmllint" },
+            javascript = { "prettier" },
+            javascriptreact = { "prettier" },
+            typescript = { "prettier" },
+            typescriptreact = { "prettier" },
+            html = { "prettier" },
+            css = { "prettier" },
+            c = { "clang_format" },
+            cpp = { "clang_format" },
+            sh = { "shfmt" },
+            bash = { "shfmt" },
+            python = { "ruff_format" },
+          },
+        },
+      }
+    '';
   };
 
   # Local model endpoint for AI features (private, no cloud — matches the repo's
