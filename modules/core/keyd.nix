@@ -12,8 +12,8 @@
             leftalt = "leftmeta";
             leftmeta = "leftalt";
 
-            # 2. Caps Lock behavior
-            # capslock = "overload(control, esc)";
+            # 2. Caps Lock: tap = Esc, hold = Control
+            capslock = "overload(control, esc)";
           };
         };
       };
