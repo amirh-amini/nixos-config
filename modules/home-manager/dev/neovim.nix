@@ -62,14 +62,14 @@
     # pre-commit hooks). lua-language-server is kept only for editing this config.
     extraPackages = with pkgs; [
       lua-language-server
-      stylua       # lua
-      rumdl        # markdown
-      prettier     # json/jsonc, yaml, html, css, ts/js
-      taplo        # toml
-      clang-tools  # c/cpp (clang-format)
-      shfmt        # sh/bash
-      libxml2      # xml (xmllint)
-      ruff         # python
+      stylua # lua
+      rumdl # markdown
+      prettier # json/jsonc, yaml, html, css, ts/js
+      taplo # toml
+      clang-tools # c/cpp (clang-format)
+      shfmt # sh/bash
+      libxml2 # xml (xmllint)
+      ruff # python
     ];
 
     # One formatter per filetype (conform.nvim). LazyVim autoformats on save by

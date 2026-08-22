@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 {
   programs.mpv = {
@@ -8,13 +13,13 @@
       save-position-on-quit = true;
       save-watch-history = true;
       keep-open = "yes";
-      
+
       vo = "gpu-next";
       hwdec = "auto-safe";
-      
+
       osd-bar = "no";
       border = "no";
-      
+
       #ytdl-raw-options = "force-ipv4=true";
       ytdl-raw-options = "extractor-args=youtube";
       script-opts = "ytdl_hook-try_ytdl_first=yes";

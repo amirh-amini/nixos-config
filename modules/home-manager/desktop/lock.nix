@@ -1,22 +1,30 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   # 1. Create a custom package of White Icons
   # This takes the default wlogout icons and forces them to be solid white
-  whiteIcons = pkgs.runCommand "wlogout-white-icons" {
-    buildInputs = [ pkgs.imagemagick ];
-  } ''
-    mkdir -p $out
-    # List of icons to process
-    for icon in lock logout suspend hibernate shutdown reboot; do
-      if [ -f "${pkgs.wlogout}/share/wlogout/icons/$icon.png" ]; then
-        # -fill white -colorize 100% turns all non-transparent pixels pure white
-        convert "${pkgs.wlogout}/share/wlogout/icons/$icon.png" -fill white -colorize 100% "$out/$icon.png"
-      else
-        echo "Warning: Icon $icon not found"
-      fi
-    done
-  '';
+  whiteIcons =
+    pkgs.runCommand "wlogout-white-icons"
+      {
+        buildInputs = [ pkgs.imagemagick ];
+      }
+      ''
+        mkdir -p $out
+        # List of icons to process
+        for icon in lock logout suspend hibernate shutdown reboot; do
+          if [ -f "${pkgs.wlogout}/share/wlogout/icons/$icon.png" ]; then
+            # -fill white -colorize 100% turns all non-transparent pixels pure white
+            convert "${pkgs.wlogout}/share/wlogout/icons/$icon.png" -fill white -colorize 100% "$out/$icon.png"
+          else
+            echo "Warning: Icon $icon not found"
+          fi
+        done
+      '';
 in
 {
   home.packages = with pkgs; [
@@ -41,7 +49,7 @@ in
     events = [
       {
         event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f"; 
+        command = "${pkgs.swaylock}/bin/swaylock -f";
       }
       {
         event = "lock";
@@ -52,7 +60,7 @@ in
       {
         timeout = 180;
         command = "${pkgs.brightnessctl}/bin/brightnessctl -s set 50%-";
-        resumeCommand = "${pkgs.brightnessctl}/bin/brightnessctl -r"; 
+        resumeCommand = "${pkgs.brightnessctl}/bin/brightnessctl -r";
       }
       {
         timeout = 300;
@@ -73,17 +81,18 @@ in
   programs.wlogout = {
     enable = true;
     package = pkgs.wlogout;
-    
+
     layout = [
-      { 
-        label = "lock"; 
-        action = "${pkgs.swaylock}/bin/swaylock -f"; 
-        text = "Lock"; keybind = "l"; 
+      {
+        label = "lock";
+        action = "${pkgs.swaylock}/bin/swaylock -f";
+        text = "Lock";
+        keybind = "l";
       }
-      { 
+      {
         label = "logout";
-        action = "swaymsg exit"; 
-        text = "Logout"; 
+        action = "swaymsg exit";
+        text = "Logout";
         keybind = "e";
       }
       {

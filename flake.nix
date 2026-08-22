@@ -32,7 +32,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, llm-agents, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      llm-agents,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
     in
@@ -62,4 +69,3 @@
       };
     };
 }
-

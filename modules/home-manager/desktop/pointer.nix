@@ -10,4 +10,4 @@
   };
 }
 
-# TODO did we really needed to have a file for this one? put it in `sway.nix` 
+# TODO did we really needed to have a file for this one? put it in `sway.nix`

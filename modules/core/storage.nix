@@ -1,4 +1,4 @@
-{ pkgs, ... }: 
+{ pkgs, ... }:
 
 {
   services.udisks2.enable = true;
@@ -15,10 +15,10 @@
       home = {
         SUBVOLUME = "/home";
         ALLOW_USERS = [ "amirh" ];
-        
+
         TIMELINE_CREATE = true;
         TIMELINE_CLEANUP = true;
-        
+
         TIMELINE_LIMIT_HOURLY = "36";
         TIMELINE_LIMIT_DAILY = "14";
         TIMELINE_LIMIT_WEEKLY = "0";
@@ -29,10 +29,30 @@
   };
 
   fileSystems = {
-    "/" = { options = [ "compress=zstd:3" "noatime" ]; };
-    "/home" = { options = [ "compress=zstd:3" "noatime" ]; };
-    "/nix" = { options = [ "compress=zstd:3" "noatime" ]; };
-    "/var/log" = { options = [ "compress=zstd:3" "noatime" ]; };
+    "/" = {
+      options = [
+        "compress=zstd:3"
+        "noatime"
+      ];
+    };
+    "/home" = {
+      options = [
+        "compress=zstd:3"
+        "noatime"
+      ];
+    };
+    "/nix" = {
+      options = [
+        "compress=zstd:3"
+        "noatime"
+      ];
+    };
+    "/var/log" = {
+      options = [
+        "compress=zstd:3"
+        "noatime"
+      ];
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -40,13 +60,13 @@
 
     dust # disk usage diagram
     btdu # Btrfs space analyzer (TUI)
-    
+
     gptfdisk
     gparted
-    
+
     # Filesystem Support
-    ntfs3g       # NTFS
-    exfatprogs   # ExFAT 
-    dosfstools   # FAT32 / EFI tools
+    ntfs3g # NTFS
+    exfatprogs # ExFAT
+    dosfstools # FAT32 / EFI tools
   ];
 }

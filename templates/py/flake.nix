@@ -6,8 +6,7 @@
   outputs =
     { self, nixpkgs }:
     let
-      forAllSystems =
-        f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system: f system);
+      forAllSystems = f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system: f system);
     in
     {
       devShells = forAllSystems (

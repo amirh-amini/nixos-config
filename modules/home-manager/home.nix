@@ -42,7 +42,9 @@
   services.wpaperd = {
     enable = true;
     settings = {
-      any = { path = "/home/amirh/wallpaper"; };
+      any = {
+        path = "/home/amirh/wallpaper";
+      };
     };
   };
 
@@ -83,7 +85,6 @@
 
   # Neovim is configured in ./dev/neovim.nix (real Lua config + Nix provisioning).
 
-
   # Gnome Settings (dconf)
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -94,4 +95,3 @@
 
   home.stateVersion = "25.11";
 }
-

@@ -23,7 +23,7 @@
       # =====================================================================
       # GENERAL / SESSION
       # =====================================================================
-      
+
       # Time interval (in milliseconds) between auto4-saves of config/cookies/etc.
       # Default: 15000
       "auto_save.interval" = 15000;
@@ -83,7 +83,7 @@
 
       # Allow websites to read canvas elements. (Fingerprinting risk)
       # Default: true
-      "content.canvas_reading" = false; 
+      "content.canvas_reading" = false;
 
       # Which cookies to accept.
       # Valid values: all, no-3rdparty, no-unknown-3rdparty, never
@@ -232,7 +232,7 @@
       # =====================================================================
       # DOWNLOADS
       # =====================================================================
-      
+
       # Directory to save downloads to.
       "downloads.location.directory" = "~/Downloads";
 
@@ -268,7 +268,14 @@
 
       # Editor (and arguments) to use for the edit-* commands.
       # Default: gvim -f {file} -c normal {line}G{column0}l
-      "editor.command" = [ "kitty" "-e" "nvim" "{file}" "-c" "normal {line}G{column0}l" ];
+      "editor.command" = [
+        "kitty"
+        "-e"
+        "nvim"
+        "{file}"
+        "-c"
+        "normal {line}G{column0}l"
+      ];
 
       # Encoding to use for the editor.
       # Default: utf-8
@@ -282,14 +289,29 @@
       # Valid values: default, external
       # Default: default
       "fileselect.handler" = "external";
-      "fileselect.single_file.command" = [ "kitty" "-e" "ranger" "--choosefile={}" ];
-      "fileselect.multiple_files.command" = [ "kitty" "-e" "ranger" "--choosefiles={}" ];
-      "fileselect.folder.command" = [ "kitty" "-e" "ranger" "--choosedir={}" ];
+      "fileselect.single_file.command" = [
+        "kitty"
+        "-e"
+        "ranger"
+        "--choosefile={}"
+      ];
+      "fileselect.multiple_files.command" = [
+        "kitty"
+        "-e"
+        "ranger"
+        "--choosefiles={}"
+      ];
+      "fileselect.folder.command" = [
+        "kitty"
+        "-e"
+        "ranger"
+        "--choosedir={}"
+      ];
 
       # =====================================================================
       # HINTS (POWER USER KEYBOARD NAV)
       # =====================================================================
-      
+
       # When a hint can be automatically followed without pressing Enter.
       # Valid values: always, unique-match, full-match, never
       # Default: unique-match
@@ -389,7 +411,7 @@
       # =====================================================================
       # LOGGING & MESSAGES
       # =====================================================================
-      
+
       # Level for console (stdout/stderr) logs.
       "logging.level.console" = "error";
 
@@ -507,7 +529,15 @@
 
       # List of widgets displayed in the statusbar.
       # Default: keypress, search_match, url, scroll, history, tabs, progress
-      "statusbar.widgets" = [ "keypress" "search_match" "url" "scroll" "history" "tabs" "progress" ];
+      "statusbar.widgets" = [
+        "keypress"
+        "search_match"
+        "url"
+        "scroll"
+        "history"
+        "tabs"
+        "progress"
+      ];
 
       # =====================================================================
       # TABS
@@ -639,7 +669,10 @@
 
       # URL segments where :navigate increment/decrement will search for a number.
       # Default: path, query
-      "url.incdec_segments" = [ "path" "query" ];
+      "url.incdec_segments" = [
+        "path"
+        "query"
+      ];
 
       # Open base URL of the searchengine if a searchengine shortcut is invoked without parameters.
       # Default: false
@@ -661,7 +694,17 @@
 
       # URL parameters to strip when yanking a URL.
       # Default: ref, utm_source, utm_medium, utm_campaign, utm_term, utm_content, utm_name
-      "url.yank_ignored_parameters" = [ "ref" "utm_source" "utm_medium" "utm_campaign" "utm_term" "utm_content" "utm_name" "fbclid" "mc_eid" ];
+      "url.yank_ignored_parameters" = [
+        "ref"
+        "utm_source"
+        "utm_medium"
+        "utm_campaign"
+        "utm_term"
+        "utm_content"
+        "utm_name"
+        "fbclid"
+        "mc_eid"
+      ];
 
       # =====================================================================
       # WINDOW & ZOOM
@@ -690,7 +733,7 @@
       # =====================================================================
       # COLORS & FONTS (MINIMAL THEMING - MOSTLY DEFAULTS)
       # =====================================================================
-      
+
       # Render all web contents using a dark theme.
       # Default: false
       "colors.webpage.darkmode.enabled" = true; # Set to false if you prefer original colors
@@ -712,7 +755,7 @@
       # "colors.tabs.bar.bg" = "#555555";
       # "colors.tabs.selected.even.bg" = "black";
       # "colors.tabs.selected.odd.bg" = "black";
-      
+
       # --- Fonts ---
       # "fonts.default_family" = "Monospace";
       # "fonts.default_size" = "10pt";

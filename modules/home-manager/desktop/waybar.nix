@@ -1,52 +1,66 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   # Monochrome Colors (Sonokai-based Greys)
   #c_bg      = "#2b2d3a";  # Dark Grey Background
-  c_bg      = "#181A1C";
-  c_fg      = "#e2e2e3";  # White-ish Foreground
-  c_dim     = "#7f849c";  # Dim Grey (for disabled/disconnected states)
-  c_black   = "#181819";
+  c_bg = "#181A1C";
+  c_fg = "#e2e2e3"; # White-ish Foreground
+  c_dim = "#7f849c"; # Dim Grey (for disabled/disconnected states)
+  c_black = "#181819";
 
   # Helper to launch floating TUIs
   floating_term = "${pkgs.kitty}/bin/kitty --class waybar_float";
-  
+
   clock_script = pkgs.writeShellScript "waybar-clock" ''
     # 1. Get the main label (Local Time)
     main_time=$(date +'%a %Y/%m/%d - %H:%M')
-    
+
     # 2. Get other timezones
     # You can add more here. Format: %H:%M is Time, %a is Day (e.g., Sat)
     tehran=$(TZ='Asia/Tehran' date +'%H:%M %a')
     nyc=$(TZ='America/New_York' date +'%H:%M %a')
     utc=$(TZ='Etc/UTC' date +'%H:%M %a')
-    
+
     # 3. Output JSON with tooltip
     # \n creates a new line in the tooltip
     echo "{\"text\": \"$main_time\", \"tooltip\": \"Tehran: $tehran\nNYC:    $nyc\nUTC:    $utc\"}"
   '';
 in
 {
-  
+
   programs.waybar = {
     enable = true;
-    
+
     settings = {
       mainBar = {
         layer = "top";
         position = "top";
         height = 20; # Dense
         spacing = 1;
-        
-        modules-left = [ "sway/workspaces" "custom/recorder" "tray" ];
+
+        modules-left = [
+          "sway/workspaces"
+          "custom/recorder"
+          "tray"
+        ];
         modules-center = [ "custom/clock" ];
-        modules-right = [ 
-          "sway/language"  "custom/sep"
-          "network"  "custom/sep"
-          "bluetooth" "custom/sep" 
-          "pulseaudio" "custom/sep"
-          "group/resources" "custom/sep"
-          "custom/wlogout" 
+        modules-right = [
+          "sway/language"
+          "custom/sep"
+          "network"
+          "custom/sep"
+          "bluetooth"
+          "custom/sep"
+          "pulseaudio"
+          "custom/sep"
+          "group/resources"
+          "custom/sep"
+          "custom/wlogout"
         ];
 
         # --- MODULES LEFT ---
@@ -74,7 +88,7 @@ in
           on-click = "swaymsg input type:keyboard xkb_switch_layout next";
           tooltip-format = "{long}";
         };
-        
+
         "custom/sep" = {
           format = "|";
           tooltip = false;
@@ -85,13 +99,18 @@ in
           format-ethernet = "󰲝"; # Ethernet Icon
           format-linked = "󰲝 (No IP)";
           format-disconnected = "󰤮"; # Disconnected Icon
-          format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ]; # 1, 2, 3, 4 bars
-          
+          format-icons = [
+            "󰤟"
+            "󰤢"
+            "󰤥"
+            "󰤨"
+          ]; # 1, 2, 3, 4 bars
+
           tooltip-format = "{ifname} via {gwaddr}";
           tooltip-format-wifi = "{essid} ({signalStrength}%) {signaldBm}dBm {frequency}MHz\nU: {bandwidthUpBytes} D: {bandwidthDownBytes}";
           tooltip-format-ethernet = "{ipaddr}/{cidr}\nU: {bandwidthUpBytes} D: {bandwidthDownBytes}";
           tooltip-format-disconnected = "Disconnected";
-          
+
           on-click = "${floating_term} -e nmtui";
         };
 
@@ -101,11 +120,11 @@ in
           format-connected-battery = " {device_battery_percentage}%";
 
           format-connected = " {num_connections}";
-          
+
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-          
+
           on-click = "${floating_term} -e bluetui";
         };
 
@@ -113,12 +132,16 @@ in
           format = "{icon} {volume}%";
           format-bluetooth = "{icon} {volume}%";
           format-muted = "";
-          
+
           format-icons = {
             headphone = "";
-            default = ["󰕿" "󰖀" "󰕾"]; # Low, Mid, High
+            default = [
+              "󰕿"
+              "󰖀"
+              "󰕾"
+            ]; # Low, Mid, High
           };
-          
+
           on-click = "${floating_term} -e pulsemixer";
         };
 
@@ -131,7 +154,7 @@ in
             transition-left-to-right = false;
           };
           modules = [
-            "battery"      # Visible by default
+            "battery" # Visible by default
             "cpu"
             "temperature"
             "memory"
@@ -149,11 +172,17 @@ in
           format-charging = " {capacity}%";
           format-plugged = " {capacity}%";
           format-alt = "{time} {icon}";
-          
+
           # Standard FontAwesome/Material Battery Icons
-          format-icons = ["" "" "" "" ""]; 
-          
-          on-click = "auto-cpufreq-gtk"; 
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+
+          on-click = "auto-cpufreq-gtk";
         };
 
         "cpu" = {
@@ -171,7 +200,7 @@ in
           unit = "GB";
           on-click = "${floating_term} -e btop";
         };
-        
+
         "temperature" = {
           critical-threshold = 80;
           format = " {temperatureC}°C";
@@ -187,7 +216,7 @@ in
     };
 
     # 3. CSS Styling (Sonokai Atlantis)
-   style = ''
+    style = ''
       * {
         border: none;
         border-radius: 0;
@@ -222,7 +251,7 @@ in
       #workspaces button:hover {
         color: ${c_fg};
       }
-      
+
       #custom-sep {
         color: ${c_fg};
         opacity: 0.3;
