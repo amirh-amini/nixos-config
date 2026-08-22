@@ -25,9 +25,21 @@
 
   programs.zsh.enable = true;
 
+  # Store hygiene — automatic garbage collection.
+  # min/max-free: daemon-side emergency valve on disk pressure; sweeps only
+  # unreachable paths, never touches generations. Sized above the worst
+  # observed update burst (~12 GiB).
+  nix.settings.min-free = 20 * 1024 * 1024 * 1024;
+  nix.settings.max-free = 50 * 1024 * 1024 * 1024;
+
+  # Weekly generational prune: keeps everything younger than two weeks and,
+  # regardless of age, always at least six most-recent generations. Runs as
+  # root via systemd timer, so system generations (boot menu) are included.
   programs.nh = {
     enable = true;
-    clean.enable = false;
+    clean.enable = true;
+    clean.dates = "weekly";
+    clean.extraArgs = "--keep-since 14d --keep 6";
     flake = "/home/amirh/nixos-config";
   };
 
