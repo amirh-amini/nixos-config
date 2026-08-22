@@ -5,7 +5,7 @@
   # supports a release "cooldown" (`uv pip install --exclude-newer YYYY-MM-DD`)
   # that skips brand-new — possibly compromised — releases. Pip habits transfer:
   # `uv venv`, `uv pip install <pkg>`. Wheels run thanks to nix-ld
-  # (../../core/nix-ld.nix). Installs are auto-sandboxed (./sandbox.nix).
+  # (../../core/nix-ld.nix).
   #
   # No global Python on purpose: it would (a) collide with python envs other
   # programs pull into the profile, and (b) defeat the per-project model. uv is

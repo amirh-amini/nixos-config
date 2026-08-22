@@ -6,8 +6,7 @@
   #
   # Trade-off (deliberate): this re-opens the FHS "run any foreign binary" door
   # that NixOS normally closes. It is the price of using wheel-based tooling
-  # (uv/pip). The install sandbox (../home-manager/dev/sandbox.nix) limits what
-  # such binaries can actually touch.
+  # (uv/pip).
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [

@@ -27,7 +27,6 @@
     ./dev/ai-tools.nix
     ./dev/direnv.nix
     ./dev/python-tools.nix
-    ./dev/sandbox.nix
     ./dev/secrets.nix
     ./dev/vscode.nix
     ./dev/neovim.nix
