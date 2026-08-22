@@ -7,6 +7,7 @@ let
 in
 {
   home.packages = [
+    # Core daily drivers (llm-agents input — numtide, fast-updating)
     ai.claude-code
     ai.opencode
     # ai.codex
@@ -15,5 +16,13 @@ in
     ai.omp
     pkgs.code-cursor-fhs
     pkgs.lmstudio # local LLM runner (kept from former 4now.nix)
+
+    # Second-generation opencode — coexists with v1 above by design
+    ai.opencode2
+
+    # Orchestration & support tools
+    ai.herdr # tmux-for-agents runtime; sessions survive disconnects
+    ai.ccusage # Claude Code token-usage analytics from local logs
+    ai.voxtype # voice dictation for the terminal
   ];
 }
