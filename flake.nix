@@ -30,6 +30,16 @@
       url = "github:pfassina/lazyvim-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Browsers on trial (see home/browse/). Winners stay, losers get deleted.
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    helium = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,6 +69,7 @@
             {
               nixpkgs.overlays = [
                 llm-agents.overlays.shared-nixpkgs
+                inputs.helium.overlays.default
                 # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
                 # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.
                 inputs.nix-vscode-extensions.overlays.default

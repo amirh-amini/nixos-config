@@ -28,8 +28,12 @@
 
     # singletons
     ./comms.nix
-    ./qutebrowser.nix
     ./secrets.nix
+
+    # browse — on trial: zen + helium vs the parked chrome/firefox
+    ./browse/zen.nix
+    ./browse/helium.nix
+    ./browse/qutebrowser.nix
 
     # media
     ./media/sioyek.nix
