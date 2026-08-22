@@ -32,6 +32,12 @@
 
   programs.sway.enable = true;
 
+  # Make Electron apps (codex-desktop, GitButler, …) run native Wayland
+  # instead of falling back to XWayland — fixes blurry upscaled text on
+  # scaled displays. Apps that misbehave can still be pinned to X11
+  # individually with --ozone-platform=x11.
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Audio
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
