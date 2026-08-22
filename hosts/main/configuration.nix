@@ -8,13 +8,13 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/core/gpu.nix
-    ../../modules/core/keyd.nix
-    ../../modules/core/power.nix
-    ../../modules/core/fonts.nix
-    ../../modules/core/storage.nix
-    ../../modules/core/security.nix
-    ../../modules/core/nix-ld.nix
+    ../../system/drivers.nix
+    ../../system/input.nix
+    ../../system/power.nix
+    ../../system/fonts.nix
+    ../../system/storage.nix
+    ../../system/security.nix
+    ../../system/dev-support.nix
     ../../modules/core/docker.nix
     ../../modules/core/obs.nix
     inputs.home-manager.nixosModules.default
