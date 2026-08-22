@@ -4,7 +4,7 @@
 #   grim   — capture (full output or geometry)
 #   slurp  — interactive region/window selection
 #   satty  — annotation editor (pipe target)
-# wl-clipboard (wl-copy) is provided in utils.nix.
+# wl-clipboard (wl-copy) is provided in session.nix.
 #
 # Keybindings live in sway.nix. Capture flows pipe grim → satty via stdin.
 {
