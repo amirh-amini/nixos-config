@@ -47,10 +47,11 @@
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Desktop Environment (Gnome)
+  # Desktop Environment
+  # NOTE: GNOME *session* removed (B7) — we run Sway via ly. GNOME apps
+  # (nautilus, tweaks) survive as plain packages; xserver stays only because
+  # ly may want it — final verdict in Phase D6.
   services.xserver.enable = true;
-  #services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
   services.displayManager.ly = {
     enable = true;
   };
@@ -121,6 +122,7 @@
     lshw
     efibootmgr
     nvtopPackages.full
+    gvfs # trash/mounts for nautilus & friends without the GNOME session
   ];
 
   nix.settings.trusted-users = [

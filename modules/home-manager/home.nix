@@ -58,6 +58,7 @@
     vlc
     gedit
     calcure
+    nautilus # TEMP (B7): GNOME session gone; re-homes to files/ in C5
 
     # Terminals & Shells
     alacritty
@@ -73,7 +74,6 @@
     htop
     btop
     fastfetch
-    gnome-tweaks
     tree
 
     # Archives
