@@ -40,6 +40,10 @@
       url = "github:oxcl/nix-flake-helium-browser";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ChatGPT/Codex desktop for Linux — community repackaging of OpenAI's
+    # official signed .deb, with the computer-use feature we want.
+    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
   };
 
   outputs =

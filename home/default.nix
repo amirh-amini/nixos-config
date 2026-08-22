@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -24,6 +29,8 @@
     ./code/vscode.nix
 
     # agents — AI coding tools (future fast lane)
+    inputs.codex-desktop-linux.homeManagerModules.default
+    ./agents/codex-desktop.nix
     ./agents/ai-tools.nix
 
     # singletons
