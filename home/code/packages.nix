@@ -23,6 +23,9 @@
     alacritty # second terminal (kitty is primary)
     lazygit
     lazydocker
-    gitbutler # Git client (GUI)
+    # GitButler GUI — via llm-agents: newer release (0.22 vs nixpkgs 0.19)
+    # and prebuilt on cache.numtide.com; the nixpkgs build compiles its
+    # Rust backend locally.
+    pkgs.llm-agents.gitbutler
   ];
 }
