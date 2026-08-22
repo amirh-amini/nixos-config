@@ -1,267 +1,268 @@
-# Rebuilding the Home
+# Rebuilding the Home — Transition Plan
 
-A plan for refactoring this NixOS configuration into something that feels like a
-home: intentional, personal, cozy, and fully understood by the one person who
-lives in it.
+Part I is context, kept short. Part II is the plan: numbered steps, each with
+exact actions, verification commands, and a done-criterion. Steps are executed
+in order; nothing is improvised mid-flight — surprises get added to this
+document first, then executed.
 
-> The goal state: modifying, updating, adding, removing — all comfortable. The
-> whole picture fits in one head. Every line earns its place.
+> Goal state: modifying, updating, adding, removing — all comfortable. The whole
+> picture fits in one head. Every line earns its place.
 
 ---
 
-## 1 · Why
+# Part I · Context
 
-This config became a museum of aspirational selves: an Emacs user who never was,
-a Yazi power user who never opened it, a security researcher whose guarddog was
-packaged and never run, a screenshots-and-recordings studio. Each exhibit was
-plausible. None survived contact with the actual life of the machine: Sway,
-fuzzel, keyd, Chrome, sioyek, zsh.
+## Why
 
-Living inside someone else's intentions — even partly your own past intentions,
-even partly an agent's helpfulness — produces exactly one feeling: discomfort.
-The cure is subtraction until ownership is total, then rebuilding what remains
-to fit in your head.
+The config became a museum of aspirational selves — Emacs user, Yazi power user,
+security researcher with an unrun guarddog, recordings studio. None survived
+contact with the actual life of the machine. The cure is subtraction until
+ownership is total, then rebuilding what remains to fit in your head.
 
-## 2 · Principles (the constitution, seed form)
+## Principles
 
-These are the rules the final structure must obey. They come from this
-conversation, nowhere else.
+1. **Comprehension ownership** — every mechanism written by you or consciously
+   adopted; unread code is trusted code.
+2. **Usage earns existence** — ugly-but-used beats beautiful-but-ignored.
+3. **No untracked persistent mutation** — experiments live in quarantine lanes
+   until promoted deliberately.
+4. **Stock over bespoke** — nixpkgs options first; every input and clever
+   mechanism is maintenance debt.
+5. **One flake at the root** — no sub-flakes without a second host or
+   publishing.
+6. **Structure serves questions** — directories named by intent; coarse, boring
+   buckets; dirs need ≥ 2 real files; junk drawers forbidden; packages live by
+   function.
+7. **Aesthetics are functional** — formatted code, wrapped prose, no tables in
+   markdown docs, cozy layout.
+8. **Agents are guests** — propose, don't dispose; a fresh CLAUDE.md comes in
+   Phase E.
 
-1. **Comprehension ownership.** Every mechanism is either something you wrote or
-   something you consciously adopted and could re-derive. Unread code is trusted
-   code; that includes anything an agent produced.
-2. **Usage earns existence.** Tools stay because hands use them weekly.
-   Ugly-but-used beats beautiful-but-ignored. Git remembers deleted work;
-   complexity does not delete itself.
-3. **No untracked persistent mutation.** The machine's lasting behavior is
-   described by the repo plus nothing else. Experiments live in quarantine lanes
-   (§7) until promoted deliberately.
-4. **Stock over bespoke.** nixpkgs options before custom machinery. Every flake
-   input and every clever mechanism is maintenance debt that comes due on update
-   day.
-5. **One flake at the root.** Flakes buy pinning and cross-repo composition;
-   inside one repo with one host they buy nothing but extra lockfiles to audit.
-   Sub-flakes are rejected unless publishing or a second host ever becomes real.
-6. **Structure serves questions.** Directories are named for intent ("where do I
-   change my browser?"), not mechanism. Buckets are coarse and boring.
-7. **Aesthetics are functional.** Consistent formatting, calm file layout,
-   readable code. Cozy is not decoration; it is what makes maintenance feel like
-   tidying your own home instead of servicing a stranger's machine.
-8. **Agents are guests.** They propose, you dispose. Nothing enters the declared
-   spine without surviving real use. (A fresh CLAUDE.md encoding this
-   constitution is itself part of Phase 4.)
+## Ledger
 
-## 3 · Target shape
+**Corpses:** sandbox · screen-recording · voice-recorder · aria2 (+ Varia; ⚠
+Mullvad coupling, see B4) · guarddog (pkg + overlay + flake output + comments) ·
+emacs (+ emacs-overlay input) · GNOME session (apps stay).
 
-<!-- i don't feel comfortable touching hosts/main/ is everything safe? are you
-sure? let's leave it for later if it's not that big of change.
-what you think?-->
-<!-- AGENT: Fair instinct, so let's separate "must touch" from "cosmetic".
-Mechanically it is safe — two small files, green build required per commit,
-snapper + generation rollback behind everything. But your comfort outranks
-my confidence; comfort is a design goal here, not a nicety. So: the only
-time we go near hosts/main/ is Phase 2 step 1, extracting its inline blocks
-into system/ (that has to happen regardless). Renames and slimming
-(default.nix / hardware.nix) are postponed to BACKLOG.md. Nothing else
-touches that directory. -->
+**Parked:** qutebrowser · yazi · dolphin · storage (light walkthrough).
 
-<!-- also let's remove templates for now. though we should have them
-in general -->
-<!-- AGENT: Agreed — out of scope. Removed from the target tree below; the
-idea moved to BACKLOG.md. The templates/py/ directory itself stays untouched
-on disk for now; say the word if you want it deleted from the repo too. -->
+**Interrogation:** nix-ld · security.nix · secrets.nix · docker · ai-tools ·
+xserver question · obs screen-sharing (fix-or-flag).
 
-<!-- let's do something, let's make a file BACKLOG.md and keep things we are
-posponing to future, or our ideas and all these thing inside that -->
-<!-- AGENT: Done — BACKLOG.md now sits beside this file, seeded with
-everything we've parked: templates, Omarchy porting, yazi/dolphin learning,
-the zen/helium browser decision, docker learning, fast-lane growth, and the
-hosts/main/ cosmetics. New rule going forward: anything deferred lands there
-instead of haunting this plan. -->
+**Rebuild pile:** lock · vscode · neovim · utils (dissolve) · 4now (dissolve) ·
+sioyek light cleanup.
+
+**Deferred ideas:** live in `BACKLOG.md`.
+
+## Target shape
 
 ```
 flake.nix                # inputs + wiring only — never grows
 
 hosts/main/
-  configuration.nix          # glue + identity — inline blocks migrate out to
-                             #   system/ (Phase 2, once); nothing else moves
+  configuration.nix          # glue + identity; inline blocks migrate out
+                             #   once (C3); nothing else here moves
   hardware-configuration.nix # generated; untouched
 
-overlays/                # self-packaged things; may sit empty after guarddog dies
+overlays/                    # self-packaged things (empty after B5)
 
-system/                  # the machine — root's domain
-  base.nix               # locale, time, user, zsh, nix settings, caches, nh
-  desktop.nix            # ly, sway enable, pipewire (+ xserver verdict, Phase 3)
-  drivers.nix            # gpu, xe initrd           (was core/gpu.nix)
-  input.nix              # keyd                     (was core/keyd.nix)
-  services.nix           # docker, printing, bluetooth, obs/portals
-  power.nix              # unchanged
-  storage.nix            # unchanged (light walkthrough only)
-  fonts.nix              # unchanged
-  security.nix           # * pending interrogation
-  dev-support.nix        # * nix-ld, pending interrogation
+system/                      # the machine
+  base.nix                   # locale, time, user, zsh, nix settings, caches
+  desktop.nix                # ly, sway, pipewire, portals (+xserver verdict, D)
+  drivers.nix                # gpu (was core/gpu.nix)
+  input.nix                  # keyd (was core/keyd.nix)
+  services.nix               # docker, printing, bluetooth, obs remainder
+  power.nix  storage.nix  fonts.nix
+  security.nix*  dev-support.nix*        (* interrogation)
 
-home/                    # the user — amirh's domain
-  default.nix            # imports, identity/stateVersion, dconf, wallpaper,
-                         #   userDirs
-  comms.nix              # flat singleton
-  qutebrowser.nix        # flat singleton — kept as-is for now (parked)
-  desk/
-    sway.nix waybar.nix fuzzel.nix pointer.nix screenshot.nix lock.nix*
-    # lock = rebuild pile · utils.nix dissolves item-by-item into here &
-    # elsewhere
-  code/
-    git.nix zsh.nix direnv.nix kitty.nix python-tools.nix neovim.nix*
-    vscode.nix*
-  agents/
-    ai-tools.nix         # future home of the fast lane (§7)
-  media/
-    video/mpv · sioyek.nix · vimiv.nix · bare packages: spotify, vlc
-  files/
-    yazi.nix dolphin.nix # learning postponed; nautilus arrives when GNOME dies
+home/                        # the user
+  default.nix            # imports, identity, dconf, wallpaper, userDirs
+  comms.nix  qutebrowser.nix  secrets.nix     # flat singletons
+  desk/    sway waybar fuzzel pointer screenshot lock*   (* rebuild)
+  code/    git zsh direnv kitty python-tools neovim* vscode*
+  agents/  ai-tools.nix       # grows into fast lane (Phase F)
+  media/   video.nix sioyek.nix vimiv.nix + bare: spotify, vlc
+  files/   yazi.nix dolphin.nix (+ nautilus after B7)
 ```
 
-Deferred ideas live in `BACKLOG.md`, not here.
+---
 
-### Placement rules
+# Part II · The Plan
 
-- **One concern per file** — filename = the words you would search for.
-- **Dirs are earned** — a directory needs ≥ 2 real files; singletons stay flat.
-- **No junk drawers** — `utils`, `4now`, `misc` cannot exist; items get real
-  homes or die.
-- **Packages live by function** — every package sits in its function's bucket,
-  dissolving `home.packages`.
-- **flake.nix never grows** — hand-packaged code goes to `overlays/`.
+## Operating rules for every step
 
-## 4 · The ledger
-
-Verdicts reached during the census. Nothing here moves without its commit.
-
-### Corpses — delete, zero sentiment
-
-- **emacs** — module dir + commented refs + **emacs-overlay input** in flake.nix
-- **aria2** — incl. Varia if present
-- **sandbox.nix** — "I do not want this"
-- **screen-recording.nix** — confirmed unused
-- **voice-recorder.nix** — confirmed unused
-- **guarddog** — pkgs/guarddog.nix + overlay + flake output + references in
-  python-tools
-- **GNOME session** — `desktopManager.gnome.enable` and friends die; **apps
-  stay**: nautilus → `home/files/`, gedit / gnome-tweaks re-homed; then
-  interrogate whether `services.xserver.enable` survives at all
-
-### Parked — kept as-is, no guilt
-
-qutebrowser (until zen/helium decision) · yazi · dolphin · storage (light
-walkthrough)
-
-### Interrogation pile — understand through confrontation, then simplify
-
-nix-ld · security.nix · secrets.nix · docker (real job: self-hosted AI
-observability; learn later) · ai-tools · xserver question · obs screen-sharing
-brokenness (fix-or-flag)
-
-### Rebuild pile — hated but wanted; redone minimal, one at a time
-
-lock.nix · vscode.nix · neovim.nix · utils.nix (dissolve) · 4now.nix
-(dissolve/delete) · sioyek.nix light cleanup (low priority)
-
-## 5 · Verification discipline
-
-- **Every commit builds green**:
+- One step = one commit. Message pattern: `<step-id>: <summary>` (e.g.
+  `B5: remove guarddog packaging`).
+- Build check (never skipped):
   `nix build .#nixosConfigurations.nixos-btw.config.system.build.toplevel`
-- **Pure-move commits prove purity**: `nix store diff-closures <gen-A> <gen-B>`
-  ≈ empty
-- **A bootable generation always exists**: snapper snapshots active,
-  `configurationLimit = 5`; switch at phase checkpoints, build-only between them
-- **One concern per commit**, so any breakage bisects trivially
+- Purity check for move-only steps — keep the previous build around and compare:
+  ```sh
+  mv result result-prev && nix build <toplevel> \
+    && nix store diff-closures ./result-prev ./result
+  ```
+  Expected: empty. Any package entering/leaving must be explained.
+- The running system switches only at phase checkpoints:
+  `sudo nixos-rebuild test --flake .#nixos-btw` Rollback if wrong: boot menu
+  previous generation, or `sudo nixos-rebuild --rollback switch`.
+- ⚠ marks a decision needed from you _before_ the step runs.
+- Surprises found mid-step stop the step; the plan gets amended first.
 
-Baseline to capture before touching anything:
+## Phase A — Baseline
 
-```sh
-git checkout refactor/layout
-nix build .#nixosConfigurations.nixos-btw.config.system.build.toplevel
-nix path-info -rSh /run/current-system | sort -k2 -h > /tmp/closure-baseline.txt
-```
+**A1 — capture ground truth.** Do: on `refactor/layout`,
+`nix path-info -rSh /run/current-system | sort -k2 -h > /tmp/closure-baseline.txt`;
+record current generation number
+(`nix-env --list-generations --profile /nix/var/nix/profiles/system | tail -1`).
+Done when: file exists; `git status` clean; branch correct.
 
-## 6 · Phases
+## Phase B — Corpses
 
-### Phase 0 — Safety net _(done)_
+Each step: delete file(s) + remove every import/reference + build green +
+diff-closures shows exactly the removed packages leaving.
 
-Branch `refactor/layout` created; mainline untouched. This document written.
+**B1 — sandbox.nix.** Do: `git rm modules/home-manager/dev/sandbox.nix`; drop
+its import line in `home.nix`; fix the comment in `dev/python-tools.nix` that
+mentions auto-sandboxing (textual only). Verify: `rg -i sandbox` → no functional
+hits. Done when: build green; uv still present in closure.
 
-### Phase 1 — Corpses
+**B2 — screen-recording.nix.** Do: `git rm .../desktop/screen-recording.nix`;
+drop import in `home.nix`. Check: `rg -i 'screen-record|wf-recorder'` for stray
+bindings in sway/waybar configs; strip if present. Done when: build green;
+closure loses wf-recorder-class packages.
 
-One commit per body, green build between each, diff-closures confirming nothing
-else moved. Order: sandbox → screen-recording → voice-recorder → aria2 →
-guarddog → emacs → GNOME session (last: biggest, needs the nautilus/app
-migration done in the same commit so Files keeps working).
+**B3 — voice-recorder.nix.** Do: `git rm .../desktop/voice-recorder.nix`; drop
+import in `home.nix`. Check: `rg -n mpv_float sway.nix waybar.nix` — git history
+shows dedicated window-rule tuning for it; strip those rules if they exist. Done
+when: build green.
 
-### Phase 2 — Re-homing
+**B4 — aria2 + Varia. ⚠ decision first: you use Mullvad VPN?**
+`programs/collect/aria2.nix` silently enables `programs.mullvad-vpn`.
 
-Mechanical moves into the target tree. Format pass first (`nixfmt`) as its own
-commit so later diffs stay semantic. Then:
+- If YES: move that one line into `desktop/utils.nix`'s successor (or
+  `home/comms.nix`) within this commit, then delete `collect/`.
+- If NO: delete outright. Do: `git rm -r modules/home-manager/programs/collect`;
+  drop import. Done when: build green; aria2/varia leave closure; Mullvad
+  verdict recorded here.
 
-1. split inline blocks out of `hosts/main/configuration.nix` into `system/base`,
-   `desktop`, `services` — the only time we enter hosts/main/
-2. move `core/*` → `system/*` under new names
-3. re-home home-manager modules into buckets; dissolve utils.nix and 4now.nix
-   item-by-item; flatten singletons (comms)
-4. dissolve `home.packages` into bucket files by function
+**B5 — guarddog everywhere.** Do: `git rm pkgs/guarddog.nix`; in `flake.nix`
+remove the `guarddogOverlay` let-binding, its entry in `nixpkgs.overlays`, and
+the `packages.${system}.guarddog` output; in `dev/python-tools.nix` remove
+`guarddog` from packages and rewrite the comment to be about uv only; fix the
+stale GuardDog comment in `vscode.nix`. Verify: `rg -ri guarddog` → zero hits
+repo-wide. Done when: build green; guarddog leaves closure; flake eval unchanged
+otherwise (`nix flake show` sane).
 
-Green build per step; diff-closures per pure-move step.
+**B6 — emacs.** Do: `git rm -r modules/home-manager/programs/emacs`; in
+`home.nix` delete the disabled-import comment line and commented
+`programs.emacs.enable`; in `flake.nix` remove the `emacs-overlay` input and its
+overlay entry. Verify: `rg -i emacs` → zero hits. Done when: build green;
+emacs + its deps leave closure (large shrink — record size delta vs baseline).
 
-### Phase 3 — Interrogation
+**B7 — GNOME session.** Do in `hosts/main/configuration.nix`: remove
+`services.xserver.desktopManager.gnome.enable` (keep `services.xserver.enable` —
+the ly module needs it; final verdict is D6). Add, temporarily in
+`home.packages`, `nautilus` (moves to `home/files/` in C5) plus `gvfs` in
+`environment.systemPackages` so trash/mounts work without the GNOME session.
+Switch checkpoint: `test`-switch, log into Sway, verify: Sway session fine,
+Files opens, trash works, audio works. Done when: switched generation boots to
+usable Sway; closure shrinks by GNOME-scale GBs (record delta).
 
-For each pile item: explain conceptually → test removal → decide keep / simplify
-/ delete → survivor rewritten simpler, in your words. Includes the xserver
-question and the obs portal fix-or-flag. Comprehension through confrontation,
-not comments.
+## Phase C — Re-homing
 
-### Phase 4 — Constitution on paper
+Sub-phase order matters: format first, then pure moves, then dissolutions.
 
-README (what lives where, placement rules) + fresh CLAUDE.md encoding §2 so
-every future agent session obeys current-you instead of zombie docs.
+**C1 — format pass.** Do: `nix run nixpkgs#nixfmt-rfc-style -- .` (or find+xargs
+equivalent) over all tracked `.nix` files, own commit, no semantic edits. Done
+when: build green; diff-closures vs pre-commit empty; subsequent diffs are
+semantic.
 
-### Phase 5 — Rebuilds, one at a time
+_*C2 — core/* → system/_ (pure moves).** Do:
+`git mv modules/core/<f> system/<new>` per mapping — gpu→drivers.nix,
+keyd→input.nix, others keep names (power, storage, fonts, security);
+nix-ld.nix→dev-support.nix. Rewrite import paths in
+`hosts/main/configuration.nix`. Done when: `modules/core/` gone; build green;
+purity check empty.
 
-lock → vscode → neovim → ai-tools grows into the fast-lane module. Boring over
-clever; sized to fit in your head.
+**C3 — split configuration.nix inline blocks.** Do: create `system/base.nix`
+(locale, timezone, users.amirh, zsh, nix settings incl. caches/substituters, nh,
+allowUnfree) and `system/desktop.nix` (ly + pam, pipewire stack, sway enable,
+the systemd user-manager tweak, xserver remnants) and `system/services.nix`
+(printing, libinput, bluetooth, obs content folded in — read obs.nix and place
+portal bits in desktop.nix, rest here, then delete it). Boot, hostname, hardware
+import, home-manager wiring stay in configuration.nix. Done when:
+configuration.nix reads as glue (~60 lines); build green; purity check empty.
 
-### Phase 6 — Play
+**C4 — home dirs scaffold + bulk moves (pure).** Do: `git mv` per mapping —
+desktop/* → `home/desk/` (same names);
+dev/git,zsh,direnv,kitty,python-tools,neovim,vscode → `home/code/`;
+dev/secrets.nix → `home/secrets.nix`; dev/ai-tools.nix →
+`home/agents/ai-tools.nix`; programs/qutebrowser.nix → `home/qutebrowser.nix`;
+programs/communicate.nix → `home/comms.nix`;
+programs/consume/{sioyek,vimiv,video}.nix → `home/media/`. Rewrite all imports
+in `home/default.nix`. Remove emptied dirs. Done when: old dirs gone; build
+green; purity check empty.
 
-yazi/dolphin walkthroughs whenever curiosity strikes. That is joy, not work.
+**C5 — dissolutions (semantic; expect small closure deltas).**
 
-## 7 · The fast lane (two lanes + a gate)
+- **utils.nix**: read it; each item either moves to a desk/ file by function or
+  dies with a stated reason. File deleted.
+- **4now.nix** ⚠ three decisions: `antigravity-fhs` (keep anywhere?), `lmstudio`
+  (used?), `pdftk` (needed?). `code-cursor-fhs` is dropped as a duplicate
+  (ai-tools declares it). Then file deleted.
+- **home.packages dissolved by function**: ripgrep fd bat fzf htop btop
+  fastfetch tree zip unzip tmux zellij → `code/`; spotify vlc → `media/`;
+  obsidian gedit → `files/`; calcure → `comms.nix`; gnome-tweaks → `desk/`;
+  firefox google-chrome alacritty ⚠ (alacritty vs kitty? browsers parked) → hold
+  in `default.nix` under an explicit `# parked` section. `home.packages` list
+  disappears from default.nix. Done when: default.nix has no grab-bag; every
+  package lives by function; build green; closure delta explained line-by-line.
 
-**Trial lane** — no repo changes, ever:
+**C6 — sweep.** Verify: `rg -n 'modules/(core|home-manager)'` → zero hits; full
+diff-closures against `/tmp/closure-baseline.txt` reviewed; every difference
+traced to a named step. Switch checkpoint: `test`-switch + Sway smoke test (keyd
+remap, fuzzel, screenshot, audio, Files).
 
-```sh
-nix run github:some/tool        # test-drive, nothing persists
-uvx some-python-tool            # same, for python things
-nix shell nixpkgs#foo           # keep a shell while deciding
-```
+## Phase D — Interrogation (guided sessions, not scripts)
 
-**Adopted lane** — one flake input per tool used weekly, exposed through
-`home/agents/`. Stable and beta channels are two inputs following different
-refs. Updates are targeted and deliberate: `nix flake update <tool>`, glancing
-at what changed — never blind `--all`.
+Per item, fixed ritual: I explain conceptually what it does and why it exists →
+we test removing it (build + diff-closures) → you rule keep / simplify / delete
+→ survivor rewritten simpler, in your words, own commit.
 
-**The gate.** Promotion is the comprehension event: you type the ten lines,
-choose the ref, and write a one-line comment in your own words — why it is
-there. If you cannot write the line, you are not ready to promote. Unpackaged
-novelties get ~20 boring lines in `overlays/` from a skeleton. Any tool skipped
-twice in a row at update time gets asked aloud whether it is still alive.
+Sessions: **D1** nix-ld · **D2** security.nix · **D3** secrets.nix (pinentry
+included) · **D4** docker · **D5** storage light walkthrough · **D6** xserver
+question (does anything still need X? if no: delete xserver/gnome leftovers) ·
+**D7** obs screen-sharing fix-or-flag · **D8** ai-tools → design the real
+fast-lane shape (stable/beta inputs, update ritual) — spec written into PLAN
+appendix before implementing in F.
 
-## 8 · Rituals that keep it alive
+## Phase E — Constitution on paper
+
+**E1 — README.md**: what lives where, placement rules, common tasks ("add a
+package", "update one tool", "try something risky"). **E2 — CLAUDE.md**: encode
+Part I principles + operating rules + the no-tables/prettier doc conventions, so
+future agent sessions obey current-you instead of zombie docs.
+
+## Phase F — Rebuilds, one at a time
+
+Order: **F1** lock.nix → **F2** vscode.nix → **F3** neovim.nix → **F4**
+agents/fast-lane implementation per D8 spec. Each begins with a five-line spec
+(purpose, options used, what's deliberately absent) appended here and approved
+before any code. Boring over clever; sized to fit in your head.
+
+## Phase G — Play
+
+Yazi/dolphin walkthroughs whenever curiosity strikes. Joy, not work.
+
+---
+
+## Rituals that keep it alive
 
 - **Targeted updates** — as needed · `nix flake update <input>`, read what
   changed.
 - **Seasonal glance** — each season · walk the adopted list: "still mine?"
-- **Promotion gate** — on adoption · write the lines yourself, write the why.
+- **Promotion gate** — on adoption · write the lines yourself, write the why;
+  trial via `nix run` / `uvx`, never repo edits for experiments.
 - **Deletion default** — always · unsure → delete; git remembers, complexity
   doesn't.
-
----
 
 _A home isn't clean once. It's easy to clean._
