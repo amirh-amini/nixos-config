@@ -21,5 +21,8 @@
     tmux
     zellij
     alacritty # second terminal (kitty is primary)
+    lazygit
+    lazydocker
+    gitbutler # Git client (GUI)
   ];
 }

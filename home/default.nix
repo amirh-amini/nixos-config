@@ -15,6 +15,8 @@
     ./code/zsh.nix
     ./code/git.nix
     ./code/kitty.nix
+    ./code/ghostty.nix
+    ./code/zed.nix
     ./code/direnv.nix
     ./code/python-tools.nix
     ./code/packages.nix
