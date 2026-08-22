@@ -18,25 +18,14 @@
 
   services.swayosd.enable = true;
 
+  # Session hardware UX: audio control, bluetooth, display management.
   home.packages = with pkgs; [
     wl-clipboard
-    #cliphist
-    jq
-    gh
-    curl
-    gnugrep
-    gnused
-    gawk
-
     nwg-displays
-
     pulsemixer # Audio mixer (TUI)
     pamixer # Audio control (CLI for keys)
     pwvucontrol # Audio control (GUI - backup)
-
     bluetui # Bluetooth (TUI)
     blueman # Bluetooth (GUI - backup)
   ];
 }
-
-# TODO tbh the name is not related to the content of the file.

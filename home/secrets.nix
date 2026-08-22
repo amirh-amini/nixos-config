@@ -15,7 +15,7 @@
   #
   # For git, prefer SSH (key in ~/.ssh) so there is no token to store at all.
   #
-  # NOTE: polkit auth is handled by soteria (see modules/core/security.nix);
+  # NOTE: polkit auth is handled by soteria (see system/security.nix);
   # nothing here touches polkit. pinentry below is only GPG's passphrase prompt.
   home.packages = with pkgs; [
     pass

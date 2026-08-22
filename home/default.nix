@@ -7,7 +7,7 @@
     ./desk/fuzzel.nix
     ./desk/waybar.nix
     ./desk/screenshot.nix
-    ./desk/utils.nix
+    ./desk/session.nix
     ./desk/pointer.nix
     ./desk/lock.nix
 
@@ -17,9 +17,9 @@
     ./code/kitty.nix
     ./code/direnv.nix
     ./code/python-tools.nix
+    ./code/packages.nix
     ./code/neovim.nix
     ./code/vscode.nix
-    ./code/4now.nix
 
     # agents — AI coding tools (future fast lane)
     ./agents/ai-tools.nix
@@ -33,10 +33,12 @@
     ./media/sioyek.nix
     ./media/video.nix
     ./media/vimiv.nix
+    ./media/packages.nix
 
     # files
     ./files/yazi.nix
     ./files/dolphin.nix
+    ./files/packages.nix
   ];
 
   home.username = "amirh";
@@ -59,42 +61,13 @@
     };
   };
 
-  # TODO I don't like how some programs are here and some are not. They should all be moved to different dir and noting should be here.
-
-  # User Packages
+  # Browsers — parked until the zen/helium decision (see BACKLOG.md).
   home.packages = with pkgs; [
-    # Productivity
-    obsidian
     firefox
     google-chrome
-    spotify
-    vlc
-    gedit
-    calcure
-    nautilus # TEMP (B7): GNOME session gone; re-homes to files/ in C5
-
-    # Terminals & Shells
-    alacritty
-    zellij
-    tmux
-
-    # Dev Tools
-    # vscode — now managed declaratively in ./dev/vscode.nix (programs.vscode)
-    ripgrep
-    fd
-    bat
-    fzf
-    htop
-    btop
-    fastfetch
-    tree
-
-    # Archives
-    zip
-    unzip
   ];
 
-  # Neovim is configured in ./dev/neovim.nix (real Lua config + Nix provisioning).
+  # Neovim is configured in ./code/neovim.nix (real Lua config + Nix provisioning).
 
   # Gnome Settings (dconf)
   dconf.settings = {

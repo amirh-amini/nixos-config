@@ -14,5 +14,6 @@ in
     ai.cursor-agent
     ai.omp
     pkgs.code-cursor-fhs
+    pkgs.lmstudio # local LLM runner (kept from former 4now.nix)
   ];
 }
