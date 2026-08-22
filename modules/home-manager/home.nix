@@ -19,7 +19,6 @@
     ./programs/consume/video.nix
     ./programs/consume/vimiv.nix
     ./programs/qutebrowser.nix
-    # ./programs/emacs   # disabled 2026-05-29 — files kept in repo; uncomment to restore
     ./dev/4now.nix
     ./dev/ai-tools.nix
     ./dev/direnv.nix
@@ -84,7 +83,6 @@
 
   # Neovim is configured in ./dev/neovim.nix (real Lua config + Nix provisioning).
 
-  # programs.emacs.enable = true;
 
   # Gnome Settings (dconf)
   dconf.settings = {

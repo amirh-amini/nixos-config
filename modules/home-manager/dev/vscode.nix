@@ -72,12 +72,12 @@ in
       ];
 
       userSettings = {
-        # ── Font (mirrors Emacs: JetBrainsMono GNerd Font + ligatures) ──
+        # ── Font(JetBrainsMono GNerd Font + ligatures) ──
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Symbols Nerd Font', monospace";
         "editor.fontLigatures" = true;
         "editor.fontSize" = 12;
 
-        # ── Indentation (mirrors Emacs: 4 spaces) ──
+        # ── Indentation(4 spaces) ──
         #"editor.tabSize" = 4;
         #"editor.insertSpaces" = true;
         #"files.trimTrailingWhitespace" = true;

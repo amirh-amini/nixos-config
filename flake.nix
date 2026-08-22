@@ -8,11 +8,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
@@ -37,7 +32,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, emacs-overlay, llm-agents, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, llm-agents, ... }@inputs:
     let
       system = "x86_64-linux";
     in
@@ -56,7 +51,6 @@
             inputs.home-manager.nixosModules.default
             {
               nixpkgs.overlays = [
-                emacs-overlay.overlays.default
                 llm-agents.overlays.shared-nixpkgs
                 # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
                 # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.

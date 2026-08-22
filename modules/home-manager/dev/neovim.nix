@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 
-# Neovim = LazyVim, provisioned via lazyvim-nix (Emacs stays academic/org only).
+# Neovim = LazyVim, provisioned via lazyvim-nix.
 #
 # Why this shape (snapshot of the old hand-rolled config is at git tag
 # `pre-nvchad-migration`):
