@@ -27,8 +27,6 @@ in
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
 
-      # Every extension below was GuardDog-scanned (see plan). All clean or
-      # source-verified false positives.
       extensions = with marketplace; [
         # Python
         ms-python.python
