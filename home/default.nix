@@ -2,30 +2,41 @@
 
 {
   imports = [
-    ./dev/zsh.nix
-    ./dev/git.nix
-    ./dev/kitty.nix
-    ./desktop/sway.nix
-    ./desktop/fuzzel.nix
-    ./desktop/waybar.nix
-    ./desktop/utils.nix
-    ./desktop/screenshot.nix
-    ./desktop/pointer.nix
-    ./desktop/lock.nix
-    ./desktop/file-manager.nix
-    ./desktop/yazi.nix
-    ./programs/consume/sioyek.nix
-    ./programs/communicate.nix
-    ./programs/consume/video.nix
-    ./programs/consume/vimiv.nix
-    ./programs/qutebrowser.nix
-    ./dev/4now.nix
-    ./dev/ai-tools.nix
-    ./dev/direnv.nix
-    ./dev/python-tools.nix
-    ./dev/secrets.nix
-    ./dev/vscode.nix
-    ./dev/neovim.nix
+    # desk — the Sway session stack
+    ./desk/sway.nix
+    ./desk/fuzzel.nix
+    ./desk/waybar.nix
+    ./desk/screenshot.nix
+    ./desk/utils.nix
+    ./desk/pointer.nix
+    ./desk/lock.nix
+
+    # code — development environment
+    ./code/zsh.nix
+    ./code/git.nix
+    ./code/kitty.nix
+    ./code/direnv.nix
+    ./code/python-tools.nix
+    ./code/neovim.nix
+    ./code/vscode.nix
+    ./code/4now.nix
+
+    # agents — AI coding tools (future fast lane)
+    ./agents/ai-tools.nix
+
+    # singletons
+    ./comms.nix
+    ./qutebrowser.nix
+    ./secrets.nix
+
+    # media
+    ./media/sioyek.nix
+    ./media/video.nix
+    ./media/vimiv.nix
+
+    # files
+    ./files/yazi.nix
+    ./files/dolphin.nix
   ];
 
   home.username = "amirh";

@@ -6,7 +6,7 @@
 
 {
   # Host glue. Everything else lives in ../../system/ (machine) and
-  # ../../modules/home-manager/ (user).
+  # ../../home/ (user).
 
   imports = [
     ./hardware-configuration.nix
@@ -40,7 +40,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users = {
-      "amirh" = import ../../modules/home-manager/home.nix;
+      "amirh" = import ../../home/default.nix;
     };
   };
 
