@@ -68,14 +68,6 @@ in
             };
             command = "floating enable, move position center";
           }
-          {
-            # voice-library mpv player: small floating window (own app_id so it
-            # isn't sized by the big waybar_float rule). Tweak the numbers here.
-            criteria = {
-              app_id = "mpv_float";
-            };
-            command = "floating enable, resize set 720 220, move position center";
-          }
         ];
       };
 
@@ -105,11 +97,6 @@ in
 
         # Clipboard history (Super+V)
         "Mod4+shift+v" = "exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
-
-        # Voice memos (m = microphone). Toggle recording; browse/play the library.
-        # Waybar shows a red mic while recording (modules/.../waybar.nix).
-        "Mod4+m" = "exec voice-record";
-        "Mod4+Shift+m" = "exec voice-library";
 
         # Display Management (Mod+Shift+d)
         "Mod4+Shift+d" = "exec nwg-displays";

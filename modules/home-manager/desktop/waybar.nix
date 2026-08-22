@@ -61,20 +61,6 @@ in
           spacing = 5;
         };
 
-        # Voice recorder indicator (scripts in desktop/voice-recorder.nix).
-        # Invisible when idle; red mic + timer while recording. `signal = 8`
-        # matches the RTMIN+8 nudge voice-record sends for instant updates;
-        # the 1s interval keeps the timer ticking and is a fallback.
-        "custom/recorder" = {
-          exec = "voice-record-status";
-          return-type = "json";
-          interval = 1;
-          signal = 8;
-          format = "{}";
-          on-click = "voice-record";        # left-click: stop
-          on-click-right = "voice-library"; # right-click: open library
-        };
-
         "custom/clock" = {
           exec = "${clock_script}";
           return-type = "json";
