@@ -31,6 +31,12 @@ in
     # Replaces ccusage for browsing; keep both — ccusage for quick terminal reports.
     ai.agentsview
 
+    # CLIProxyAPI core binary only (v7.x) — subscriptions-as-API proxy.
+    # Deliberately UNCONFIGURED: no config.yaml, no service yet. When we
+    # adopt it: ~/.config/cli-proxy-api/config.yaml + a systemd user unit.
+    # Its bundled web UI then lives at http://127.0.0.1:8317/management.html
+    ai.cli-proxy-api
+
     # T3 Code — self-packaged in overlays/t3code.nix, both channels by design:
     # stable for daily work, nightly to watch upstream move. Desktop spawns
     # its own backend; CLI is the same engine in your terminal.
