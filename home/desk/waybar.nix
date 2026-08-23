@@ -14,7 +14,7 @@ let
   c_black = "#181819";
 
   # Helper to launch floating TUIs
-  floating_term = "${pkgs.kitty}/bin/kitty --class waybar_float";
+  floating_term = "ghostty --class waybar_float";
 
   clock_script = pkgs.writeShellScript "waybar-clock" ''
     # 1. Get the main label (Local Time)

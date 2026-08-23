@@ -20,7 +20,7 @@
     unzip
     tmux
     zellij
-    # alacritty retired — ghostty (home/code/ghostty.nix) is the second terminal
+    alacritty # third option — kept alongside kitty & ghostty
     lazygit
     lazydocker
     # GitButler GUI — via llm-agents: newer release (0.22 vs nixpkgs 0.19)

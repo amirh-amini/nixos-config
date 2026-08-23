@@ -18,10 +18,13 @@ When this refactor is done, this file keeps living as the home of future ideas.
   (`codex-desktop-computer-use-ui`) but user reports it non-functional.
   Investigate when revisited: portal/permissions? input-group? Wayland
   backend of the feature? User asked to be reminded about this.
-- **Voxtype adoption** — binary installed (`voxtype`, via llm-agents).
-  Remaining steps when wanted: `voxtype setup --download` (model), sway
-  keybinding pair (`record start` / `--release record stop`), daemon
-  autostart decision (foreground vs systemd user unit).
+- **Voxtype adoption** — installed (`voxtype`, via llm-agents).
+  **User wants the Cohere engine** (not the whisper default): set
+  `engine = "cohere"` in `~/.config/voxtype/config.toml` + download its
+  model (~1.5 GB q4f16). Remaining steps when wanted: sway keybinding pair
+  (`bindsym --no-repeat $mod+v exec voxtype record start` /
+  `--release … record stop`), daemon autostart decision (foreground vs
+  systemd user unit).
 
 ## Ideas
 

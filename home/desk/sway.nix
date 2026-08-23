@@ -48,7 +48,7 @@ in
       };
 
       modifier = "Mod4";
-      terminal = "kitty";
+      terminal = "ghostty";
       menu = "${pkgs.fuzzel}/bin/fuzzel";
 
       window = {

@@ -39,6 +39,10 @@
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
     useUserPackages = true;
+    # Safety net: if HM needs to manage a path that already exists as a
+    # plain file (e.g. imperative browser-default settings), move it aside
+    # instead of failing activation.
+    backupFileExtension = "hm-backup";
     users = {
       "amirh" = import ../../home/default.nix;
     };
