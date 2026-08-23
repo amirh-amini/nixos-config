@@ -6,6 +6,9 @@ let
   ai = pkgs.llm-agents;
 in
 {
+  # agentsview phones home a daily anonymous "daemon alive" ping — off.
+  home.sessionVariables.AGENTSVIEW_TELEMETRY_ENABLED = "0";
+
   home.packages = [
     # Core daily drivers (llm-agents input — numtide, fast-updating)
     ai.claude-code
@@ -22,8 +25,11 @@ in
 
     # Orchestration & support tools
     ai.herdr # tmux-for-agents runtime; sessions survive disconnects
-    ai.ccusage # Claude Code token-usage analytics from local logs
+    ai.ccusage # unified usage reports across all agent CLIs (claude/codex/opencode/…)
     ai.voxtype # voice dictation for the terminal
+    # Local-first session browser/analytics across every agent's native store.
+    # Replaces ccusage for browsing; keep both — ccusage for quick terminal reports.
+    ai.agentsview
 
     # T3 Code — self-packaged in overlays/t3code.nix, both channels by design:
     # stable for daily work, nightly to watch upstream move. Desktop spawns
