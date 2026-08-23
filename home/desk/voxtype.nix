@@ -13,6 +13,8 @@ in
 {
   home.packages = [
     voxtype
+    # Waveform OSD — the launcher prefers this frontend automatically.
+    inputs.voxtype.packages.${pkgs.system}.osd-gtk4
   ];
 
   # Declarative config; the cohere model (~1.5 GB q4f16) downloads on

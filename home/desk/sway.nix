@@ -98,9 +98,9 @@ in
         # Clipboard history (Super+V)
         "Mod4+shift+v" = "exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
 
-        # Voice dictation — voxtype push-to-talk (hold = record, release = transcribe)
-        "Mod4+v" = "exec voxtype record start";
-        "--release Mod4+v" = "exec voxtype record stop";
+        # Voice dictation — voxtype toggle: press Insert, speak, press again
+        # (state_file=auto tracks recording state; OSD waveform shows it live)
+        "Insert" = "exec voxtype record toggle";
 
         # Display Management (Mod+Shift+d)
         "Mod4+Shift+d" = "exec nwg-displays";
