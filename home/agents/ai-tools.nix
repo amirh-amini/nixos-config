@@ -10,7 +10,7 @@ in
     # Core daily drivers (llm-agents input — numtide, fast-updating)
     ai.claude-code
     ai.opencode
-    # ai.codex
+    ai.codex # OpenAI Codex CLI
     ai.pi
     ai.cursor-agent
     ai.omp

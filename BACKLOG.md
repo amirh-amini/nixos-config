@@ -12,6 +12,17 @@ When this refactor is done, this file keeps living as the home of future ideas.
 - **Delete `templates/py/` from the repo** — currently left untouched on disk;
   decide when templates return to mind.
 
+## Reminders
+
+- **Codex desktop computer-use isn't working** — feature output installed
+  (`codex-desktop-computer-use-ui`) but user reports it non-functional.
+  Investigate when revisited: portal/permissions? input-group? Wayland
+  backend of the feature? User asked to be reminded about this.
+- **Voxtype adoption** — binary installed (`voxtype`, via llm-agents).
+  Remaining steps when wanted: `voxtype setup --download` (model), sway
+  keybinding pair (`record start` / `--release record stop`), daemon
+  autostart decision (foreground vs systemd user unit).
+
 ## Ideas
 
 - **Port liked pieces from Omarchy** (DHH) into this config — explicitly a
