@@ -24,5 +24,13 @@ in
     ai.herdr # tmux-for-agents runtime; sessions survive disconnects
     ai.ccusage # Claude Code token-usage analytics from local logs
     ai.voxtype # voice dictation for the terminal
+
+    # T3 Code — self-packaged in overlays/t3code.nix, both channels by design:
+    # stable for daily work, nightly to watch upstream move. Desktop spawns
+    # its own backend; CLI is the same engine in your terminal.
+    pkgs.t3code-desktop-stable
+    pkgs.t3code-desktop-nightly
+    pkgs.t3code-cli-stable # bin: t3
+    pkgs.t3code-cli-nightly # bin: t3-nightly
   ];
 }

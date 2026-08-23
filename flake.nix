@@ -74,6 +74,7 @@
               nixpkgs.overlays = [
                 llm-agents.overlays.shared-nixpkgs
                 inputs.helium.overlays.default
+                (import ./overlays/t3code.nix)
                 # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
                 # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.
                 inputs.nix-vscode-extensions.overlays.default
