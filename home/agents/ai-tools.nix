@@ -26,7 +26,7 @@ in
     # Orchestration & support tools
     ai.herdr # tmux-for-agents runtime; sessions survive disconnects
     ai.ccusage # unified usage reports across all agent CLIs (claude/codex/opencode/…)
-    ai.voxtype # voice dictation for the terminal
+    # voxtype moved to home/desk/voxtype.nix (dictation belongs to desk)
     # Local-first session browser/analytics across every agent's native store.
     # Replaces ccusage for browsing; keep both — ccusage for quick terminal reports.
     ai.agentsview

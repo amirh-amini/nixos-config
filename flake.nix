@@ -44,6 +44,11 @@
     # ChatGPT/Codex desktop for Linux — community repackaging of OpenAI's
     # official signed .deb, with the computer-use feature we want.
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+
+    # Voxtype dictation — upstream flake; the `onnx` package carries the
+    # Cohere engine (plus parakeet/moonshine/sensevoice/…).
+    voxtype.url = "github:peteonrails/voxtype";
+    voxtype.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

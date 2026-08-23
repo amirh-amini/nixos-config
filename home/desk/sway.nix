@@ -98,6 +98,10 @@ in
         # Clipboard history (Super+V)
         "Mod4+shift+v" = "exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
 
+        # Voice dictation — voxtype push-to-talk (hold = record, release = transcribe)
+        "Mod4+v" = "exec voxtype record start";
+        "--release Mod4+v" = "exec voxtype record stop";
+
         # Display Management (Mod+Shift+d)
         "Mod4+Shift+d" = "exec nwg-displays";
 

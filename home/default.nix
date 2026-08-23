@@ -13,6 +13,7 @@
     ./desk/waybar.nix
     ./desk/screenshot.nix
     ./desk/session.nix
+    ./desk/voxtype.nix
     ./desk/pointer.nix
     ./desk/lock.nix
 
