@@ -56,15 +56,6 @@ in
         border = 1;
         commands = [
           {
-            # bluetui (bluetooth TUI, launched from waybar): float + center.
-            # Matched by title because ghostty's --class doesn't set the
-            # Wayland app_id (it stays com.mitchellh.ghostty).
-            criteria = {
-              title = "bluetui";
-            };
-            command = "floating enable, resize set 1000 600, move position center";
-          }
-          {
             # satty annotation window: float + center instead of tiling
             criteria = {
               app_id = "com.gabm.satty";
@@ -78,6 +69,19 @@ in
             };
             command = "floating enable, resize set 1100 800, move position center";
           }
+        ] ++ map (title: {
+          # Utility TUIs launched from waybar: float + center. Matched by
+          # title because ghostty's --class doesn't set the Wayland app_id.
+          criteria = {
+            title = "^${title}$";
+          };
+          command = "floating enable, resize set 1000 600, move position center";
+        }) [
+          "calcure"
+          "nmtui"
+          "bluetui"
+          "pulsemixer"
+          "btop"
         ];
       };
 
