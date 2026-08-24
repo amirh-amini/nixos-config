@@ -45,10 +45,20 @@
     # official signed .deb, with the computer-use feature we want.
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
 
-    # Voxtype dictation — upstream flake; the `onnx` package carries the
-    # Cohere engine (plus parakeet/moonshine/sensevoice/…).
+    # Voxtype dictation — upstream flake; the `onnx-cuda` package carries the
+    # Cohere engine on NVIDIA GPUs via ONNX Runtime's CUDA provider.
+    # Pin voxtype's nixpkgs to the exact revision its CUDA chain was built
+    # against (from upstream's own flake.lock): keeps the multi-hour
+    # nvcc/Rust-LTO store outputs reusable byte-for-byte. Bumping this =
+    # signing up for a full local rebuild.
     voxtype.url = "github:peteonrails/voxtype";
-    voxtype.inputs.nixpkgs.follows = "nixpkgs";
+    voxtype.inputs.nixpkgs.url = "github:NixOS/nixpkgs/46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9";
+
+    # Twin input for the OSD frontend only — follows our nixpkgs so its
+    # GTK4 world matches what's already in the store (the pinned input
+    # above would rebuild ~1300 GUI deps for one small waveform app).
+    voxtype-osd.url = "github:peteonrails/voxtype";
+    voxtype-osd.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

@@ -14,17 +14,18 @@ When this refactor is done, this file keeps living as the home of future ideas.
 
 ## Reminders
 
-- **Codex desktop computer-use isn't working** — feature output installed
-  (`codex-desktop-computer-use-ui`) but user reports it non-functional.
-  Investigate when revisited: portal/permissions? input-group? Wayland
-  backend of the feature? User asked to be reminded about this.
-- **Voxtype adoption** — installed (`voxtype`, via llm-agents).
-  **User wants the Cohere engine** (not the whisper default): set
-  `engine = "cohere"` in `~/.config/voxtype/config.toml` + download its
-  model (~1.5 GB q4f16). Remaining steps when wanted: sway keybinding pair
-  (`bindsym --no-repeat $mod+v exec voxtype record start` /
-  `--release … record stop`), daemon autostart decision (foreground vs
-  systemd user unit).
+- **Codex desktop computer-use** — PARKED by user choice (2026-08), diagnosis
+  complete so nothing needs re-investigating: feature IS staged and backend
+  binary present (`resources/plugins/openai-bundled/plugins/computer-use/bin/
+  codex-computer-use-linux doctor` for live status). Blockers on sway: no
+  RemoteDesktop portal (xdg-desktop-portal-wlr lacks it), no AT-SPI bus,
+  no ydotoold/uinput access, and no sway window backend (its i3 path shells
+  `i3-msg`; untested fix = shim wrapping swaymsg). Fix path if ever wanted:
+  per-user ydotoold on `%t/.ydotool_socket` + `input` group +
+  `services.gnome.at-spi2-core.enable` + electron-flags
+  `--force-renderer-accessibility`. Standalone upstream MCP server
+  (`agent-sh/computer-use-linux`) can serve Claude Code/opencode from the
+  same bundled binary without codex-desktop at all.
 
 ## Ideas
 

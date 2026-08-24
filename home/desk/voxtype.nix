@@ -5,16 +5,19 @@
 }:
 
 let
-  # Upstream's ONNX build — carries the Cohere engine (plus parakeet,
-  # moonshine, sensevoice, paraformer, dolphin, omnilingual) with the
-  # ONNX Runtime already wired via their wrapper.
-  voxtype = inputs.voxtype.packages.${pkgs.system}.onnx;
+  # Upstream's CUDA build — same engines as `onnx`, but ONNX Runtime ships
+  # the CUDA execution provider, so Cohere transcribes on the RTX GPU
+  # instead of CPU (~2x realtime → target: much faster). Falls back to
+  # CPU automatically if the provider fails to initialize.
+  voxtype = inputs.voxtype.packages.${pkgs.system}.onnx-cuda;
 in
 {
   home.packages = [
     voxtype
     # Waveform OSD — the launcher prefers this frontend automatically.
-    inputs.voxtype.packages.${pkgs.system}.osd-gtk4
+    # Built from the nixpkgs-following twin input (see flake.nix) so it
+    # reuses the existing store path instead of the pinned-old GTK world.
+    inputs.voxtype-osd.packages.${pkgs.system}.osd-gtk4
   ];
 
   # Declarative config; the cohere model (~1.5 GB q4f16) downloads on
@@ -43,7 +46,7 @@ in
     [output]
     mode = "type"
     fallback_to_clipboard = true
-    type_delay_ms = 10
+    type_delay_ms = 0
   '';
 
   # Daemon as a user service: starts with the graphical session.

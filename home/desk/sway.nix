@@ -68,6 +68,13 @@ in
             };
             command = "floating enable, move position center";
           }
+          {
+            # heynote scratchpad: always a floating centered window
+            criteria = {
+              app_id = "heynote";
+            };
+            command = "floating enable, resize set 1100 800, move position center";
+          }
         ];
       };
 
