@@ -56,8 +56,11 @@ in
         border = 1;
         commands = [
           {
+            # bluetui (bluetooth TUI, launched from waybar): float + center.
+            # Matched by title because ghostty's --class doesn't set the
+            # Wayland app_id (it stays com.mitchellh.ghostty).
             criteria = {
-              app_id = "waybar_float";
+              title = "bluetui";
             };
             command = "floating enable, resize set 1000 600, move position center";
           }
