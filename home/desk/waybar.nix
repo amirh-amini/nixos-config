@@ -14,7 +14,9 @@ let
   c_black = "#181819";
 
   # Helper to launch floating TUIs
-  floating_term = "ghostty --class waybar_float";
+  # Ghostty CLI requires equals-form flags; confirm-close-surface off for
+  # transient utility windows (main terminal keeps the safety prompt).
+  floating_term = "ghostty --class=waybar_float --confirm-close-surface=false";
 
   clock_script = pkgs.writeShellScript "waybar-clock" ''
     # 1. Get the main label (Local Time)
