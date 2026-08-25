@@ -77,4 +77,8 @@
     "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
   ];
   nixpkgs.config.allowUnfree = true;
+
+  # Logseq 0.10.15 is pinned to electron 39 (EOL), which nixpkgs flags as
+  # insecure. Upstream ships the same EOL runtime — see home/notes/packages.nix.
+  nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
 }

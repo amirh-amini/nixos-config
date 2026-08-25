@@ -49,6 +49,9 @@
     ./media/vimiv.nix
     ./media/packages.nix
 
+    # notes — PKM (logseq; memos runs system-side as a service)
+    ./notes/packages.nix
+
     # files
     ./files/yazi.nix
     ./files/dolphin.nix
