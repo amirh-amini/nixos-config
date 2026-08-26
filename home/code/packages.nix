@@ -23,6 +23,7 @@
     alacritty # third option — kept alongside kitty & ghostty
     lazygit
     lazydocker
+    nil # Nix language server (required by Zed's Nix extension)
     # GitButler GUI — via llm-agents: newer release (0.22 vs nixpkgs 0.19)
     # and prebuilt on cache.numtide.com; the nixpkgs build compiles its
     # Rust backend locally.
