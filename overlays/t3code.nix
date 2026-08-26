@@ -9,7 +9,7 @@
 #   stable  = latest non-prerelease tag   (e.g. v0.0.33)
 #   nightly = latest v*-nightly.* tag     (several per day upstream)
 #
-# Update ritual: bump `version` + `hash` for a channel, then rebuild.
+# Update ritual: overlays/t3code/update.sh [stable|nightly], then rebuild.
 final: prev: let
   nodejs = prev.nodejs_24; # satisfies engines: ^22.16 || ^23.11 || >=24.10
 
@@ -116,8 +116,8 @@ in {
       pname = "t3code-desktop-stable";
       binName = "t3code";
       displayName = "T3 Code";
-      version = "0.0.33";
-      hash = "sha256-QVyGSPQ8PSLVcvJ/LFD9yMMQ6n/N6VN7kD4eLxyHdaE=";
+      version = "0.0.34";
+      hash = "sha256-YHfiB8wefmWFj3MxNTSr4do1cif0AiWFThq6w03tugQ=";
       registerSchemeHandler = true;
     };
 
@@ -126,8 +126,8 @@ in {
       pname = "t3code-desktop-nightly";
       binName = "t3code-nightly";
       displayName = "T3 Code Nightly";
-      version = "0.0.34-nightly.20260825.1181";
-      hash = "sha256-K5pP0SlkTSCAmohlg4/aFfFUGOGn9fPVDH+Nny9ANH4=";
+      version = "0.0.35-nightly.20260826.1193";
+      hash = "sha256-QqQ0NOEfxleJs9K3rp4G0JKzRSRy3X/fvrdiQln7x/o=";
     };
 
   t3code-cli-stable =
@@ -135,9 +135,9 @@ in {
       pname = "t3code-cli-stable";
       binName = "t3";
       displayName = "T3 Code CLI";
-      version = "0.0.33";
-      srcHash = "sha256-pgvwhuSi3oG32WrSXW0R/zcBxVXOR9AkbQ7271eMg2c=";
-      depsHash = "sha256-i8NUAyAP/1S6752+SXXnN4p8BPYbQUWiLHhrlSiNr8A=";
+      version = "0.0.34";
+      srcHash = "sha256-q+TM++ZW3N64Rv/Fnfeas9/U9lbv7DoWkJaV4TNTRoQ=";
+      depsHash = "sha256-Z5D8wQvO1/nhsvLn/lY+ufutw4CsJfU2rjkL5FKNShE=";
     };
 
   t3code-cli-nightly =
@@ -145,11 +145,11 @@ in {
       pname = "t3code-cli-nightly";
       binName = "t3-nightly";
       displayName = "T3 Code Nightly CLI";
-      version = "0.0.34-nightly.20260825.1181";
-      srcHash = "sha256-umxAjlxjAmbS5iimKKPN0Ma8A5Yj19gshvAKByLZK20=";
+      version = "0.0.35-nightly.20260826.1193";
+      srcHash = "sha256-cyz3W6QlvQg1tzTmdQKEuwt5L44LrXT+j4bPQdBmNRA=";
       # Shares the stable vendored lockfile: the nightly's dependency graph
       # resolves against the same lock. Bump both together when a nightly's
       # runtime demands newer deps.
-      depsHash = "sha256-i8NUAyAP/1S6752+SXXnN4p8BPYbQUWiLHhrlSiNr8A=";
+      depsHash = "sha256-Z5D8wQvO1/nhsvLn/lY+ufutw4CsJfU2rjkL5FKNShE=";
     };
 }
