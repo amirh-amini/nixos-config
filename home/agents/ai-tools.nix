@@ -20,8 +20,10 @@ in
     pkgs.code-cursor-fhs
     pkgs.lmstudio # local LLM runner (kept from former 4now.nix)
 
-    # Second-generation opencode — coexists with v1 above by design
-    ai.opencode2
+    # Second-generation opencode — coexists with v1 above by design.
+    # Self-packaged in overlays/opencode2 (upstream's nix/ dir is v1-only);
+    # tracks npm dist-tag `beta`. Update: overlays/opencode2/update.sh
+    pkgs.opencode2
 
     # Orchestration & support tools
     ai.herdr # tmux-for-agents runtime; sessions survive disconnects
