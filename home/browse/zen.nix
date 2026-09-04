@@ -7,7 +7,7 @@
 {
   # Zen Browser — Firefox-based, on trial against Helium/Chrome.
   home.packages = [
-    inputs.zen-browser.packages.${pkgs.system}.default
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Zen as the system default browser (chrome/firefox stay installed).

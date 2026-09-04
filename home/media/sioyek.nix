@@ -13,7 +13,10 @@
       "status_bar_color" = "0.15 0.15 0.15";
       "status_bar_text_color" = "1.0 1.0 1.0";
 
-      "startup_commands" = "toggle_visual_scroll;toggle_dark_mode";
+      "startup_commands" = [
+        "toggle_visual_scroll"
+        "toggle_dark_mode"
+      ];
       "should_launch_new_window" = "1";
       "prerender_page_count" = "50";
       "default_zoom" = "fit_to_page_width_smart";

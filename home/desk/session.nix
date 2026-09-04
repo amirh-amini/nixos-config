@@ -3,12 +3,14 @@
 {
   services.mako = {
     enable = true;
-    defaultTimeout = 5000;
-    backgroundColor = "#24283b";
-    borderColor = "#7aa2f7";
-    textColor = "#c0caf5";
-    borderRadius = 5;
-    borderSize = 2;
+    settings = {
+      default-timeout = 5000;
+      background-color = "#24283b";
+      border-color = "#7aa2f7";
+      text-color = "#c0caf5";
+      border-radius = 5;
+      border-size = 2;
+    };
   };
 
   services.cliphist = {

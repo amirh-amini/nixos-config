@@ -3,9 +3,9 @@
 {
   programs.git = {
     enable = true;
-    userName = "amirh-amini";
-    userEmail = "169299589+amirh-amini@users.noreply.github.com";
-    extraConfig = {
+    settings = {
+      user.name = "amirh-amini";
+      user.email = "169299589+amirh-amini@users.noreply.github.com";
       init.defaultBranch = "main";
     };
   };

@@ -9,7 +9,8 @@ let
   # the CUDA execution provider, so Cohere transcribes on the RTX GPU
   # instead of CPU (~2x realtime → target: much faster). Falls back to
   # CPU automatically if the provider fails to initialize.
-  voxtype = inputs.voxtype.packages.${pkgs.system}.onnx-cuda;
+  system = pkgs.stdenv.hostPlatform.system;
+  voxtype = inputs.voxtype.packages.${system}.onnx-cuda;
 in
 {
   home.packages = [
@@ -17,7 +18,7 @@ in
     # Waveform OSD — the launcher prefers this frontend automatically.
     # Built from the nixpkgs-following twin input (see flake.nix) so it
     # reuses the existing store path instead of the pinned-old GTK world.
-    inputs.voxtype-osd.packages.${pkgs.system}.osd-gtk4
+    inputs.voxtype-osd.packages.${system}.osd-gtk4
   ];
 
   # Declarative config; the cohere model (~1.5 GB q4f16) downloads on
@@ -57,14 +58,14 @@ in
   systemd.user.services.voxtype = {
     Unit = {
       Description = "Voxtype push-to-talk dictation daemon";
-      PartOf = ["sway-session.target"];
-      After = ["sway-session.target"];
+      PartOf = [ "sway-session.target" ];
+      After = [ "sway-session.target" ];
     };
     Service = {
       ExecStart = "${voxtype}/bin/voxtype";
       Restart = "on-failure";
       RestartSec = 3;
     };
-    Install.WantedBy = ["sway-session.target"];
+    Install.WantedBy = [ "sway-session.target" ];
   };
 }

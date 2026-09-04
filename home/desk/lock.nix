@@ -16,7 +16,7 @@ let
       ''
         mkdir -p $out
         # List of icons to process
-        for icon in lock logout suspend hibernate shutdown reboot; do
+        for icon in lock logout suspend shutdown reboot; do
           if [ -f "${pkgs.wlogout}/share/wlogout/icons/$icon.png" ]; then
             # -fill white -colorize 100% turns all non-transparent pixels pure white
             convert "${pkgs.wlogout}/share/wlogout/icons/$icon.png" -fill white -colorize 100% "$out/$icon.png"
@@ -45,17 +45,11 @@ in
 
   services.swayidle = {
     enable = true;
-    systemdTarget = "sway-session.target";
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-      {
-        event = "lock";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-    ];
+    systemdTargets = [ "sway-session.target" ];
+    events = {
+      before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
+      lock = "${pkgs.swaylock}/bin/swaylock -f";
+    };
     timeouts = [
       {
         timeout = 180;
@@ -102,12 +96,6 @@ in
         keybind = "u";
       }
       {
-        label = "hibernate";
-        action = "systemctl hibernate";
-        text = "Hibernate";
-        keybind = "h";
-      }
-      {
         label = "shutdown";
         action = "systemctl poweroff";
         text = "Shutdown";
@@ -152,9 +140,6 @@ in
       }
       #suspend {
           background-image: image(url("${whiteIcons}/suspend.png"));
-      }
-      #hibernate {
-          background-image: image(url("${whiteIcons}/hibernate.png"));
       }
       #shutdown {
           background-image: image(url("${whiteIcons}/shutdown.png"));

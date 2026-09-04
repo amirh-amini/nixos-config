@@ -5,13 +5,13 @@ let
   # Pinned via flake.lock (no surprise auto-updates); bump with `nix flake update`.
   marketplace = pkgs.vscode-marketplace;
 
-  nixfmt = lib.getExe pkgs.nixfmt-rfc-style;
+  nixfmt = lib.getExe pkgs.nixfmt;
 in
 {
   # CLI tools the Nix IDE extension shells out to (also handy on the command line).
   home.packages = [
     pkgs.nixd
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
   ];
 
   programs.vscode = {
