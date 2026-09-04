@@ -1,8 +1,8 @@
-{ ... }:
 {
-  security.polkit.enable = true;
-  security.soteria.enable = true;
-
-  security.sudo.execWheelOnly = true;
-  security.apparmor.enable = true;
+  security = {
+    polkit.enable = true;
+    soteria.enable = true;
+    sudo.execWheelOnly = true;
+    apparmor.enable = true;
+  };
 }
