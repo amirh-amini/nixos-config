@@ -27,20 +27,28 @@ These are the decisions that shape almost everything else.
 - [ ] What absolutely cannot be lost?
 - [ ] What would make the computer feel pleasant to use every day?
 
+this is my only and main computer. i use it for everything, school, coding, projects
+anything really. it's not a part of a larger setup. i think ofc everything should
+work reliably, why not? and i mean what cannot be lost, well, one would wish not to
+loss anything ofc, it's not as simple you know?
+and i think in general, the computer should be frictionless, everything should be
+strait forward, one might say, it should stay out of my way, for doing what ever i
+want to do.
+
 ### Core workflows
 
-- [ ] Web browsing
-- [ ] Communication
-- [ ] Documents and PDFs
-- [ ] Notes and knowledge management
-- [ ] Media playback or creation
-- [ ] Software development
-- [ ] Gaming
-- [ ] Creative work
-- [ ] Research or study
-- [ ] Finance or business work
-- [ ] Remote access to other machines
-- [ ] Specialized hardware or professional software
+- [x] Web browsing
+- [ ] Communication (just telegram, and discord is enough)
+- [x] Documents and PDFs
+- [x] Notes and knowledge management
+- [ ] Media playback or creation (no creation just maybe watching)
+- [x] Software development
+- [ ] Gaming (no i don't play any games)
+- [ ] Creative work (like what?)
+- [ ] Research or study (yeah kinda, but at least currently, i'm mostly in dev mode but tbh i might swing, but don't concern yourself with this)
+- [ ] Finance or business work (no i don't think so)
+- [ ] Remote access to other machines (hmm like what? if any, it's not very complicated)
+- [ ] Specialized hardware or professional software (like what? i don't think so)
 
 ### Operating priorities
 
@@ -60,6 +68,8 @@ Choose or rank the priorities that matter:
 - [ ] Accessibility
 - [ ] Compatibility with mainstream software
 
+well ofc battery life, performance, these all matter. in general, as i said, thing should be frictionless you know? it's not easy to just rank these.
+
 ### Recovery expectations
 
 - [ ] How quickly must the machine recover after a failed update?
@@ -68,6 +78,8 @@ Choose or rank the priorities that matter:
 - [ ] Which settings need backups?
 - [ ] Which state can be recreated instead of backed up?
 - [ ] Is there a tested restore process?
+
+i don't want anything crazy
 
 ### Management boundary
 
@@ -93,7 +105,7 @@ For every chosen capability, eventually select one:
 - [ ] Internal display
 - [ ] External displays
 - [ ] Internal keyboard
-- [ ] Touchpad, trackpoint, or touchscreen
+- [ ] Touchpad, trackpoint, or touchscreen (i don't have touch screen but i have the thinkpad red nipple)
 - [ ] Mouse or other pointing devices
 - [ ] Speakers and headphone output
 - [ ] Microphone
@@ -123,7 +135,7 @@ For every chosen capability, eventually select one:
 - [ ] Preferred behavior while plugged in
 - [ ] Charging limits
 - [ ] Suspend behavior
-- [ ] Hibernate behavior
+- [ ] Hibernate behavior (oh one thing about sleep, hibernate, suspend, i'm doing dual boot so some of these might need careful attention)
 - [ ] Lid-close behavior
 - [ ] Thermal and fan priorities
 - [ ] Dedicated-GPU policy: always on, automatic, or on demand
@@ -382,8 +394,8 @@ For every chosen capability, eventually select one:
 
 ### File handling
 
-- [ ] Graphical file manager
-- [ ] Terminal file manager
+- [ ] Graphical file manager (dolphin)
+- [ ] Terminal file manager (yazi)
 - [ ] Archive creation and extraction
 - [ ] Trash and recovery
 - [ ] File previews
@@ -417,7 +429,7 @@ For every chosen capability, eventually select one:
 
 ### Notes and knowledge
 
-- [ ] Quick scratchpad
+- [ ] Quick scratchpad (heynote i guess? no? is there better options?)
 - [ ] Long-lived notes
 - [ ] Tasks and reminders
 - [ ] Calendar
@@ -443,8 +455,8 @@ For every chosen capability, eventually select one:
 
 ### Browsing
 
-- [ ] Primary browser
-- [ ] Backup or compatibility browser
+- [ ] Primary browser (zen and helium)
+- [ ] Backup or compatibility browser (chrome and firefox. i'm gonan keep qute but i'm not using it anymore)
 - [ ] Separate work/personal profiles
 - [ ] Password and bookmark synchronization
 - [ ] Ad and tracker blocking
@@ -514,6 +526,8 @@ For every chosen capability, eventually select one:
 
 ### Creation and editing
 
+just basic edit mostly just viewing imgs i think.
+
 - [ ] Image viewing
 - [ ] Image editing
 - [ ] Photography and RAW processing
@@ -539,13 +553,13 @@ For every chosen capability, eventually select one:
 
 ### General workflow
 
-- [ ] Shell
-- [ ] Terminal emulator
-- [ ] Terminal multiplexer
-- [ ] Version control
+- [ ] Shell (zsh)
+- [ ] Terminal emulator (ghostty as main)
+- [ ] Terminal multiplexer (herdr and tmux)
+- [ ] Version control (git ofc)
 - [ ] Repository hosting tools
 - [ ] Text search and file navigation
-- [ ] Editor or IDE
+- [ ] Editor or IDE (zed, vscode, nvim)
 - [ ] Containers or virtual machines
 - [ ] Database clients
 - [ ] API clients
@@ -554,7 +568,7 @@ For every chosen capability, eventually select one:
 
 ### Languages and projects
 
-- [ ] Languages actively used
+- [ ] Languages actively used (python, ts, js, rust, cpp, c, go, nix, etc?)
 - [ ] Compiler or interpreter versions
 - [ ] Package managers
 - [ ] Language servers
