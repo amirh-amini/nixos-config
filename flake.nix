@@ -14,18 +14,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # VS Code Marketplace + Open VSX extensions as Nix packages (daily-updated).
-    # Pinned via flake.lock — bump deliberately with `nix flake update`.
+    # VS Code Marketplace and Open VSX extensions as Nix packages.
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # LazyVim as a home-manager module, with plugins sourced from nixpkgs
-    # (hermetic — no runtime cloning) and mason/treesitter/LSP handled via
-    # declarative language extras. Per-project LSP *binaries* still come from
-    # devenv's shell PATH. Pin a LazyVim release by tagging the URL, e.g.
-    # `github:pfassina/lazyvim-nix/v15.13.0`.
+    # LazyVim with plugins sourced through Nix.
     lazyvim = {
       url = "github:pfassina/lazyvim-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,22 +36,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # ChatGPT/Codex desktop for Linux — community repackaging of OpenAI's
-    # official signed .deb, with the computer-use feature we want.
+    # Community Linux packaging for the Codex desktop application.
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
 
-    # Voxtype dictation — upstream flake; the `onnx-cuda` package carries the
-    # Cohere engine on NVIDIA GPUs via ONNX Runtime's CUDA provider.
-    # Pin voxtype's nixpkgs to the exact revision its CUDA chain was built
-    # against (from upstream's own flake.lock): keeps the multi-hour
-    # nvcc/Rust-LTO store outputs reusable byte-for-byte. Bumping this =
-    # signing up for a full local rebuild.
+    # Keep Voxtype's CUDA package on its upstream nixpkgs revision to reuse its
+    # expensive CUDA build artifacts.
     voxtype.url = "github:peteonrails/voxtype";
     voxtype.inputs.nixpkgs.url = "github:NixOS/nixpkgs/46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9";
 
-    # Twin input for the OSD frontend only — follows our nixpkgs so its
-    # GTK4 world matches what's already in the store (the pinned input
-    # above would rebuild ~1300 GUI deps for one small waveform app).
+    # The small OSD frontend follows the system nixpkgs to avoid rebuilding an
+    # older GTK dependency graph.
     voxtype-osd.url = "github:peteonrails/voxtype";
     voxtype-osd.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -72,9 +61,9 @@
       system = "x86_64-linux";
     in
     {
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
 
-      # Per-project dev-shell starters:  nix flake init -t ~/nixos-config#py
+      # Project starter: nix flake init -t ~/nixos-config#py
       templates.py = {
         path = ./templates/py;
         description = "Python (uv) dev shell with direnv auto-activation";
@@ -91,8 +80,6 @@
                 llm-agents.overlays.shared-nixpkgs
                 inputs.helium.overlays.default
                 (import ./packages)
-                # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
-                # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.
                 inputs.nix-vscode-extensions.overlays.default
               ];
             }
@@ -114,8 +101,32 @@
             ;
         };
 
-      checks.${system} = self.packages.${system} // {
-        nixos = self.nixosConfigurations.nixos-btw.config.system.build.toplevel;
-      };
+      checks.${system} =
+        let
+          pkgs = self.nixosConfigurations.nixos-btw.pkgs;
+        in
+        self.packages.${system}
+        // {
+          nixos = self.nixosConfigurations.nixos-btw.config.system.build.toplevel;
+
+          formatting = pkgs.runCommand "nixfmt-check" { nativeBuildInputs = [ pkgs.nixfmt-tree ]; } ''
+            cp -r ${self} source
+            chmod -R u+w source
+            cd source
+            treefmt --ci --tree-root . --walk filesystem
+            touch $out
+          '';
+
+          deadnix = pkgs.runCommand "deadnix-check" { nativeBuildInputs = [ pkgs.deadnix ]; } ''
+            deadnix --fail ${self}
+            touch $out
+          '';
+
+          statix = pkgs.runCommand "statix-check" { nativeBuildInputs = [ pkgs.statix ]; } ''
+            cd ${self}
+            statix check -i hosts/main/hardware-configuration.nix .
+            touch $out
+          '';
+        };
     };
 }
