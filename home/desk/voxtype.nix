@@ -50,17 +50,21 @@ in
   '';
 
   # Daemon as a user service: starts with the graphical session.
+  # Bound to sway-session.target, NOT graphical-session.target — the fake
+  # graphical target fires before sway imports WAYLAND_DISPLAY into the
+  # systemd user environment, leaving the daemon unable to reach Wayland
+  # (OSD dies, wtype/wl-copy injection fails).
   systemd.user.services.voxtype = {
     Unit = {
       Description = "Voxtype push-to-talk dictation daemon";
-      PartOf = ["graphical-session.target"];
-      After = ["graphical-session.target"];
+      PartOf = ["sway-session.target"];
+      After = ["sway-session.target"];
     };
     Service = {
       ExecStart = "${voxtype}/bin/voxtype";
       Restart = "on-failure";
       RestartSec = 3;
     };
-    Install.WantedBy = ["graphical-session.target"];
+    Install.WantedBy = ["sway-session.target"];
   };
 }
