@@ -1,12 +1,5 @@
 { pkgs, ... }:
 
-# Wayland/Sway screenshot stack:
-#   grim   — capture (full output or geometry)
-#   slurp  — interactive region/window selection
-#   satty  — annotation editor (pipe target)
-# wl-clipboard (wl-copy) is provided by the desktop session configuration.
-#
-# Keybindings live in sway.nix. Capture flows pipe grim → satty via stdin.
 {
   home.packages = with pkgs; [
     grim
@@ -14,22 +7,18 @@
     satty
   ];
 
-  # satty won't create the save directory itself; ensure it exists.
+  # Satty does not create its save directory.
   home.file."Pictures/Screenshots/.keep".text = "";
 
   xdg.configFile."satty/config.toml".text = ''
     [general]
-    # Copy to clipboard on Enter, just exit on Escape.
     actions-on-enter = ["save-to-clipboard"]
     actions-on-escape = ["exit"]
-    # Quit after the action so the editor doesn't linger.
     early-exit = true
-    # Match Mako/Tokyo Night theme; wl-copy handles the clipboard.
     copy-command = "wl-copy"
     initial-tool = "brush"
     primary-highlighter = "block"
     corner-roundness = 8
-    # Saved screenshots (Ctrl+S) land here with a timestamp.
     output-filename = "${"\${HOME}"}/Pictures/Screenshots/satty-%Y%m%d-%H%M%S.png"
     disable-notifications = false
 

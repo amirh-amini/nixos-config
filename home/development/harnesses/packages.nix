@@ -1,50 +1,35 @@
 { pkgs, ... }:
 
 let
-  # Package source for AI coding tools.
-  # Switch to `pkgs` for nixpkgs versions, or a custom package set.
   ai = pkgs.llm-agents;
 in
 {
-  # agentsview phones home a daily anonymous "daemon alive" ping — off.
   home.sessionVariables.AGENTSVIEW_TELEMETRY_ENABLED = "0";
 
   home.packages = [
-    # Core daily drivers (llm-agents input — numtide, fast-updating)
     ai.claude-code
     ai.opencode
-    ai.codex # OpenAI Codex CLI
+    ai.codex
     ai.pi
     ai.cursor-agent
     ai.omp
     pkgs.code-cursor-fhs
-    pkgs.lmstudio # local LLM runner
+    pkgs.lmstudio
 
-    # Second-generation opencode — coexists with v1 above by design.
-    # Self-packaged in packages/opencode2 (upstream's nix/ dir is v1-only);
-    # tracks npm dist-tag `beta`. Update: packages/opencode2/update.sh
+    # TODO: Decide whether both OpenCode generations remain useful.
     pkgs.opencode2
 
-    # Orchestration & support tools
-    ai.herdr # tmux-for-agents runtime; sessions survive disconnects
-    ai.ccusage # unified usage reports across all agent CLIs (claude/codex/opencode/…)
-    # Voice input is configured separately in voxtype.nix.
-    # Local-first session browser/analytics across every agent's native store.
-    # Replaces ccusage for browsing; keep both — ccusage for quick terminal reports.
+    ai.herdr
+    ai.ccusage
     ai.agentsview
 
-    # CLIProxyAPI core binary only (v7.x) — subscriptions-as-API proxy.
-    # Deliberately UNCONFIGURED: no config.yaml, no service yet. When we
-    # adopt it: ~/.config/cli-proxy-api/config.yaml + a systemd user unit.
-    # Its bundled web UI then lives at http://127.0.0.1:8317/management.html
+    # TODO: Configure CLIProxyAPI as a user service or remove it.
     ai.cli-proxy-api
 
-    # T3 Code — self-packaged in packages/t3code, both channels by design:
-    # stable for daily work, nightly to watch upstream move. Desktop spawns
-    # its own backend; CLI is the same engine in your terminal.
+    # TODO: Decide whether keeping stable and nightly T3 builds is useful.
     pkgs.t3code-desktop-stable
     pkgs.t3code-desktop-nightly
-    pkgs.t3code-cli-stable # bin: t3
-    pkgs.t3code-cli-nightly # bin: t3-nightly
+    pkgs.t3code-cli-stable
+    pkgs.t3code-cli-nightly
   ];
 }

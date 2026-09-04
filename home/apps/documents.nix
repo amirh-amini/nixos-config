@@ -36,9 +36,6 @@
       "collapsed_toc" = "1";
       "create_table_of_contents_if_not_exists" = "1";
       "max_created_toc_size" = "5000";
-      #"ruler_mode" = "1";
-      #"ruler_padding" = "1.0";
-      #"ruler_x_padding" = "5.0";
     };
   };
 }

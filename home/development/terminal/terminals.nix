@@ -6,9 +6,6 @@
   # Ghostty is the main terminal.
   programs.ghostty = {
     enable = true;
-    settings = {
-      # Native Wayland by default; theme follows later, with use.
-    };
   };
 
   # Kitty is also used by a few application integrations.

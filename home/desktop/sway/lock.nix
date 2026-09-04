@@ -4,31 +4,19 @@
 }:
 
 let
-  # 1. Create a custom package of White Icons
-  # This takes the default wlogout icons and forces them to be solid white
   whiteIcons =
     pkgs.runCommand "wlogout-white-icons"
       {
-        buildInputs = [ pkgs.imagemagick ];
+        nativeBuildInputs = [ pkgs.imagemagick ];
       }
       ''
         mkdir -p $out
-        # List of icons to process
         for icon in lock logout suspend shutdown reboot; do
-          if [ -f "${pkgs.wlogout}/share/wlogout/icons/$icon.png" ]; then
-            # -fill white -colorize 100% turns all non-transparent pixels pure white
-            convert "${pkgs.wlogout}/share/wlogout/icons/$icon.png" -fill white -colorize 100% "$out/$icon.png"
-          else
-            echo "Warning: Icon $icon not found"
-          fi
+          magick "${pkgs.wlogout}/share/wlogout/icons/$icon.png" -fill white -colorize 100% "$out/$icon.png"
         done
       '';
 in
 {
-  home.packages = with pkgs; [
-    imagemagick # Needed for the icon generation above
-  ];
-
   programs.swaylock = {
     enable = true;
     settings = {
@@ -44,6 +32,8 @@ in
   services.swayidle = {
     enable = true;
     systemdTargets = [ "sway-session.target" ];
+
+    # TODO: Confirm the dim, lock, display-off, and suspend timeouts.
     events = {
       before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
       lock = "${pkgs.swaylock}/bin/swaylock -f";
@@ -109,41 +99,39 @@ in
 
     style = ''
       window {
-          background-color: rgba(0, 0, 0, 0.85);
+        background-color: rgba(0, 0, 0, 0.85);
       }
 
       button {
-          background-color: #2c2c2c;
-          border: 2px solid #ffffff;
-          border-radius: 0px;
-          color: #ffffff;
-          
-          background-repeat: no-repeat;
-          background-position: center 25%; 
-          background-size: 25%;            
-          
-          margin: 10px;
-          transition: background-color 0.2s ease-in-out;
+        background-color: #2c2c2c;
+        border: 2px solid #ffffff;
+        border-radius: 0;
+        color: #ffffff;
+        background-repeat: no-repeat;
+        background-position: center 25%;
+        background-size: 25%;
+        margin: 10px;
+        transition: background-color 0.2s ease-in-out;
       }
 
       button:hover {
-          background-color: #444444;
+        background-color: #444444;
       }
 
       #lock {
-          background-image: image(url("${whiteIcons}/lock.png"));
+        background-image: image(url("${whiteIcons}/lock.png"));
       }
       #logout {
-          background-image: image(url("${whiteIcons}/logout.png"));
+        background-image: image(url("${whiteIcons}/logout.png"));
       }
       #suspend {
-          background-image: image(url("${whiteIcons}/suspend.png"));
+        background-image: image(url("${whiteIcons}/suspend.png"));
       }
       #shutdown {
-          background-image: image(url("${whiteIcons}/shutdown.png"));
+        background-image: image(url("${whiteIcons}/shutdown.png"));
       }
       #reboot {
-          background-image: image(url("${whiteIcons}/reboot.png"));
+        background-image: image(url("${whiteIcons}/reboot.png"));
       }
     '';
   };

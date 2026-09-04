@@ -1,22 +1,5 @@
-# opencode2 — OpenCode 2, beta channel, self-packaged.
-#
-# Upstream's repo-level nix/ dir only covers v1: it builds packages/opencode
-# from the monorepo with bun + per-platform node_modules FODs that their CI
-# generates (nix/scripts/canonicalize-node-modules.ts). OpenCode 2 has no nix
-# packaging at all — during the beta it ships exclusively through npm as
-# @opencode-ai/cli, whose postinstall merely selects a prebuilt platform
-# binary from an @opencode-ai/cli-<platform> optional dependency (same shape
-# as esbuild/bun). So instead of porting the monorepo build, we mirror what
-# upstream actually distributes — same approach as our t3code packaging:
-#
-#   opencode2 = prebuilt bun binary from @opencode-ai/cli-linux-x64
-#
-# Channel is pinned by ./update.sh to npm dist-tag `beta` (the official
-# OpenCode 2 install channel per opencode.ai/v2/docs — NOT `dev`).
-#
-# Update ritual:
-#   packages/opencode2/update.sh   # pin latest beta + refresh hashes.json
-#   sudo nixos-rebuild switch --flake ~/nixos-config#nixos-btw
+# Packages the upstream OpenCode 2 Linux binary from the npm beta channel.
+# packages/opencode2/update.sh refreshes its version and hashes.
 final: _: {
   opencode2 =
     let

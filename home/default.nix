@@ -6,8 +6,11 @@
     ./security.nix
   ];
 
-  home.username = "amirh";
-  home.homeDirectory = "/home/amirh";
+  home = {
+    username = "amirh";
+    homeDirectory = "/home/amirh";
+    stateVersion = "25.11";
+  };
 
   # XDG user directories (~/.config/user-dirs.dirs). Without this, GLib's
   # get_user_special_dir(DOWNLOAD) returns null and GTK apps that ask for the
@@ -17,6 +20,4 @@
     createDirectories = true;
     setSessionVariables = true;
   };
-
-  home.stateVersion = "25.11";
 }

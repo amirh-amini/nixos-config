@@ -1,14 +1,10 @@
 {
-  ...
-}:
-
-{
   # Codex desktop community Linux build with computer-use support.
   programs.codexDesktopLinux = {
     enable = true;
     computerUseUi.enable = true;
-    # cliPackage left default (bundled official codex CLI); revisit if
-    # running a second CLI from llm-agents gets annoying.
+    # TODO: Decide whether the bundled CLI or the llm-agents CLI should be the
+    # single Codex command on PATH.
   };
 
   # Upstream phones home once per day (anonymous launch counter). Off.

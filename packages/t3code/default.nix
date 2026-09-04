@@ -1,15 +1,5 @@
-# t3code — T3 Code desktop app + server, stable and nightly channels.
-#
-# Mirrors upstream's own packaging choices:
-#   desktop ← official release AppImage, extracted & wrapped (the same
-#             recipe their AUR t3code-bin / t3code-nightly-bin follow)
-#   cli     ← official npm bundle: prebuilt dist/, SLSA-provenance CI
-#
-# Channels follow upstream's tag convention:
-#   stable  = latest non-prerelease tag   (e.g. v0.0.33)
-#   nightly = latest v*-nightly.* tag     (several per day upstream)
-#
-# Update ritual: packages/t3code/update.sh [stable|nightly], then rebuild.
+# Desktop packages unpack upstream AppImages; CLI packages install upstream npm
+# bundles. packages/t3code/update.sh refreshes stable or nightly metadata.
 final: prev:
 let
   nodejs = prev.nodejs_24; # satisfies engines: ^22.16 || ^23.11 || >=24.10

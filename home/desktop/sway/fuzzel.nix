@@ -20,10 +20,9 @@
       };
 
       colors = {
-        # Sonokai Atlantis (100% Opaque/Flat)
-        background = "2b2d3aff"; # Deep Blue-Grey
-        text = "e2e2e3ff"; # Off-white
-        match = "9cd1bbff"; # Atlantis Teal
+        background = "2b2d3aff";
+        text = "e2e2e3ff";
+        match = "9cd1bbff";
         selection = "3d4455ff";
         selection-text = "e2e2e3ff";
         selection-match = "9cd1bbff";
