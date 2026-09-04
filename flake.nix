@@ -73,6 +73,8 @@
       system = "x86_64-linux";
     in
     {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
+
       # Per-project dev-shell starters:  nix flake init -t ~/nixos-config#py
       templates.py = {
         path = ./templates/py;
@@ -98,6 +100,24 @@
             }
           ];
         };
+      };
+
+      packages.${system} =
+        let
+          pkgs = self.nixosConfigurations.nixos-btw.pkgs;
+        in
+        {
+          inherit (pkgs)
+            opencode2
+            t3code-cli-nightly
+            t3code-cli-stable
+            t3code-desktop-nightly
+            t3code-desktop-stable
+            ;
+        };
+
+      checks.${system} = self.packages.${system} // {
+        nixos = self.nixosConfigurations.nixos-btw.config.system.build.toplevel;
       };
     };
 }
