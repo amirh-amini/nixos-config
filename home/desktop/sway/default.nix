@@ -10,6 +10,13 @@ let
   cursorSize = config.home.pointerCursor.size;
 in
 {
+  imports = [
+    ./fuzzel.nix
+    ./waybar.nix
+    ./lock.nix
+    ./screenshot.nix
+  ];
+
   home.pointerCursor = {
     enable = true;
     gtk.enable = true;

@@ -1,12 +1,10 @@
 {
   imports = [
-    ./browsers.nix
-    ./qutebrowser.nix
-    ./file-managers.nix
+    ./browsers
+    ./files
+    ./media
     ./notes.nix
-    ./media.nix
-    ./video.nix
-    ./sioyek.nix
-    ./comms.nix
+    ./documents.nix
+    ./communication.nix
   ];
 }

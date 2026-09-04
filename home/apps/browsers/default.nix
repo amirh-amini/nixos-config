@@ -5,6 +5,8 @@
 }:
 
 {
+  imports = [ ./qutebrowser.nix ];
+
   # Zen is the primary browser; the others remain available as alternatives.
   home.packages = [
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default

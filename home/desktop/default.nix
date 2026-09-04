@@ -1,11 +1,8 @@
 {
   imports = [
-    ./sway.nix
-    ./fuzzel.nix
-    ./waybar.nix
+    ./sway
+    ./appearance.nix
     ./session.nix
-    ./lock.nix
-    ./screenshot.nix
     ./voxtype.nix
   ];
 }
