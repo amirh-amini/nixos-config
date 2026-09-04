@@ -56,17 +56,11 @@
   };
 
   environment.systemPackages = with pkgs; [
-    btrfs-progs # Core Btrfs
-
-    dust # disk usage diagram
-    btdu # Btrfs space analyzer (TUI)
-
+    btrfs-progs
     gptfdisk
     gparted
-
-    # Filesystem Support
-    ntfs3g # NTFS
-    exfatprogs # ExFAT
-    dosfstools # FAT32 / EFI tools
+    ntfs3g
+    exfatprogs
+    dosfstools
   ];
 }

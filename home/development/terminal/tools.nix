@@ -4,28 +4,23 @@
 }:
 
 {
-  # CLI workbench: text tools, monitors, archives, multiplexers, terminals.
+  # General-purpose terminal tools; coding-specific tools live one level up.
   home.packages = with pkgs; [
     ripgrep
     fd
     bat
     fzf
     jq
-    gh
     htop
     btop
+    nvtopPackages.full
+    dust
+    btdu
     fastfetch
     tree
     zip
     unzip
     tmux
     zellij
-    lazygit
-    lazydocker
-    nil # Nix language server (required by Zed's Nix extension)
-    # GitButler GUI — via llm-agents: newer release (0.22 vs nixpkgs 0.19)
-    # and prebuilt on cache.numtide.com; the nixpkgs build compiles its
-    # Rust backend locally.
-    pkgs.llm-agents.gitbutler
   ];
 }

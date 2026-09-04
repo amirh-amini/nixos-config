@@ -24,7 +24,8 @@
 
   programs.zsh.enable = true;
 
-  # Small set of tools useful even when the user environment is unavailable.
+  # TODO: Decide whether to retain this recovery toolkit for repairing the
+  # machine when the Home Manager profile is unavailable.
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -33,7 +34,5 @@
     pciutils
     lshw
     efibootmgr
-    nvtopPackages.full
-    gvfs # trash/mounts for nautilus & friends without the GNOME session
   ];
 }

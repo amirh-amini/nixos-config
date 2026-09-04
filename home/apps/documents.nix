@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  home.packages = [ pkgs.pdftk ];
+
   programs.sioyek = {
     enable = true;
     package = pkgs.sioyek;

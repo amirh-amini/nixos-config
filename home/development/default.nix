@@ -6,5 +6,6 @@
     ./git.nix
     ./direnv.nix
     ./python.nix
+    ./tools.nix
   ];
 }
