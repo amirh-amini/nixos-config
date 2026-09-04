@@ -20,7 +20,6 @@
     ../../system/storage.nix
     ../../system/security.nix
     ../../system/dev-support.nix
-    inputs.home-manager.nixosModules.default
   ];
 
   # Bootloader
