@@ -10,70 +10,76 @@
 #   nightly = latest v*-nightly.* tag     (several per day upstream)
 #
 # Update ritual: overlays/t3code/update.sh [stable|nightly], then rebuild.
-final: prev: let
+final: prev:
+let
   nodejs = prev.nodejs_24; # satisfies engines: ^22.16 || ^23.11 || >=24.10
 
-  mkDesktop = {
-    pname,
-    binName,
-    displayName,
-    version,
-    hash,
-    registerSchemeHandler ? false,
-  }: let
-    src = final.fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
-      inherit hash;
-    };
-    # wrapType2 = extract + FHS environment carrying the Electron dependency
-    # set (gtk3, nss, nspr, alsa, …) — the libs the raw payload links against.
-    fhs = final.appimageTools.wrapType2 {inherit pname version src;};
-    contents = final.appimageTools.extractType2 {inherit pname version src;};
-  in
-    final.runCommand pname {
-      inherit version;
-      nativeBuildInputs = [final.makeWrapper];
-      meta = with final.lib; {
-        description = "${displayName} — agent harness control surface";
-        license = licenses.mit;
-        platforms = ["x86_64-linux"];
-        mainProgram = binName;
+  mkDesktop =
+    {
+      pname,
+      binName,
+      displayName,
+      version,
+      hash,
+      registerSchemeHandler ? false,
+    }:
+    let
+      src = final.fetchurl {
+        url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
+        inherit hash;
       };
-    } ''
-        mkdir -p $out/bin $out/share/applications \
-          $out/share/icons/hicolor/512x512/apps
+      # wrapType2 = extract + FHS environment carrying the Electron dependency
+      # set (gtk3, nss, nspr, alsa, …) — the libs the raw payload links against.
+      fhs = final.appimageTools.wrapType2 { inherit pname version src; };
+      contents = final.appimageTools.extract { inherit pname version src; };
+    in
+    final.runCommand pname
+      {
+        inherit version;
+        nativeBuildInputs = [ final.makeWrapper ];
+        meta = with final.lib; {
+          description = "${displayName} — agent harness control surface";
+          license = licenses.mit;
+          platforms = [ "x86_64-linux" ];
+          mainProgram = binName;
+        };
+      }
+      ''
+                mkdir -p $out/bin $out/share/applications \
+                  $out/share/icons/hicolor/512x512/apps
 
-        makeWrapper ${fhs}/bin/${pname} $out/bin/${binName} \
-          --set-default ELECTRON_OZONE_PLATFORM_HINT auto
+                makeWrapper ${fhs}/bin/${pname} $out/bin/${binName} \
+                  --set-default ELECTRON_OZONE_PLATFORM_HINT auto
 
-        for icon in ${contents}/usr/share/icons/hicolor/*/apps/t3code.png; do
-          size=$(basename "$(dirname "$(dirname "$icon")")")
-          install -Dm644 "$icon" \
-            "$out/share/icons/hicolor/$size/apps/${binName}.png"
-        done
+                for icon in ${contents}/usr/share/icons/hicolor/*/apps/t3code.png; do
+                  size=$(basename "$(dirname "$(dirname "$icon")")")
+                  install -Dm644 "$icon" \
+                    "$out/share/icons/hicolor/$size/apps/${binName}.png"
+                done
 
-        cat > $out/share/applications/${pname}.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Name=${displayName}
-Comment=Agent harness control surface for local coding agents
-Exec=${binName} %U
-TryExec=${binName}
-Terminal=false
-Icon=${binName}
-StartupWMClass=t3code
-Categories=Development;
-EOF
-    '';
+                cat > $out/share/applications/${pname}.desktop <<EOF
+        [Desktop Entry]
+        Type=Application
+        Name=${displayName}
+        Comment=Agent harness control surface for local coding agents
+        Exec=${binName} %U
+        TryExec=${binName}
+        Terminal=false
+        Icon=${binName}
+        StartupWMClass=t3code
+        Categories=Development;
+        EOF
+      '';
 
-  mkCli = {
-    pname,
-    binName,
-    displayName,
-    version,
-    srcHash,
-    depsHash,
-  }:
+  mkCli =
+    {
+      pname,
+      binName,
+      displayName,
+      version,
+      srcHash,
+      depsHash,
+    }:
     final.buildNpmPackage {
       inherit pname version;
       src = final.fetchurl {
@@ -106,50 +112,47 @@ EOF
       meta = with final.lib; {
         description = "${displayName} — T3 Code server/CLI";
         license = licenses.mit;
-        platforms = ["x86_64-linux"];
+        platforms = [ "x86_64-linux" ];
         mainProgram = binName;
       };
     };
-in {
-  t3code-desktop-stable =
-    mkDesktop {
-      pname = "t3code-desktop-stable";
-      binName = "t3code";
-      displayName = "T3 Code";
-      version = "0.0.38";
-      hash = "sha256-HxzNkisu+v/VBEewKO4NbiUlUCkFCHz4rj/kHv6+NG8=";
-      registerSchemeHandler = true;
-    };
+in
+{
+  t3code-desktop-stable = mkDesktop {
+    pname = "t3code-desktop-stable";
+    binName = "t3code";
+    displayName = "T3 Code";
+    version = "0.0.38";
+    hash = "sha256-HxzNkisu+v/VBEewKO4NbiUlUCkFCHz4rj/kHv6+NG8=";
+    registerSchemeHandler = true;
+  };
 
-  t3code-desktop-nightly =
-    mkDesktop {
-      pname = "t3code-desktop-nightly";
-      binName = "t3code-nightly";
-      displayName = "T3 Code Nightly";
-      version = "0.0.39-nightly.20260904.1276";
-      hash = "sha256-D8fpMsepbJbsuivtZzaEvPPIc1tVb6VUSBECJQcMnAs=";
-    };
+  t3code-desktop-nightly = mkDesktop {
+    pname = "t3code-desktop-nightly";
+    binName = "t3code-nightly";
+    displayName = "T3 Code Nightly";
+    version = "0.0.39-nightly.20260904.1276";
+    hash = "sha256-D8fpMsepbJbsuivtZzaEvPPIc1tVb6VUSBECJQcMnAs=";
+  };
 
-  t3code-cli-stable =
-    mkCli {
-      pname = "t3code-cli-stable";
-      binName = "t3";
-      displayName = "T3 Code CLI";
-      version = "0.0.38";
-      srcHash = "sha256-YLpXJXb8wGQllH59P71ve0+KoNQw/hxcTCTLVW4HQY8=";
-      depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
-    };
+  t3code-cli-stable = mkCli {
+    pname = "t3code-cli-stable";
+    binName = "t3";
+    displayName = "T3 Code CLI";
+    version = "0.0.38";
+    srcHash = "sha256-YLpXJXb8wGQllH59P71ve0+KoNQw/hxcTCTLVW4HQY8=";
+    depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
+  };
 
-  t3code-cli-nightly =
-    mkCli {
-      pname = "t3code-cli-nightly";
-      binName = "t3-nightly";
-      displayName = "T3 Code Nightly CLI";
-      version = "0.0.39-nightly.20260904.1276";
-      srcHash = "sha256-7WDxtvK8eyfqq3wzOZY6iwrP7Cg8VGa21MRbDJcFMXk=";
-      # Shares the stable vendored lockfile: the nightly's dependency graph
-      # resolves against the same lock. Bump both together when a nightly's
-      # runtime demands newer deps.
-      depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
-    };
+  t3code-cli-nightly = mkCli {
+    pname = "t3code-cli-nightly";
+    binName = "t3-nightly";
+    displayName = "T3 Code Nightly CLI";
+    version = "0.0.39-nightly.20260904.1276";
+    srcHash = "sha256-7WDxtvK8eyfqq3wzOZY6iwrP7Cg8VGa21MRbDJcFMXk=";
+    # Shares the stable vendored lockfile: the nightly's dependency graph
+    # resolves against the same lock. Bump both together when a nightly's
+    # runtime demands newer deps.
+    depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
+  };
 }
