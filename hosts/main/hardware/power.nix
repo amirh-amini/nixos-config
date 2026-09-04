@@ -26,10 +26,6 @@
       stop_threshold = 90;
     };
 
-    # Use 'ls /sys/class/power_supply/' to find the names.
-    # power_supply_ignore_list = [
-    #
-    # ];
   };
 
   services.power-profiles-daemon.enable = false;

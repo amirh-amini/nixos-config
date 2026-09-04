@@ -10,11 +10,11 @@
         ids = [ "*" ];
         settings = {
           main = {
-            # 1. Swap Left Alt and Left Super
+            # Swap Left Alt and Left Super.
             leftalt = "leftmeta";
             leftmeta = "leftalt";
 
-            # 2. Caps Lock: tap = Esc, hold = Control
+            # Caps Lock: tap for Escape, hold for Control.
             capslock = "overload(control, esc)";
           };
         };

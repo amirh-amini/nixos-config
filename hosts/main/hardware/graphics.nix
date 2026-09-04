@@ -2,6 +2,8 @@
 
 {
   # Intel and NVIDIA graphics for this laptop.
+  boot.initrd.kernelModules = [ "xe" ];
+
   hardware.graphics = {
     enable = true;
     extraPackages = [ pkgs.intel-media-driver ];

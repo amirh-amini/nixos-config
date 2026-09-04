@@ -21,10 +21,6 @@
       noto-fonts-color-emoji
       nerd-fonts.symbols-only
 
-      # Icons
-      #font-awesome
-      #material-design-icons
-
       # Asian/CJK
       noto-fonts-cjk-sans
     ];
