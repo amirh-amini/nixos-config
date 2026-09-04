@@ -1,41 +1,10 @@
-{ inputs, ... }:
-
 {
   imports = [
-    # Desktop
-    ./sway.nix
-    ./fuzzel.nix
-    ./waybar.nix
-    ./session.nix
-    ./lock.nix
-    ./screenshot.nix
-    ./voxtype.nix
-
-    # Programs and tools
-    ./browsers.nix
-    ./qutebrowser.nix
-    ./terminals.nix
-    ./editors.nix
-    ./file-managers.nix
-    ./yazi.nix
-    ./notes.nix
-    ./media.nix
-    ./video.nix
-    ./sioyek.nix
-    ./comms.nix
-
-    # Development and agents
-    ./zsh.nix
-    ./git.nix
-    ./direnv.nix
-    ./python.nix
-    ./cli-tools.nix
-    ./neovim.nix
-    ./vscode.nix
-    inputs.codex-desktop-linux.homeManagerModules.default
-    ./codex-desktop.nix
-    ./ai-tools.nix
-    ./secrets.nix
+    ./desktop
+    ./apps
+    ./shell
+    ./development
+    ./security.nix
   ];
 
   home.username = "amirh";
