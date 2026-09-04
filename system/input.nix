@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
+  services.libinput.enable = true;
+
   services.keyd = {
     enable = true;
     keyboards = {

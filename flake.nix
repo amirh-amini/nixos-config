@@ -31,7 +31,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Browsers on trial (see home/browse/). Winners stay, losers get deleted.
+    # Additional browsers not provided directly by nixpkgs.
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -91,8 +91,7 @@
               nixpkgs.overlays = [
                 llm-agents.overlays.shared-nixpkgs
                 inputs.helium.overlays.default
-                (import ./overlays/t3code.nix)
-                (import ./overlays/opencode2)
+                (import ./packages)
                 # Applied to *our* nixpkgs so unfree extensions (e.g. Pylance)
                 # evaluate under our allowUnfree=true. Provides pkgs.vscode-marketplace.
                 inputs.nix-vscode-extensions.overlays.default

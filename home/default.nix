@@ -1,61 +1,41 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}:
+{ inputs, ... }:
 
 {
   imports = [
-    # desk — the Sway session stack
-    ./desk/sway.nix
-    ./desk/fuzzel.nix
-    ./desk/waybar.nix
-    ./desk/screenshot.nix
-    ./desk/session.nix
-    ./desk/voxtype.nix
-    ./desk/pointer.nix
-    ./desk/lock.nix
+    # Desktop
+    ./sway.nix
+    ./fuzzel.nix
+    ./waybar.nix
+    ./session.nix
+    ./lock.nix
+    ./screenshot.nix
+    ./voxtype.nix
 
-    # code — development environment
-    ./code/zsh.nix
-    ./code/git.nix
-    ./code/kitty.nix
-    ./code/ghostty.nix
-    ./code/zed.nix
-    ./code/direnv.nix
-    ./code/python-tools.nix
-    ./code/packages.nix
-    ./code/neovim.nix
-    ./code/vscode.nix
-
-    # agents — AI coding tools (future fast lane)
-    inputs.codex-desktop-linux.homeManagerModules.default
-    ./agents/codex-desktop.nix
-    ./agents/ai-tools.nix
-
-    # singletons
+    # Programs and tools
+    ./browsers.nix
+    ./qutebrowser.nix
+    ./terminals.nix
+    ./editors.nix
+    ./file-managers.nix
+    ./yazi.nix
+    ./notes.nix
+    ./media.nix
+    ./video.nix
+    ./sioyek.nix
     ./comms.nix
+
+    # Development and agents
+    ./zsh.nix
+    ./git.nix
+    ./direnv.nix
+    ./python.nix
+    ./cli-tools.nix
+    ./neovim.nix
+    ./vscode.nix
+    inputs.codex-desktop-linux.homeManagerModules.default
+    ./codex-desktop.nix
+    ./ai-tools.nix
     ./secrets.nix
-
-    # browse — on trial: zen + helium vs the parked chrome/firefox
-    ./browse/zen.nix
-    ./browse/helium.nix
-    ./browse/qutebrowser.nix
-
-    # media
-    ./media/sioyek.nix
-    ./media/video.nix
-    ./media/vimiv.nix
-    ./media/packages.nix
-
-    # notes — PKM (logseq; memos runs system-side as a service)
-    ./notes/packages.nix
-
-    # files
-    ./files/yazi.nix
-    ./files/dolphin.nix
-    ./files/packages.nix
   ];
 
   home.username = "amirh";
@@ -78,14 +58,6 @@
       };
     };
   };
-
-  # Browsers — parked until the zen/helium decision (see BACKLOG.md).
-  home.packages = with pkgs; [
-    firefox
-    google-chrome
-  ];
-
-  # Neovim is configured in ./code/neovim.nix (real Lua config + Nix provisioning).
 
   # Gnome Settings (dconf)
   dconf.settings = {

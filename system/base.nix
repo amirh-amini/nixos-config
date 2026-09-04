@@ -43,6 +43,7 @@
     flake = "/home/amirh/nixos-config";
   };
 
+  # Small set of tools useful even when the user environment is unavailable.
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -79,6 +80,6 @@
   nixpkgs.config.allowUnfree = true;
 
   # Logseq 0.10.15 is pinned to electron 39 (EOL), which nixpkgs flags as
-  # insecure. Upstream ships the same EOL runtime — see home/notes/packages.nix.
+  # insecure. Upstream ships the same EOL runtime — see home/notes.nix.
   nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
 }

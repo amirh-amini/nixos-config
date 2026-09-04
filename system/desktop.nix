@@ -36,4 +36,14 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    enableVirtualCamera = true;
+  };
 }

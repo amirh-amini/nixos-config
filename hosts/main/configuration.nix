@@ -13,11 +13,11 @@
     ../../system/base.nix
     ../../system/desktop.nix
     ../../system/services.nix
-    ../../system/drivers.nix
+    ./graphics.nix
     ../../system/input.nix
-    ../../system/power.nix
+    ./power.nix
     ../../system/fonts.nix
-    ../../system/storage.nix
+    ./storage.nix
     ../../system/security.nix
     ../../system/dev-support.nix
   ];
