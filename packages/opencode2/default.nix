@@ -17,7 +17,7 @@
 # Update ritual:
 #   packages/opencode2/update.sh   # pin latest beta + refresh hashes.json
 #   sudo nixos-rebuild switch --flake ~/nixos-config#nixos-btw
-final: prev: {
+final: _: {
   opencode2 =
     let
       inherit (final.lib.importJSON ./hashes.json) version hash;

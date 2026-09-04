@@ -1,32 +1,7 @@
 { pkgs, ... }:
 
-# =============================================================================
-# Yazi — blazing-fast terminal file manager (Rust, async I/O)
-# Docs: https://yazi-rs.github.io   |   Version target: nixos-unstable (v26.x)
-#
-# DESIGN NOTES (read me)
-# ----------------------
-# • EVERY yazi.toml option is written out explicitly below = its upstream
-#   default, annotated with its alternatives, so you can consciously choose
-#   each value (your request: nothing left implicit).
-# • Plugins are DECLARATIVE via pkgs.yaziPlugins.* — these are built from the
-#   SAME nixpkgs revision as `pkgs.yazi`, so they are always version-matched.
-#   This sidesteps the usual "plugins only work on yazi HEAD" breakage. Do NOT
-#   use `ya pkg` (imperative) — it fights this declarative model.
-# • A small recommended set of plugins is ENABLED. The FULL menu of optional
-#   plugins (with copy-paste enable snippets) is in the big comment block near
-#   the bottom — pick individually by un-commenting.
-# • Image preview = Kitty graphics protocol (auto-detected; you run Kitty).
-#   `chafa` is installed as a graceful ASCII fallback for Alacritty/others.
-# • Keymap is ADDITIVE (`prepend_keymap`) — yazi's ~150 defaults stay intact,
-#   so future upstream keybindings still reach you (minimal-maintenance). Only
-#   custom + plugin bindings are declared. Full default list:
-#   https://yazi-rs.github.io/docs/configuration/keymap
-# • THEME is intentionally OMITTED (you're minimalist about color): no
-#   theme.toml, no status-bar plugin (yatline/yaziline/starship). git.yazi's
-#   theme keys are all optional, so git status still works with zero theming.
-# • Graphical file managers are configured separately; this only adds Yazi.
-# =============================================================================
+# Yazi terminal file manager. Plugins come from the same nixpkgs revision as
+# Yazi, and custom keybindings are added without replacing upstream defaults.
 
 {
   programs.yazi = {

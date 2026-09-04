@@ -18,7 +18,7 @@ in
     ai.cursor-agent
     ai.omp
     pkgs.code-cursor-fhs
-    pkgs.lmstudio # local LLM runner (kept from former 4now.nix)
+    pkgs.lmstudio # local LLM runner
 
     # Second-generation opencode — coexists with v1 above by design.
     # Self-packaged in packages/opencode2 (upstream's nix/ dir is v1-only);

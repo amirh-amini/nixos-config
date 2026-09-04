@@ -13,7 +13,7 @@
     settings = {
 
       # =====================================================================
-      # ALIASES & BINDINGS (Skipped as per request for no aliases/bindings)
+      # No custom aliases or bindings are defined here.
       # =====================================================================
       # aliases = { ... };
       # bindings.commands = { ... };

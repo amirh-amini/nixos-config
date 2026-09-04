@@ -65,7 +65,6 @@
     {
       self,
       nixpkgs,
-      home-manager,
       llm-agents,
       ...
     }@inputs:

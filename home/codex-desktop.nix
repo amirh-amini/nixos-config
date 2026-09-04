@@ -4,7 +4,6 @@
 
 {
   # Codex desktop community Linux build with computer-use support.
-  # the whole reason this community packaging exists for us.
   programs.codexDesktopLinux = {
     enable = true;
     computerUseUi.enable = true;

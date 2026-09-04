@@ -3,9 +3,7 @@
 }:
 
 {
-  # Graphical session stack: ly greeter -> Sway (Wayland).
-  # survive as plain packages; xserver stays only because ly may want it —
-  # final verdict in Phase D6.
+  # Graphical session stack: Ly greeter and Sway (Wayland).
   services.xserver.enable = true;
   services.displayManager.ly = {
     enable = true;

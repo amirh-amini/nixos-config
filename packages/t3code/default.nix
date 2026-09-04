@@ -21,7 +21,6 @@ let
       displayName,
       version,
       hash,
-      registerSchemeHandler ? false,
     }:
     let
       src = final.fetchurl {
@@ -124,7 +123,6 @@ in
     displayName = "T3 Code";
     version = "0.0.38";
     hash = "sha256-HxzNkisu+v/VBEewKO4NbiUlUCkFCHz4rj/kHv6+NG8=";
-    registerSchemeHandler = true;
   };
 
   t3code-desktop-nightly = mkDesktop {
