@@ -6,5 +6,6 @@
     ./notes.nix
     ./documents.nix
     ./communication.nix
+    ./calendar.nix
   ];
 }

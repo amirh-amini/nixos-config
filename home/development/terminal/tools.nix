@@ -4,23 +4,37 @@
 }:
 
 {
-  # General-purpose terminal tools; coding-specific tools live one level up.
+  programs = {
+    bat.enable = true;
+    btop.enable = true;
+    htop.enable = true;
+    tmux.enable = true;
+    zellij.enable = true;
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+  };
+
+  # Utilities without useful Home Manager modules.
   home.packages = with pkgs; [
     ripgrep
     fd
-    bat
-    fzf
     jq
-    htop
-    btop
+
     nvtopPackages.full
     dust
     btdu
     fastfetch
+
     tree
     zip
     unzip
-    tmux
-    zellij
   ];
 }

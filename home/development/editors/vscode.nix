@@ -5,6 +5,8 @@ let
   nixfmt = lib.getExe pkgs.nixfmt;
 in
 {
+  # TODO: Diagnose the existing VS Code problem once its symptoms and a
+  # reproduction are recorded, then review this profile's settings.
   home.packages = [
     pkgs.nixd
     pkgs.nixfmt

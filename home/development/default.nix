@@ -2,7 +2,7 @@
   imports = [
     ./terminal
     ./editors
-    ./harnesses
+    ./assistants
     ./git.nix
     ./direnv.nix
     ./python.nix

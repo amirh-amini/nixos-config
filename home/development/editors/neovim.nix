@@ -1,6 +1,8 @@
 { inputs, pkgs, ... }:
 
 {
+  # TODO: Revisit a personally maintained Neovim configuration later; keep
+  # LazyVim as the working baseline for now.
   imports = [ inputs.lazyvim.homeManagerModules.default ];
 
   programs.lazyvim = {

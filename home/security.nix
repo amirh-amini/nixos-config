@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
   # TODO: Confirm whether pass/GPG should remain the personal secret store and
-  # whether a terminal-only pinentry is the right prompt.
+  # compare its extensions and alternatives before expanding this module.
   home.packages = [ pkgs.pass ];
 
   programs.gpg.enable = true;

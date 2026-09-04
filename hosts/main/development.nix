@@ -23,7 +23,6 @@
     ];
   };
 
-  # TODO: Confirm that Docker is part of the regular development workflow.
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;

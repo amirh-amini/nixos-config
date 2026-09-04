@@ -1,4 +1,6 @@
 {
+  # TODO: Define the desired prompt, history behavior, completion style, and
+  # aliases before expanding this configuration.
   programs.zsh = {
     enable = true;
     enableCompletion = true;

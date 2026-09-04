@@ -7,7 +7,8 @@
 {
   imports = [ ./qutebrowser.nix ];
 
-  # Zen is the primary browser; the others remain available as alternatives.
+  # TODO: Decide which browser policies, profiles, extensions, search engines,
+  # and shortcuts should be declarative before enabling Zen's Home Manager module.
   home.packages = [
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.helium

@@ -1,20 +1,20 @@
-{ pkgs, ... }:
-
 {
-  home.packages = [ pkgs.alacritty ];
+  programs = {
+    # TODO: Decide whether Alacritty and Kitty are useful fallbacks or whether
+    # Ghostty should be the only terminal.
+    alacritty.enable = true;
 
-  # Ghostty is the main terminal.
-  programs.ghostty = {
-    enable = true;
-  };
+    # TODO: Configure Ghostty once the desired behavior and appearance are clear.
+    ghostty.enable = true;
 
-  # Kitty is also used by a few application integrations.
-  programs.kitty = {
-    enable = true;
-    settings = {
-      confirm_os_window_close = 0;
-      background_opacity = "0.85";
-      window_padding_width = 10;
+    # Fuzzel and Qutebrowser currently use Kitty for terminal actions.
+    kitty = {
+      enable = true;
+      settings = {
+        confirm_os_window_close = 0;
+        background_opacity = "0.85";
+        window_padding_width = 10;
+      };
     };
   };
 }

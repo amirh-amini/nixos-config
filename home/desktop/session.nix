@@ -2,6 +2,7 @@
 
 {
   services = {
+    # TODO: Refine the Mako theme after the broader desktop style is decided.
     mako = {
       enable = true;
       settings = {
@@ -22,7 +23,7 @@
     swayosd.enable = true;
   };
 
-  # Session hardware UX: audio control, bluetooth, display management.
+  # Session hardware UX: audio control, Bluetooth, and display management.
   home.packages = with pkgs; [
     wl-clipboard
     nwg-displays
