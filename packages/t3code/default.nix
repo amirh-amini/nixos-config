@@ -111,36 +111,36 @@ in
     pname = "t3code-desktop-stable";
     binName = "t3code";
     displayName = "T3 Code";
-    version = "0.0.38";
-    hash = "sha256-HxzNkisu+v/VBEewKO4NbiUlUCkFCHz4rj/kHv6+NG8=";
+    version = "0.0.40";
+    hash = "sha256-i/X9RMt/rQxDGR1U/v35dKgifVBQXsuKvPdjJiCfJko=";
   };
 
   t3code-desktop-nightly = mkDesktop {
     pname = "t3code-desktop-nightly";
     binName = "t3code-nightly";
     displayName = "T3 Code Nightly";
-    version = "0.0.39-nightly.20260904.1276";
-    hash = "sha256-D8fpMsepbJbsuivtZzaEvPPIc1tVb6VUSBECJQcMnAs=";
+    version = "0.0.41-nightly.20260908.1414";
+    hash = "sha256-pfTcgogkiHnM8g/G3jcnfql/nUsRM1gtPzIFjIc7/JE=";
   };
 
   t3code-cli-stable = mkCli {
     pname = "t3code-cli-stable";
     binName = "t3";
     displayName = "T3 Code CLI";
-    version = "0.0.38";
-    srcHash = "sha256-YLpXJXb8wGQllH59P71ve0+KoNQw/hxcTCTLVW4HQY8=";
-    depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
+    version = "0.0.40";
+    srcHash = "sha256-UaJMLPWTPGlkzNXysroS0HHKViyAP85G7wo0/gd29Cc=";
+    depsHash = "sha256-tx0mTUQd5UcwLfabwIUKSL57W2CClOaL0bTlVp2l2xE=";
   };
 
   t3code-cli-nightly = mkCli {
     pname = "t3code-cli-nightly";
     binName = "t3-nightly";
     displayName = "T3 Code Nightly CLI";
-    version = "0.0.39-nightly.20260904.1276";
-    srcHash = "sha256-7WDxtvK8eyfqq3wzOZY6iwrP7Cg8VGa21MRbDJcFMXk=";
+    version = "0.0.41-nightly.20260908.1414";
+    srcHash = "sha256-g1as8EJ8UFGNJPcKMV643PVm39Lq4A5bWQNKqMA+0HI=";
     # Shares the stable vendored lockfile: the nightly's dependency graph
     # resolves against the same lock. Bump both together when a nightly's
     # runtime demands newer deps.
-    depsHash = "sha256-OWlr0T16fghimqU881mdDbqIlEAvUEMcyXTt4MlBHlw=";
+    depsHash = "sha256-tx0mTUQd5UcwLfabwIUKSL57W2CClOaL0bTlVp2l2xE=";
   };
 }
