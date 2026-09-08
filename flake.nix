@@ -40,13 +40,21 @@
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
 
     # Keep Voxtype's CUDA package on its upstream nixpkgs revision to reuse its
-    # expensive CUDA build artifacts.
-    voxtype.url = "github:peteonrails/voxtype";
-    voxtype.inputs.nixpkgs.url = "github:NixOS/nixpkgs/46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9";
+    # expensive CUDA build artifacts. The input goes through the wrapper flake
+    # in packages/voxtype-nixpkgs, which wraps that exact revision with
+    # upstream's static.crates.io crate fetch fix — the revision predates it,
+    # and crates.io now intermittently 403s the endpoint it used.
+    # Voxtype itself is pinned by rev: `nix flake update` never moves it. To
+    # bump, edit the rev in both URLs below and rebuild — expect a long build
+    # (crates re-vendor, whisper.cpp, CUDA), though onnxruntime and the CUDA
+    # stack come from the pinned nixpkgs and stay cached.
+    voxtype.url = "github:peteonrails/voxtype/e32510690636d1e082f2f02a5094efda4aa95fa0";
+    voxtype.inputs.nixpkgs.url = "./packages/voxtype-nixpkgs";
 
     # The small OSD frontend follows the system nixpkgs to avoid rebuilding an
-    # older GTK dependency graph.
-    voxtype-osd.url = "github:peteonrails/voxtype";
+    # older GTK dependency graph. Pinned to the same rev as voxtype so the two
+    # never skew.
+    voxtype-osd.url = "github:peteonrails/voxtype/e32510690636d1e082f2f02a5094efda4aa95fa0";
     voxtype-osd.inputs.nixpkgs.follows = "nixpkgs";
   };
 
