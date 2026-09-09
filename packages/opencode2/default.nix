@@ -3,17 +3,17 @@
 final: _: {
   opencode2 =
     let
-      inherit (final.lib.importJSON ./hashes.json) version hash;
+      inherit (final.lib.importJSON ./hashes.json) version hash url;
     in
     final.stdenvNoCC.mkDerivation {
       pname = "opencode2";
       inherit version;
 
       # npm tarball layout: package/bin/opencode2 — a self-contained bun
-      # binary; runs unpatched on NixOS.
+      # binary; runs unpatched on NixOS. update.sh owns the tarball url —
+      # the npm scope has moved before (@opencode-ai/* -> @opencode/*).
       src = final.fetchurl {
-        url = "https://registry.npmjs.org/@opencode-ai/cli-linux-x64/-/cli-linux-x64-${version}.tgz";
-        inherit hash;
+        inherit url hash;
       };
 
       nativeBuildInputs = [ final.makeBinaryWrapper ];
