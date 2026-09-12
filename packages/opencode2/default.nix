@@ -9,9 +9,11 @@ final: _: {
       pname = "opencode2";
       inherit version;
 
-      # npm tarball layout: package/bin/opencode2 — a self-contained bun
-      # binary; runs unpatched on NixOS. update.sh owns the tarball url —
-      # the npm scope has moved before (@opencode-ai/* -> @opencode/*).
+      # npm tarball layout: package/bin/opencode — a self-contained bun
+      # binary; runs unpatched on NixOS. (2.0.0 renamed it from opencode2;
+      # installed under the historical opencode2 name.) update.sh owns the
+      # tarball url — the npm scope has moved before
+      # (@opencode-ai/* -> @opencode/*).
       src = final.fetchurl {
         inherit url hash;
       };
@@ -24,7 +26,7 @@ final: _: {
       installPhase = ''
         runHook preInstall
 
-        install -Dm755 bin/opencode2 $out/bin/opencode2
+        install -Dm755 bin/opencode $out/bin/opencode2
         wrapProgram $out/bin/opencode2 \
           --prefix PATH : ${final.lib.makeBinPath [ final.ripgrep ]}
 
