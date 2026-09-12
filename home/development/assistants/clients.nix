@@ -8,6 +8,8 @@ in
     ai.claude-code
     ai.opencode
     pkgs.opencode2
+    pkgs.opencode2-desktop
+    pkgs.opencode-desktop
     ai.codex
     ai.pi
     ai.cursor-agent

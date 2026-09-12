@@ -102,6 +102,7 @@
         {
           inherit (pkgs)
             opencode2
+            opencode2-desktop
             t3code-cli-nightly
             t3code-cli-stable
             t3code-desktop-nightly
