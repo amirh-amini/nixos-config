@@ -14,6 +14,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # devenv CLI from upstream, rolling with their `latest` release tag.
+    # Deliberately does NOT follow our nixpkgs: upstream prebuilds the CLI
+    # against their own pinned nixpkgs and publishes it to their binary
+    # cache, so following ours would force expensive local builds.
+    devenv.url = "github:cachix/devenv/latest";
+
     # VS Code Marketplace and Open VSX extensions as Nix packages.
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
