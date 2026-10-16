@@ -7,7 +7,7 @@ in
   home.sessionVariables.AGENTSVIEW_TELEMETRY_ENABLED = "0";
 
   home.packages = [
-    ai.herdr
+    ai.herdr # TODO i think herdr should not be here again
     ai.ccusage
     ai.agentsview
 

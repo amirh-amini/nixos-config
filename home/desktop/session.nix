@@ -24,6 +24,7 @@
   };
 
   # Session hardware UX: audio control, Bluetooth, and display management.
+  # one thing to say, it's act hard to guess bluetui, pwvucontrol, etc are here tbh 
   home.packages = with pkgs; [
     wl-clipboard
     nwg-displays
