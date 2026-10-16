@@ -43,7 +43,10 @@
     };
 
     # Community Linux packaging for the Codex desktop application.
-    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+    codex-desktop-linux = {
+      url = "github:ilysenko/codex-desktop-linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Keep Voxtype's CUDA package on its upstream nixpkgs revision to reuse its
     # expensive CUDA build artifacts. The input goes through the wrapper flake
