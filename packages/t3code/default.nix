@@ -1,5 +1,7 @@
-# Desktop packages unpack upstream AppImages; CLI packages install upstream npm
-# bundles. packages/t3code/update.sh refreshes stable or nightly metadata.
+# Desktop packages unpack upstream AppImages; CLI packages lay out the npm
+# launcher tarball plus the self-contained linux-x64 platform bundle — no
+# npm dependency resolution needed (the bundle ships its own node_modules).
+# packages/t3code/update.sh refreshes stable or nightly metadata.
 final: prev:
 let
   nodejs = prev.nodejs_24; # satisfies engines: ^22.16 || ^23.11 || >=24.10
@@ -67,43 +69,55 @@ let
       displayName,
       version,
       srcHash,
-      depsHash,
+      bundleHash,
     }:
-    final.buildNpmPackage {
-      inherit pname version;
+    let
+      # The npm tarball is a thin launcher (bin/t3.js, dist/bin.mjs) that
+      # require.resolve()s the platform bundle and spawns its prebuilt
+      # executable. npm cannot install the bundle deterministically (its
+      # bundled deps pin libc variants that npm's platform check rejects),
+      # so both pieces are laid out by hand instead of via npm.
       src = final.fetchurl {
         url = "https://registry.npmjs.org/t3/-/t3-${version}.tgz";
         hash = srcHash;
       };
-      # dist/ ships prebuilt — npm only supplies the runtime dependency tree.
-      dontNpmBuild = true;
-
-      # Upstream's published package.json contains monorepo override
-      # artifacts (keys like "pkg>pkg") that strict npm rejects, so we
-      # vendor a cleaned manifest + generated lockfile. Regenerate both
-      # when bumping a channel.
-      postPatch = ''
-        cp ${./package.json} package.json
-        cp ${./package-lock.json} package-lock.json
-      '';
-
-      npmDepsHash = depsHash;
-
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out/lib/${pname} $out/bin
-        cp -r . $out/lib/${pname}/
-        makeWrapper ${nodejs}/bin/node $out/bin/${binName} \
-          --add-flags "$out/lib/${pname}/dist/bin.mjs"
-        runHook postInstall
-      '';
-
+      bundle = final.fetchurl {
+        url = "https://registry.npmjs.org/@t3code/t3-linux-x64/-/t3-linux-x64-${version}.tgz";
+        hash = bundleHash;
+      };
+    in
+    final.stdenv.mkDerivation {
+      inherit pname version;
+      dontUnpack = true;
+      # Upstream ships prebuilt, patched binaries (the `t3` executable is a
+      # bun-style single-file build; the bundle also embeds prebuilt native
+      # modules). Nix's fixupPhase corrupts them — shrink-rpath's patchelf
+      # rewrite breaks the executable (SIGILL) — so leave them byte-identical
+      # to the tarball.
+      dontPatchELF = true;
+      dontStrip = true;
+      nativeBuildInputs = [ final.makeWrapper ];
+      # node is on PATH so patchShebangs can rewrite the launcher's shebang;
+      # the wrapper embeds it as the runtime interpreter either way.
+      buildInputs = [ nodejs ];
       meta = with final.lib; {
         description = "${displayName} — T3 Code server/CLI";
         license = licenses.mit;
         platforms = [ "x86_64-linux" ];
         mainProgram = binName;
       };
+      installPhase = ''
+        runHook preInstall
+        mkdir -p $out/lib/${pname}/node_modules/@t3code/t3-linux-x64 \
+          $out/bin
+        tar xzf ${src} -C $out/lib/${pname} --strip-components=1
+        tar xzf ${bundle} \
+          -C $out/lib/${pname}/node_modules/@t3code/t3-linux-x64 \
+          --strip-components=1
+        makeWrapper ${nodejs}/bin/node $out/bin/${binName} \
+          --add-flags "$out/lib/${pname}/dist/bin.mjs"
+        runHook postInstall
+      '';
     };
 in
 {
@@ -111,36 +125,33 @@ in
     pname = "t3code-desktop-stable";
     binName = "t3code";
     displayName = "T3 Code";
-    version = "0.0.40";
-    hash = "sha256-i/X9RMt/rQxDGR1U/v35dKgifVBQXsuKvPdjJiCfJko=";
+    version = "0.1.0";
+    hash = "sha256-442cX7UTsezgpwi5BtM4O1tH7RmVdbOaMeQauINOt0Q=";
   };
 
   t3code-desktop-nightly = mkDesktop {
     pname = "t3code-desktop-nightly";
     binName = "t3code-nightly";
     displayName = "T3 Code Nightly";
-    version = "0.0.41-nightly.20260912.1599";
-    hash = "sha256-+UIR9dgOT3IJZnwAjcMrmUdT+B0C8C8Mibgs/JKhLUg=";
+    version = "0.1.1-nightly.20261016.3190";
+    hash = "sha256-fY19awbx0Tm2h+vFpehnGt0PeKHcUl8BH3rntZImafg=";
   };
 
   t3code-cli-stable = mkCli {
     pname = "t3code-cli-stable";
     binName = "t3";
     displayName = "T3 Code CLI";
-    version = "0.0.40";
-    srcHash = "sha256-UaJMLPWTPGlkzNXysroS0HHKViyAP85G7wo0/gd29Cc=";
-    depsHash = "sha256-I4cfChlaSyf3SB9I6FvwI4/h/BJ3LbpVX4O54xsXawk=";
+    version = "0.1.0";
+    srcHash = "sha256-8L++UeGJz4drr5dSu0FklfSHsU74V9IY0s3gFNDRKUE=";
+    bundleHash = "sha256-IcRU3DOoOiwOnrpak3L7W4Ao2VhGM5Wi1RVpwTEfCXE=";
   };
 
   t3code-cli-nightly = mkCli {
     pname = "t3code-cli-nightly";
     binName = "t3-nightly";
     displayName = "T3 Code Nightly CLI";
-    version = "0.0.41-nightly.20260912.1599";
-    srcHash = "sha256-xz79lcOJzJFjf3fD5sFat7jZq9CwjXQAUFO0pEIPy/U=";
-    # Shares the stable vendored lockfile: the nightly's dependency graph
-    # resolves against the same lock. Bump both together when a nightly's
-    # runtime demands newer deps.
-    depsHash = "sha256-I4cfChlaSyf3SB9I6FvwI4/h/BJ3LbpVX4O54xsXawk=";
+    version = "0.1.1-nightly.20261016.3190";
+    srcHash = "sha256-ETDSYtdBtVmIeMz5U8845FFPft5ScyXw94dwnUYxR8I=";
+    bundleHash = "sha256-7XuI0zgVk+kUMJlySYjPY+P7G5mqiIACFbogMB6/Veo=";
   };
 }

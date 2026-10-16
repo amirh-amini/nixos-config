@@ -9,20 +9,19 @@
 #   version  ← npm dist-tags of the `t3` package (latest / nightly); the
 #              desktop AppImages carry the same versions as GitHub tags
 #   desktop  ← release AppImage, hashed directly
-#   cli      ← npm tarball hash + the shared vendored manifest/lockfile:
-#              package.json is the newest release's manifest with monorepo
-#              override keys ("pkg>pkg") stripped, lock regenerated with
-#              `npm install --package-lock-only`, npmDepsHash computed with
-#              prefetch-npm-deps (exactly what buildNpmPackage expects — no
-#              build-retry loop needed)
+#   cli      ← the npm launcher tarball (thin: bin/t3.js + dist/bin.mjs
+#              that spawn the platform bundle's prebuilt executable) plus
+#              the linux-x64 bundle tarball, both hashed directly. No npm
+#              dependency resolution: the bundle ships its own node_modules
+#              and npm cannot install it anyway (its bundled deps pin libc
+#              variants that npm's platform check rejects — see default.nix)
 #
-# Rewrites default.nix (+ vendored files when they change); nothing else to touch.
+# Rewrites default.nix; nothing else to touch.
 # Afterwards:  nh os switch
 set -euo pipefail
 cd "$(dirname "$0")"
 
 nix_file=default.nix
-data_dir=.
 pkg=t3
 
 prefetch() { # url → sri hash; hard-fails on download/parse errors
@@ -66,59 +65,24 @@ for ch in $channels; do
   # inside "\$( )" argument positions bash would swallow it
   appimage_hash=$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage")
   tarball_hash=$(prefetch "https://registry.npmjs.org/$pkg/-/$pkg-$ver.tgz")
+  bundle_hash=$(prefetch "https://registry.npmjs.org/@t3code/t3-linux-x64/-/t3-linux-x64-$ver.tgz")
   patch_json[$ch]=$(
     node -e 'console.log(JSON.stringify({
       [process.argv[1]]: {
         version: process.argv[2],
         hash: process.argv[3],
         srcHash: process.argv[4],
+        bundleHash: process.argv[5],
       },
-    }))' "$ch" "$ver" "$appimage_hash" "$tarball_hash"
+    }))' "$ch" "$ver" "$appimage_hash" "$tarball_hash" "$bundle_hash"
   )
 done
 
 if [[ $any_change == 0 ]]; then exit 0; fi
 
-# The vendored manifest+lockfile serve BOTH cli builds, so they are always
-# cut from upstream's newest release (the nightly — its dependency set is a
-# superset of stable's): strip monorepo override keys, resolve a fresh lock,
-# hash the dep cache.
-ver=${want[nightly]}
-
-work=$(mktemp -d)
-trap 'rm -rf "$work"' EXIT
-curl -fsSL "https://registry.npmjs.org/$pkg/-/$pkg-$ver.tgz" | tar xz -C "$work"
-
 node -e '
 const fs = require("fs");
-const p = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
-const clean = o => {
-  if (Array.isArray(o)) return o.map(clean);
-  if (o && typeof o === "object") {
-    const r = {};
-    for (const [k, v] of Object.entries(o)) if (!k.includes(">")) r[k] = clean(v);
-    return r;
-  }
-  return o;
-};
-fs.writeFileSync(process.argv[1], JSON.stringify(clean(p), null, 2) + "\n");
-' "$work/package/package.json"
-
-(
-  cd "$work/package"
-  npm install --package-lock-only --ignore-scripts --no-audit --no-fund --silent
-)
-
-deps_hash=$(nix shell nixpkgs#prefetch-npm-deps -c sh -c \
-  "prefetch-npm-deps '$work/package/package-lock.json'")
-
-cp "$work/package/package.json" "$data_dir/package.json"
-cp "$work/package/package-lock.json" "$data_dir/package-lock.json"
-
-T3_DEPS_HASH="$deps_hash" node -e '
-const fs = require("fs");
 const [file, patchesJson] = process.argv.slice(1);
-const deps = process.env.T3_DEPS_HASH;
 let s = fs.readFileSync(file, "utf8");
 const patches = JSON.parse(patchesJson);
 
@@ -142,7 +106,7 @@ for (let i = 0; i < anchors.length; i++) {
 
 // Keys each block type must receive. A miss here is a hard error, never a
 // silent skip — a value that fails to land must abort the run, not vanish.
-const required = { desktop: ["version", "hash"], cli: ["version", "srcHash"] };
+const required = { desktop: ["version", "hash"], cli: ["version", "srcHash", "bundleHash"] };
 
 // Splice in reverse document order so earlier offsets survive the edits.
 for (const { name, start, end } of [...anchors].sort((a, b) => b.start - a.start)) {
@@ -161,9 +125,6 @@ for (const { name, start, end } of [...anchors].sort((a, b) => b.start - a.start
   s = s.slice(0, start) + seg + s.slice(end);
 }
 
-// both cli blocks share one vendored lockfile — keep their hashes in lockstep
-s = s.replace(/depsHash = "[^"]*";/g, `depsHash = "${deps}";`);
-
 // Integrity gate before writing: every freshly written value must occur
 // exactly once in the file, and inside the block it was written to.
 const marks = [...s.matchAll(re)];
@@ -174,7 +135,11 @@ const blockOf = (name) => {
   return s.slice(marks[i].index, next ? next.index : s.length);
 };
 for (const [channel, p] of Object.entries(patches)) {
-  for (const [key, block] of [["hash", `desktop-${channel}`], ["srcHash", `cli-${channel}`]]) {
+  for (const [key, block] of [
+    ["hash", `desktop-${channel}`],
+    ["srcHash", `cli-${channel}`],
+    ["bundleHash", `cli-${channel}`],
+  ]) {
     const n = s.split(p[key]).length - 1;
     if (n !== 1) {
       throw new Error(`${block}: "${key}" value occurs ${n}x in file, expected exactly 1`);
@@ -184,8 +149,6 @@ for (const [channel, p] of Object.entries(patches)) {
     }
   }
 }
-const dn = s.split(`depsHash = "${deps}";`).length - 1;
-if (dn !== 2) throw new Error(`depsHash occurs ${dn}x, expected exactly 2`);
 
 fs.writeFileSync(file, s);
 ' "$nix_file" "$(node -e '
@@ -194,5 +157,5 @@ for (const j of process.argv.slice(1)) Object.assign(merged, JSON.parse(j));
 console.log(JSON.stringify(merged));
 ' "${patch_json[@]}")"
 
-echo "t3code.nix + vendored lockfile updated — now rebuild:"
+echo "t3code.nix updated — now rebuild:"
 echo "  nh os switch"
